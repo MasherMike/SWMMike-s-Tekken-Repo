@@ -1,10 +1,10 @@
 {
-  "_about": "Tekken 8 stage_id -> stage name, spelled exactly as in the stage tracker (index.html). Sources: 600, 1801 and 2200 confirmed by Mike from in-game replays (2026-10-09); all other confirmed IDs from ewgf.gg's open-source backend (github.com/ewgf-gg/ewgfgg-backend, tekken_enums.json). Unknown IDs stay unmapped until confirmed - see 'unconfirmed'.",
+  "_about": "Tekken 8 stage_id -> stage name, spelled exactly as in the stage tracker (index.html). Source: ewgf.gg's current stage enum, provided by the main developer via Mike on 2026-10-09 (ewgf plans to add stage names to the API itself). Tracker spellings used for 600 (dev: 'Pacman Map') and 1300 (dev: 'Celebration On The Seine'). Note 200/201: Urban Square Evening is 200 and plain Urban Square is 201 - the reverse of ewgf's older archived code.",
   "confirmed": {
     "100": "Arena",
     "101": "Arena Underground",
-    "200": "Urban Square",
-    "201": "Urban Square Evening",
+    "200": "Urban Square Evening",
+    "201": "Urban Square",
     "300": "Yakushima",
     "400": "Coliseum of Fate",
     "500": "Rebel Hangar",
@@ -18,11 +18,10 @@
     "1400": "Secluded Training Ground",
     "1500": "Elegant Palace",
     "1600": "Midnight Siege",
+    "1700": "Seaside Resort",
+    "1800": "Genmaji Temple",
     "1801": "Genmaji Temple Daytime",
+    "1900": "Phoenix Gate",
     "2200": "Baobab Horizon"
-  },
-  "unconfirmed": {
-    "1800": "probably Genmaji Temple (its Daytime variant is 1801) - not yet seen in battle data",
-    "?": "Seaside Resort and Phoenix Gate - IDs not yet seen in battle data"
   }
 }
