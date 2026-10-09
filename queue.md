@@ -11,6 +11,7 @@ Raw record in the comment after each name, for reference only.
 
 ## Queue
 
+- Eddy          <!-- moved to front by Mike, 2026-10-09: 7-5 ranked, but 16-89 across all modes this season -->
 - Zafina        <!-- 0-4,   0% -->
 - Alisa         <!-- 1-5,  17% -->
 - Leo           <!-- 2-6,  25% -->
@@ -28,7 +29,6 @@ Raw record in the comment after each name, for reference only.
 - King          <!-- 18-16, 53% -->
 - Raven         <!-- 5-4,  56% -->
 - Lidia         <!-- 9-7,  56% -->
-- Eddy          <!-- 7-5 ranked, but 16-89 across all modes this season -->
 - Xiaoyu        <!-- 12-9, 57% -->
 - Steve         <!-- 21-16, 57% -->
 - Clive         <!-- 5-3,  63% -->

@@ -8,6 +8,9 @@ data reaches each guide's Movement section (evidence Tier 2).
 
 Format: `Character: DIRECTION (chart codes) — note`, one per line.
 The codes in parentheses are copied from the chart exactly as written.
+Their meaning is unconfirmed — possibly the moves that beat that step
+direction (as opposed to homing moves). **Guides should ignore them** until
+Mike confirms what they mean in practice. Use the direction only.
 Transcribed by Mike, 2026-10-09.
 
 **Totals:** 23 SSR · 17 SSL · 1 SSC · Bob not on chart
