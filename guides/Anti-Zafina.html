@@ -1,0 +1,958 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Zafina | SSR Default | PC Scarecrow | Duck Heat Smash</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--accent); margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  h3 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin: 1rem 0 0.5rem;
+  }
+
+  .entry {
+    display: flex; align-items: center; gap: 10px; padding: 5px 8px;
+    border-radius: 4px; margin-bottom: 3px; flex-wrap: wrap;
+  }
+  .entry:hover { background: var(--bg3); }
+  .move-icons { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+  .frame-data { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-muted); flex: 1; min-width: 12rem; }
+  .note { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 20px; margin-bottom: 3px; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .callout {
+    font-size: 13px; color: var(--text); background: var(--bg2);
+    border-left: 2px solid var(--accent); padding: 6px 10px; margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-key { border-left-color: var(--green); }
+  .callout-warn { border-left-color: var(--yellow); }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+  .tier-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin: 0.75rem 0 0.25rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stance { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: white; margin-right: 2px; }
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; background: var(--bg3); color: var(--text-muted);
+    border: 0.5px solid var(--border); border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .side-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+
+  .table-wrap { overflow-x: auto; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  .step-table th {
+    text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td { padding: 4px 10px 4px 0; border-bottom: 0.5px solid var(--bg3); vertical-align: top; }
+  .step-table td.mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; white-space: nowrap; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    font-size: 11px; color: var(--text-muted); line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Zafina &nbsp;|&nbsp; SSR Default &nbsp;|&nbsp; PC Scarecrow &nbsp;|&nbsp; Duck Heat Smash</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Zafina on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Zafina on P1 side — inputs face right'
+      : 'Zafina on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}" role="img" aria-label="${notations.join(', ')}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+<div class="callout callout-key"><strong>Default: Sidestep / sidewalk RIGHT (SSR / SWR). This disagrees with the chart.</strong> The @Mezerdie sidestep chart calls <strong>SSL</strong> for Zafina. The per-move data (Tier 1) points right, and under this database's evidence rule Tier 1 wins. The raw tally is close: four strings whiff to your right, three to your left. What tips it is weight. Two of the four right-whiffs are her Scarecrow strings, and Scarecrow is her main mixup stance. Wavu's counterplay page says it in prose: sidestepping right is "very strong against scarecrow." Her most-used high, <span class="mono">f+3</span> (+3 on block, goes into Scarecrow), also has "good left sidestep tracking", so it punishes an SSL habit. <strong>Worth a lab session to settle.</strong><br><br><strong>The exceptions go left.</strong> Her Mantis low string <span class="mono">MNT.d+1,4</span>, <span class="mono">db+4,2</span> and <span class="mono">f+2,3,4</span> are all documented whiffing to your <em>left</em>. If she's sitting in Mantis, SSL is the better step. Don't step her homing tools (list below). Most of them are highs, so duck them instead.</div>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">SCR.2,2</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">SCR.d+3,3</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">1+2,4,4</td><td class="swr">SSR</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">df+3,4</td><td class="swr">SSR</td><td>from 1st block (inconsistent vs bigger/taller characters)</td></tr>
+    <tr><td class="mono">SCR stance (general)</td><td class="swr">SSR</td><td>Wavu counterplay, when she delays or holds the stance</td></tr>
+    <tr><td class="mono">MNT.d+1,4</td><td class="swl">SSL / SWL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">db+4,2</td><td class="swl">SSL / SWL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">f+2,3,4</td><td class="swl">SSL / SWL</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">df+4,1</td><td class="both">Either side (SS / SW)</td><td>from 1st block — Heat Engager</td></tr>
+    <tr><td class="mono">2,2,1+2</td><td class="both">Either side (SW)</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">f+3</td><td class="tracks">Tracks your SSL</td><td>— duck it instead</td></tr>
+  </tbody>
+</table></div>
+<div class="callout callout-warn"><strong>Evidence tier:</strong> the SSR default is Tier 1. It comes from per-move whiff notes on Wavu and TekkenDocs plus Wavu's Scarecrow prose, and it <strong>overrides</strong> the Tier 2 chart, which says SSL. The tally is close, 4 right against 3 left, and the Scarecrow weighting decides it. Nothing here is lab-derived.</div>
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">High | i15~16 | +1 | Homing | 6 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('fff1+2'))</script>
+  <span class="frame-data">High | i20~21 | <strong>+6</strong> | Homing | Strong Aerial Tailspin | 8 chip</span>
+</div>
+<div class="note">Plus and homing, but it's high. Duck it on read</div>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">High | i22~23 | -5 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff4'))</script>
+  <span class="frame-data">Mid | i17~19 | -8 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">Mid | i36~37 | -9 | Homing | +60a on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df4'))</script>
+  <span class="frame-data">Mid | i17~18 | -5 | Homing | From Mantis</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.1+2'))</script>
+  <span class="frame-data">Mid, Mid | i19~20 | -12c | Homing | From Tarantula</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df3'))</script>
+  <span class="frame-data">Low | i28~30 | -23 | Homing | From Scarecrow</span>
+</div>
+<div class="note">Slow and homing. Block it low and launch</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws 1+3 and 2+4 are homing | Break 1 or 2</span>
+</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i15~16 | -10 | Mid | High evasion on startup</span>
+</div>
+<div class="note">ws1,2 continues to -13. Wait a beat, or punish the -10</div>
+<div class="entry">
+  <script>document.write(icons('1+2','4'))</script>
+  <span class="frame-data">i24~25 | -10 | Mid, Mid | Interrupt with i6 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2','4','4'))</script>
+  <span class="frame-data">i30~31 | -11 | Mid ×3 | Interrupt with i12 from 2nd block | Whiffs vs SSR from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.2','2'))</script>
+  <span class="frame-data">i22 | -10 | Mid, Mid | Whiffs vs SSR/SWR from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3+4'))</script>
+  <span class="frame-data">i21 | -11 | Mid, Mid | Can enter MNT with D (-12)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i16~17 | -12 | Mid | Spike | +25a on CH</span>
+</div>
+<div class="note">1+2,4 (-10) and 1+2,4,4 (-11) follow. All three are punishable</div>
+<div class="entry">
+  <script>document.write(icons('df2'))</script>
+  <span class="frame-data">i16~17 | -12 | Mid | Launches crouching opponents | Can evade some highs</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df1','2','1'))</script>
+  <span class="frame-data">i25 | -12 | Mid ×3 | Goes to SCR | Interrupt with i1 from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db2','1'))</script>
+  <span class="frame-data">i25 | -12 | Mid, Mid | Goes to SCR | Interrupt with i1 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1','1'))</script>
+  <span class="frame-data">i17~18 | -12 | Mid, Mid | Interrupt with i2 from 1st block</span>
+</div>
+<div class="note">d+1 alone is -16. Punish whichever one she stops on</div>
+<div class="entry">
+  <script>document.write(icons('d2','4','3'))</script>
+  <span class="frame-data">i28~31 | -13~-10 | Mid ×3 | Interrupt with i5 from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.3+4'))</script>
+  <span class="frame-data">i18~19 | -12 | Mid, Mid | Low crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.1+2'))</script>
+  <span class="frame-data">i20 | -12 | Mid | Power Crush (pc8~19) | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.1+2'))</script>
+  <span class="frame-data">i19~20 | -12c | Mid, Mid | Homing</span>
+</div>
+<div class="note">Recovers crouching. Punish with character's WS launcher</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('df1','2'))</script>
+  <span class="frame-data">i15~16 | -13 | Mid, Mid | Cannot be interrupted</span>
+</div>
+<div class="note">df+1,2,1 (-12) and df+1,2,1+2 (-9) can follow. Confirm she stopped first</div>
+<div class="entry">
+  <script>document.write(icons('df4'))</script>
+  <span class="frame-data">i13 | -13 | Mid</span>
+</div>
+<div class="note">df+4,1 (-9, Heat Engager) and df+4,2 (-13) can follow</div>
+<div class="entry">
+  <script>document.write(icons('df4','2'))</script>
+  <span class="frame-data">i27~29 | -13 | Mid, Mid | Tornado | Interrupt with i7 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db2'))</script>
+  <span class="frame-data">i13~14 | -13 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i17~18 | -13 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub4'))</script>
+  <span class="frame-data">i17~18 | -13 | Mid | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','2'))</script>
+  <span class="frame-data">i20~21 | -13 | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.2','1','4'))</script>
+  <span class="frame-data">i27~28 | -13 | Mid ×3 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.2'))</script>
+  <span class="frame-data">i34~36 | -13 | Mid | Tornado | Power Crush (pc8~33)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.4','3'))</script>
+  <span class="frame-data">i28~31 | -13 | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1'))</script>
+  <span class="frame-data">i18 | -14 | Mid | Becomes an attack throw with 1 on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">i24~26 | -14 | Mid | Power Crush (pc7~23) | Spike</span>
+</div>
+<div class="note">Only -9 if it absorbed one of your hits first</div>
+<div class="entry">
+  <script>document.write(icons('b4','4'))</script>
+  <span class="frame-data">i20~22 | -14 | Mid, Mid | Interrupt with i3 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i18~19 | -14 | Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.2'))</script>
+  <span class="frame-data">i13~14 | -14 | Mid | +57a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.2','1'))</script>
+  <span class="frame-data">i18~19 | -14 | Mid, Mid | Jails from 1st block</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('d1'))</script>
+  <span class="frame-data">i12 | -16 | Mid | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2'))</script>
+  <span class="frame-data">i19~20 | -16c | Mid | Spike</span>
+</div>
+<div class="note">Recovers crouching. Punish with character's WS launcher | d+2,4 is -22</div>
+<div class="entry">
+  <script>document.write(icons('ff3','1'))</script>
+  <span class="frame-data">i18 | -16 | Mid, Mid | Input delayable 13F</span>
+</div>
+<div class="note">f,F+3 alone is <strong>+4</strong>. Only punish when the ,1 actually comes out</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df3'))</script>
+  <span class="frame-data">i15~16 | -17 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub3'))</script>
+  <span class="frame-data">i22~23 | -17 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2'))</script>
+  <span class="frame-data">i19 | <strong>-18</strong> | Mid | +52a on CH</span>
+</div>
+<div class="note">Naked f+2 is a launch punish. f+2,3 is +0, so see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('f2','3','4'))</script>
+  <span class="frame-data">i28~29 | -18 | Mid, High, Mid | Whiffs vs SSL/SWL from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.4'))</script>
+  <span class="frame-data">i15~16 | -18 | Mid | Tornado | Power Crush (pc7~14)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2','4'))</script>
+  <span class="frame-data">i26 | -22 | Mid, Mid | Goes to MNT | Cannot be interrupted</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.4'))</script>
+  <span class="frame-data">i26 | -22 | Mid</span>
+</div>
+<div class="note">TRT.4,3 is -13. Either way it's punishable</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+<div class="callout">Zafina has a lot of lows, and most of them come from stances. Not all are punishable: <span class="mono">db+3</span> (-8, goes to SCR), <span class="mono">SCR.d+3</span> (-6), <span class="mono">FC.d+1</span> / <span class="mono">FC.d+2</span> and <span class="mono">d+4,3</span> are safe.</div>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('TRT.1'))</script>
+  <span class="frame-data">i18 | -11 | Low | +15a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.d1'))</script>
+  <span class="frame-data">i15~16 | -11 | Low | High crush</span>
+</div>
+<div class="note">MNT.d+1,4 adds a mid (-16) that whiffs to SSL</div>
+<div class="entry">
+  <script>document.write(icons('MNT.3'))</script>
+  <span class="frame-data">i15~16 | -12 | Low | High crush</span>
+</div>
+<div class="note">MNT.3,1 adds a mid at only -9. Wait for her to stop before punishing</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i21~22 | -12 | Low | Goes to MNT</span>
+</div>
+<div class="note">db+4,2 adds a mid (-13) that whiffs to SSL, and it's an instant tornado on standing hit</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('db4','2'))</script>
+  <span class="frame-data">i29~32 | -13 | Low, Mid | Interrupt with i9 from 1st block | +68a on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df4'))</script>
+  <span class="frame-data">i19~20 | -14 | Low | +37a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3','d4'))</script>
+  <span class="frame-data">i25~26 | -14 | Mid, Low | Recovers in FC | Interrupt with i7 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ORB.SCR.df3+4'))</script>
+  <span class="frame-data">i19 | -14 | Low, Mid, Mid | Jails from 1st block | Heat only, costs ORB</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i22 | -15 | Low | Recovers FC | Evasive (can go under some mids)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.d4'))</script>
+  <span class="frame-data">i12 | -15 | Low | High crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.d1','4'))</script>
+  <span class="frame-data">i27~30 | -16 | Low, Mid | Whiffs vs SSL/SWL from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db1+2'))</script>
+  <span class="frame-data">i28~29 | -16 | Low | Goes to MNT</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db1+2','1+2'))</script>
+  <span class="frame-data">i33 | -16 | Low, Mid | Interrupt with i16 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2','1','3'))</script>
+  <span class="frame-data">i32 | -17 | High, Mid, Low | Goes to MNT | Interrupt with i7 from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.d3'))</script>
+  <span class="frame-data">i16 | -17 | Low | High crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.b1+2'))</script>
+  <span class="frame-data">i16 | -18 | Low | Weapon | +23g on hit | Costs her health outside Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i17~18 | -19 | Low</span>
+</div>
+<div class="note">d+4,3 continues with a high (-6). Duck the ,3 if you got hit by the d+4</div>
+<div class="entry">
+  <script>document.write(icons('MNT.4'))</script>
+  <span class="frame-data">i17~18 | -19 | Low | High crush | Can go to TRT with D</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.d1+2'))</script>
+  <span class="frame-data">i25 | -21 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.d4'))</script>
+  <span class="frame-data">i20~27 | -22~-15 | Low | High crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df3','3'))</script>
+  <span class="frame-data">i28~31 | -23 | Low, Low | Homing | +54a on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.d4'))</script>
+  <span class="frame-data">i24~30 | -25 | Low | Can go to MNT with D</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df3'))</script>
+  <span class="frame-data">i23~24 | -26 | Low | High crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.4','3'))</script>
+  <span class="frame-data">i27 | <strong>-30</strong> | Low, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WR.f4'))</script>
+  <span class="frame-data">i14~30 | <strong>-52~-36</strong> | Low | Tarantula Dive | Needs a 32f run</span>
+</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+<div class="entry">
+  <script>document.write(icons('f2','3'))</script>
+  <span class="frame-data">(MID, HIGH) | +0 oB | Goes to SCR | Combo from 1st hit with 13F delay</span>
+</div>
+<div class="note">f+2 alone is -18, so she relies on the ,3 to stay safe. Duck it on block and launch, and you also deny the Scarecrow entry | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('SCR.3','3'))</script>
+  <span class="frame-data">(MID, HIGH) | +0 oB | Balcony Break | i16 second hit</span>
+</div>
+<div class="note">Duck the ,3 if you're reading the string. SCR.3 alone is -6</div>
+<div class="entry">
+  <script>document.write(icons('SCR.d3','3'))</script>
+  <span class="frame-data">(LOW, HIGH) | <strong>+3 oB</strong> | +77a on hit | Whiffs vs SSR/SWR from 1st block</span>
+</div>
+<div class="note">Crouch-block the low and the high ender flies over you. Stay down and launch</div>
+<div class="entry">
+  <script>document.write(icons('d4','3'))</script>
+  <span class="frame-data">(LOW, HIGH) | -6 oB | Combo from 1st CH | Delayable 9F | +36a on hit</span>
+</div>
+<div class="note">Stay crouched after blocking the d+4 (-19) and the ,3 whiffs</div>
+<div class="entry">
+  <script>document.write(icons('df1','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -6 oB | Combo from 1st hit | Interrupt with i1 from 1st block</span>
+</div>
+<div class="note">Combos on hit, so you can only duck it after blocking the df+1</div>
+<div class="entry">
+  <script>document.write(icons('df3','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -6 oB | Combo from 1st hit | Whiffs vs SSR from 1st block</span>
+</div>
+<div class="note">Duck it on block. Same opener as df+3,d+4, the low ender (-14)</div>
+<div class="entry">
+  <script>document.write(icons('MNT.1','3'))</script>
+  <span class="frame-data">(MID, HIGH) | 0 oB | <strong>Jails from 1st block</strong> | Cancels to SCR</span>
+</div>
+<div class="note">Jails, so you can't duck it on reaction. Block it and expect Scarecrow</div>
+<div class="callout callout-warn">Not duckable: <span class="mono">1,4</span>, <span class="mono">2,1</span>, <span class="mono">2,2</span> and <span class="mono">SCR.1,4</span> are high openers into a <em>mid</em>. Duck the first hit and you eat the second.</div>
+<h3>Full-high strings — duck the opener</h3>
+<div class="entry">
+  <script>document.write(icons('1','2','3'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | 0 oB | Goes to SCR</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','3'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -2 oB | Goes to SCR | Combo on 1st hit</span>
+</div>
+<div class="note">Both of her jab strings are all high and both feed Scarecrow. Duck them on read and her stance game never starts</div>
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | <strong>HIGH</strong> first hit | i12~13 | +3 | Jails from 1st block | Attack throw on hit</span>
+</div>
+<div class="note">Her Heat Smash opens with a high. Duck it and the whole thing misses</div>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">i17 | <strong>+3</strong> | Balcony Break | Goes to SCR | Tracks SSL</span>
+</div>
+<div class="note">Her key way into Scarecrow. Ducking it also denies the stance</div>
+<div class="entry">
+  <script>document.write(icons('3'))</script>
+  <span class="frame-data">i13 | +0 | Goes to SCR</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1'))</script>
+  <span class="frame-data">i19 | <strong>+4</strong></span>
+</div>
+<div class="entry">
+  <script>document.write(icons('fff1+2'))</script>
+  <span class="frame-data">i20~21 | <strong>+6</strong> | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">i15~16 | +1 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f4'))</script>
+  <span class="frame-data">i14~15 | -6 | +22a on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">i14~15 | -6 | +19a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.1'))</script>
+  <span class="frame-data">i10~11 | -2 | Her fastest Scarecrow move</span>
+</div>
+<div class="note">A crouch jab ducks it. That's why Wavu lists "down jab" as an answer to so many Scarecrow situations</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+<h3>SCR — Scarecrow</h3>
+<div class="callout">Entered raw with <span class="mono">3+4</span>, or from <span class="mono">3</span> (+0), <span class="mono">f+3</span> (<strong>+3</strong>), <span class="mono">1,2,3</span> (0), <span class="mono">1,3</span> (-2), <span class="mono">f+2,3</span> (+0), <span class="mono">df+3</span> (-5), <span class="mono">db+3</span> (-8, low), <span class="mono">df+1,2,1</span> / <span class="mono">db+2,1</span> (-12), <span class="mono">ws3</span>, <span class="mono">MNT.1,3</span>, and the B-cancels off <span class="mono">f,F+3</span> (+4) and <span class="mono">f,f,F+3</span> (+3). The frames above are for the base moves. Her actual frames in stance depend on the entry.<br><strong>Can she block?</strong> <strong>Not in the stance.</strong> Wavu: "Can block after 21 frames with db", meaning she has to cancel out to block. Holding back also cancels it.<br><strong>Lows:</strong> a lot of them. <span class="mono">SCR.b+1+2</span> (i16, -18), <span class="mono">SCR.d+3</span> (i18, -6, safe), <span class="mono">SCR.df+4</span> (i19~20, -14), <span class="mono">SCR.d+4</span> (i24~30, -25), <span class="mono">SCR.df+3</span> (i28~30, -23, homing).<br><strong>Fastest move:</strong> <span class="mono">SCR.1</span> at i10~11, a <strong>high</strong>. Her fastest mids are <span class="mono">SCR.3</span> (i13) and <span class="mono">SCR.2</span> (i14).</div>
+<div class="entry">
+  <script>document.write(icons('SCR.1'))</script>
+  <span class="frame-data">High | i10~11 | -2 | SCR.1,4 adds a mid (-6)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.2'))</script>
+  <span class="frame-data">Mid | i14 | -7 | SCR.2,1 (Heat Engager, -6) / SCR.2,2 (-10)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.3'))</script>
+  <span class="frame-data">Mid | i13 | -6 | SCR.3,3 adds a high (+0)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.4'))</script>
+  <span class="frame-data">Mid | i15~16 | -18 | Tornado | Power Crush (pc7~14)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.1+2'))</script>
+  <span class="frame-data">Mid | i17~19 | <strong>+6</strong> | Spike | Can go to TRT with D</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.3+4'))</script>
+  <span class="frame-data">Mid, Mid | i18~19 | -12 | Low crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df1'))</script>
+  <span class="frame-data">Mid, Mid | i18 | -9 | Tornado | +68a on hit | Costs her health outside Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.b1+2'))</script>
+  <span class="frame-data">LOW | i16 | -18 | Weapon | Evasive</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df4'))</script>
+  <span class="frame-data">LOW | i19~20 | -14</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.d3'))</script>
+  <span class="frame-data">low | i18 | -6 | SCR.d+3,3 high ender: stay crouched</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.d4'))</script>
+  <span class="frame-data">LOW | i24~30 | -25</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.df3'))</script>
+  <span class="frame-data">LOW | i28~30 | -23 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.d3+4'))</script>
+  <span class="frame-data">High crush | Floating</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it (Wavu):</strong> her Scarecrow mixup is only guaranteed when she enters it at <strong>+9</strong>. At +7 you still have counterplay, and "when she isn't at +9 powercrushes beat most of her options." Your other answers are <strong>SSR</strong>, which is strongest when she delays or holds the stance, and a <strong>crouch jab</strong>, which ducks SCR.1 and stuffs her slow lows. Watch for the cancel: holding back cancels the stance at worse frames, and good Zafinas use that to bait your power crush.</div>
+<h3>TRT — Tarantula</h3>
+<div class="callout">Entered raw with <span class="mono">d+1+2</span>, or with D off <span class="mono">SCR.1+2</span> (+6), <span class="mono">MNT.4</span>, <span class="mono">TRT.4</span>, and <span class="mono">WR.f+4</span>. <strong>Can she block?</strong> Only by cancelling. Wavu: "Cancel to r10 standing guard with DB." She can also crawl forward with F. <strong>Lows:</strong> <span class="mono">TRT.1</span> (i18, -11) and <span class="mono">TRT.d+1+2</span> (i25, -21). <strong>Fastest move:</strong> <span class="mono">TRT.3</span> at i14~15 (-7).</div>
+<div class="entry">
+  <script>document.write(icons('TRT.1'))</script>
+  <span class="frame-data">LOW | i18 | -11 | +15a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.3'))</script>
+  <span class="frame-data">Mid | i14~15 | -7 | Spike | +19c on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.df1'))</script>
+  <span class="frame-data">Mid | i19~20 | <strong>+6</strong> | Heat Engager | Weapon | 12 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.2'))</script>
+  <span class="frame-data">Mid | i34~36 | -13 | Tornado | Power Crush (pc8~33)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.4'))</script>
+  <span class="frame-data">Mid | i26 | -22 | TRT.4,3 is -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.1+2'))</script>
+  <span class="frame-data">Mid, Mid | i19~20 | -12c | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.d1+2'))</script>
+  <span class="frame-data">LOW | i25 | -21</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> she's low to the ground and can't block without cancelling, and her fastest move is i14. Hit her with a fast <strong>mid</strong> (a high may whiff over the crouching posture). The plus option is <span class="mono">TRT.df+1</span> at i19~20, which is slow enough to interrupt.</div>
+<h3>MNT — Mantis</h3>
+<div class="callout">Entered raw with <span class="mono">d+3+4</span>, or from <span class="mono">2,1,3</span>, <span class="mono">d+2,4</span> (-22), <span class="mono">uf+3</span> (-8), <span class="mono">db+4</span> (-12), <span class="mono">db+1+2</span> (-16), <span class="mono">2+4</span> on hit, and with D off <span class="mono">f,F+3+4</span> (-12), <span class="mono">SCR.d+4</span>, <span class="mono">FC.df+3</span> and <span class="mono">MNT.uf+3</span>. <strong>Can she block?</strong> Yes, from frame 31 of the stance. Her db cancel <em>cannot block mids</em> (cs1~28). <strong>Lows:</strong> <span class="mono">MNT.3</span> (i15~16, -12), <span class="mono">MNT.d+1</span> (i15~16, -11), <span class="mono">MNT.4</span> (i17~18, -19), <span class="mono">MNT.d+4</span> (i20~27, -22~-15). All of them crush highs. <strong>Fastest move:</strong> <span class="mono">MNT.1</span> at i13.</div>
+<div class="entry">
+  <script>document.write(icons('MNT.1'))</script>
+  <span class="frame-data">Mid | i13 | -6 | MNT.1,3 jails (0) and cancels to SCR</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.2'))</script>
+  <span class="frame-data">Mid | i13~14 | -14 | +57a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.3'))</script>
+  <span class="frame-data">LOW | i15~16 | -12 | MNT.3,1 adds a mid (-9)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.4'))</script>
+  <span class="frame-data">LOW | i17~18 | -19 | MNT.4,3 is -30</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.d1'))</script>
+  <span class="frame-data">LOW | i15~16 | -11 | MNT.d+1,4 whiffs to SSL</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.d4'))</script>
+  <span class="frame-data">LOW | i20~27 | -22~-15 | Knee</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df1'))</script>
+  <span class="frame-data">Mid | i20~21 | <strong>+10</strong> | Heat Engager | Weapon | 12 chip</span>
+</div>
+<div class="note">Hugely plus. Interrupt the i20 startup or step it</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df4'))</script>
+  <span class="frame-data">Mid | i17~18 | -5 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df3'))</script>
+  <span class="frame-data">Mid | i15~16 | -17 | Hits even while she's backturned</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.1+2'))</script>
+  <span class="frame-data">Mid | i20 | -12 | Power Crush (pc8~19)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.uf3'))</script>
+  <span class="frame-data">Mid | i26~28 | -9c | Spike</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> Mantis is her low stance. Four lows, all high-crushing, against a handful of mids. Every low except MNT.3,1 is punishable, and MNT.4,3 is -30. Don't jab here, because her lows go under it. Use a mid or block. This is also where her left-side whiffs live (MNT.d+1,4), so <strong>SSL is the better step from Mantis</strong>.</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | <strong>High</strong>, special mid | i12~13 | <strong>+3 oB</strong> | 10 chip | Jails from 1st block | Attack throw on hit | Also from SCR</span>
+</div>
+<div class="note">Plus on block, so there's no punish and you shouldn't press. But it starts high: <strong>duck it on read</strong> and it misses</div>
+<div class="entry">
+  <script>document.write(icons('2+3'))</script>
+  <span class="frame-data">Heat Burst | Mid | i16 | +1 oB | Also from SCR</span>
+</div>
+<div class="callout callout-warn"><strong>What Heat changes (Azazel's Power):</strong> outside Heat, her weapon moves cost her own health. That includes <span class="mono">f+1+2</span>, <span class="mono">df+4,1</span>, <span class="mono">b+1+2</span>, <span class="mono">SCR.df+1</span> and <span class="mono">SCR.b+1+2</span>, at 8–18 self-damage each. In Heat they're free, and each one she lands builds an <strong>ORB</strong> that unlocks Anathema follow-ups costing Heat time. Expect her to throw the weapon moves much more freely once she's in Heat.</div>
+<h3>Heat Engagers — how she gets in</h3>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">Mid, Mid | i13~14 | -9 | 2nd hit only on hit or block | 8 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df4','1'))</script>
+  <span class="frame-data">Mid, Mid | i31 | -9 | Whiffs vs SS/SW from 1st block | Interrupt with i11</span>
+</div>
+<div class="note">Step it after blocking df+4, or interrupt the 18F gap</div>
+<div class="entry">
+  <script>document.write(icons('SCR.2','1'))</script>
+  <span class="frame-data">Mid, Mid | i21 | -6 | Interrupt with i5 from 1st block | 10 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.df1'))</script>
+  <span class="frame-data">Mid | i19~20 | <strong>+6</strong> | 12 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.df1'))</script>
+  <span class="frame-data">Mid | i20~21 | <strong>+10</strong> | 12 chip</span>
+</div>
+<div class="callout">Every engager is a mid. Ducking doesn't deny her Heat, but stepping <span class="mono">df+4,1</span> and interrupting <span class="mono">SCR.2,1</span> do. The two stance engagers are i19+, so hit her before they come out.</div>
+<h3>Heat-only / ORB moves</h3>
+<div class="entry">
+  <script>document.write(icons('ORB.SCR.df3+4'))</script>
+  <span class="frame-data">Low, Mid, Mid | i19 | -14 | Jails from 1st block | Costs 450F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2','ORB.1+2'))</script>
+  <span class="frame-data">Mid | <strong>+2</strong> | Costs 240F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3','ORB.1+2'))</script>
+  <span class="frame-data">Mid | -9 | Power Crush (pc7~23) | Jails from 1st block | Costs 240F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1','ORB.1+2'))</script>
+  <span class="frame-data">Mid, Throw | i18 | Costs 180F of Heat</span>
+</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | i12~14 | Break 1 or 2 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | i12~14 | Break 1 or 2 | Homing | Puts her in MNT on hit</span>
+</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">LEFT</span><span class="frame-data">Left throw | 40 | Break 1 | Side switch</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">RIGHT</span><span class="frame-data">Right throw | 40 | Break 2 | Side switch</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">BACK</span><span class="frame-data">Back throw | 50 | Unbreakable</span></div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">40 | i12 | Break 1+2 | Can side switch</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1:1'))</script>
+  <span class="frame-data">Cursed Claw (b+1:1) | Attack throw off b+1 on hit | 36 | Side switch</span>
+</div>
+<div class="note">b+1 is -14 on block. The throw only comes out if the b+1 hits, so block it and punish</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">MID power crush | i24~26 | -14 | pc7~23 | -9 after absorbing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+3'))</script>
+  <span class="frame-data">MID power crush | i30~34 | <strong>+2</strong> | pc6~29 | +12d on hit | Costs her health outside Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SCR.4'))</script>
+  <span class="frame-data">MID power crush | i15~16 | -18 | pc7~14 | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MNT.1+2'))</script>
+  <span class="frame-data">MID power crush | i20 | -12 | pc8~19</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('TRT.2'))</script>
+  <span class="frame-data">MID power crush | i34~36 | -13 | pc8~33 | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with her missing health</span>
+</div>
+<div class="callout">Every one of her power crushes is a <strong>mid</strong>, so ducking doesn't beat any of them. Block and punish. <span class="mono">b+1+3</span> is the exception: it's +2, so don't press after blocking it.</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+<div class="callout callout-key"><strong>Deny the Scarecrow entries.</strong> Her best mixups come from Scarecrow, and her common ways in are highs: <span class="mono">3</span>, <span class="mono">f+3</span>, <span class="mono">1,2,3</span>, <span class="mono">1,3</span> and the ,3 of <span class="mono">f+2,3</span>. Ducking those on read stops the stance before it starts. When she does get in, check her frames. Below +9 her mix isn't guaranteed, and a power crush, a crouch jab or SSR beats most of it.</div>
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i23~26 | <strong>+7</strong> | Balcony Break | 9 chip | Can cancel to SCR (+3)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">Mid | i20~22 | <strong>+4</strong> | Spike | Can cancel to SCR (+4)</span>
+</div>
+<div class="note">f,F+3,1 is -16. The ,1 is delayable 13F, so watch for it before you press</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">Mid | i19~20 | -6 | Weapon | Costs her 12 health outside Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">Low | i22 | -15 | Evasive (can go under some mids)</span>
+</div>
+<div class="note">If your mid whiffs over her, this is why. Block it and punish</div>
+<div class="entry">
+  <script>document.write(icons('ub1+2'))</script>
+  <span class="frame-data">Spear of Alu | Unblockable | i64 | 40 dmg</span>
+</div>
+<div class="note">Step it or hit her out of the wind-up</div>
+<div class="entry">
+  <script>document.write(icons('SS.1+2'))</script>
+  <span class="frame-data">Mid | i17~18 | -2c | +28a on hit</span>
+</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data from <a href="https://wavu.wiki/t/Zafina_movelist">Wavu Wiki — Zafina movelist</a> (generic, directional, Heat and motion-input sections, plus stance notes) and <a href="https://wavu.wiki/t/Zafina_counterplay">Wavu Wiki — Zafina counterplay</a>, including its prose on Scarecrow: +9 vs +7 entries, power crushes, sidestepping right, and stance cancels. The Wavu movelist read was truncated at its Crouch section, so the stance move rows (SCR, TRT, MNT), while-standing, full-crouch, throw and power-crush rows come from <a href="https://tekkendocs.com/t8/zafina">TekkenDocs — Zafina</a>.<br>
+  <strong>Movement section:</strong> the SSR default is Tier 1. It comes from per-move whiff notes on Wavu and TekkenDocs (4 right, 3 left) plus Wavu's Scarecrow prose, and it deliberately overrides the Tier 2 <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls <strong>SSL</strong>. Nothing on this page is lab-tested.<br>
+  Not confirmed by any source: Scarecrow frame advantage per entry (Wavu's SCR tables were not read in full), and whether her Heat Burst has power-crush frames.
+</div>
+
+</body></html>

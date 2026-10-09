@@ -91,5 +91,14 @@ window.GUIDES = [
     step: 'SSR',
     record: { w: 7, l: 5 },
     added: '2026-10-09'
+  },
+  {
+    character: 'Zafina',
+    file: 'guides/Anti-Zafina.html',
+    artifact: 'https://claude.ai/artifact/GmJL19EM42iz5mrvguwuqK',
+    tags: ['SSR Default', 'PC Scarecrow', 'Duck Heat Smash'],
+    step: 'SSR',
+    record: { w: 0, l: 4 },
+    added: '2026-10-09'
   }
 ];
