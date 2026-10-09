@@ -1,0 +1,844 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Eddy | SSR | Mids Beat RLX | HSP Can't Block</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--accent); margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  h3 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin: 1rem 0 0.5rem;
+  }
+
+  .entry {
+    display: flex; align-items: center; gap: 10px; padding: 5px 8px;
+    border-radius: 4px; margin-bottom: 3px; flex-wrap: wrap;
+  }
+  .entry:hover { background: var(--bg3); }
+  .move-icons { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+  .frame-data { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-muted); flex: 1; min-width: 12rem; }
+  .note { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 20px; margin-bottom: 3px; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .callout {
+    font-size: 13px; color: var(--text); background: var(--bg2);
+    border-left: 2px solid var(--accent); padding: 6px 10px; margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-key { border-left-color: var(--green); }
+  .callout-warn { border-left-color: var(--yellow); }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+  .tier-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin: 0.75rem 0 0.25rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stance { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: white; margin-right: 2px; }
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; background: var(--bg3); color: var(--text-muted);
+    border: 0.5px solid var(--border); border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .side-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+
+  .table-wrap { overflow-x: auto; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  .step-table th {
+    text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td { padding: 4px 10px 4px 0; border-bottom: 0.5px solid var(--bg3); vertical-align: top; }
+  .step-table td.mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; white-space: nowrap; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    font-size: 11px; color: var(--text-muted); line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Eddy &nbsp;|&nbsp; SSR &nbsp;|&nbsp; Mids Beat RLX &nbsp;|&nbsp; HSP Can't Block</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Eddy on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Eddy on P1 side — inputs face right'
+      : 'Eddy on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}" role="img" aria-label="${notations.join(', ')}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+<div class="callout callout-key"><strong>Default: Sidestep / sidewalk RIGHT (SSR / SWR).</strong> The @Mezerdie sidestep chart calls SSR for Eddy, and the little per-move data that exists leans the same way: every string Wavu documents as whiffing to a step loses to <em>SWR</em> — <span class="mono">RLX.2,4</span>, <span class="mono">1,2,4~3</span> and <span class="mono">1,2,4~4</span>. Wavu's counterplay page adds the general rule: "Eddy's moves are usually as evasive as they are punishable" — if something isn't punishable on block, it's usually steppable.<br><br><strong>The exception is his sweep.</strong> <span class="mono">db+3</span> (Rasteira Forte, i28 low) "has good right sidestep tracking" — it's the one move noted to catch your SSR. It's slow and -14c, so the fix is to crouch-block it rather than step it. <strong>Also don't step his homing tools</strong> — <span class="mono">f+3</span>, <span class="mono">uf+4</span> and <span class="mono">qcb+4</span> (list below). Two of the three are highs: duck them instead.</div>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">RLX.2,4</td><td class="swr">SWR</td><td>from 1st block — his RLX loop string</td></tr>
+    <tr><td class="mono">1,2,4~4</td><td class="swr">SSR / SWR / SSL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">1,2,4~3</td><td class="both">SWR / SWL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">db+3</td><td class="tracks">Tracks your SSR</td><td>— crouch-block it instead</td></tr>
+  </tbody>
+</table></div>
+<div class="note">TekkenDocs also marks RLX.3,3 as "less consistent vs SSR?" — the question mark is theirs; treat it as unconfirmed and don't build a habit on it.</div>
+<div class="callout"><strong>Evidence tier:</strong> the SSR default is set by Tier 2 — the TekkenDocs community sidestep chart by @Mezerdie. Tier 1 (per-move whiff notes on Wavu and TekkenDocs) is thin here: three string continuations and one tracking note, nothing on his everyday pokes. It doesn't contradict the chart — all three whiff notes lose to stepping right — but it's not enough to set a default by itself. The chart entry is labelled "Season 1", so it may predate later balance changes. Nothing on this page is lab-derived.</div>
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">High | i16~18 | -5 | Homing</span>
+</div>
+<div class="note">Duck it on read — f+3,4 adds a mid (-11~-9), so only duck when you expect the single hit</div>
+<div class="entry">
+  <script>document.write(icons('qcb4'))</script>
+  <span class="frame-data">High | i21~22 | <strong>+3</strong> | Homing | Balcony Break | 7 chip | Raises Mandinga on hit</span>
+</div>
+<div class="note">Plus on block and homing — duck it</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">Mid | i22~24 | -9 | Homing | Strong Aerial Tailspin | Low crush 9~</span>
+</div>
+<div class="note">Block it — it jumps your lows</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws 1+3 and 2+4 are homing | Break 1 or 2</span>
+</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('uf3'))</script>
+  <span class="frame-data">i26~28 | -10c | Mid | Low crush 13~</span>
+</div>
+<div class="note">Recovers crouching — punish with character's WS launcher | Can cancel to HSP with F (-14)</div>
+<div class="entry">
+  <script>document.write(icons('b2','3'))</script>
+  <span class="frame-data">i22~23 | -11 | Mid, Mid | Interrupt with i1 from 1st block</span>
+</div>
+<div class="note">b+2,3,3 continues to -14 — the gap is 12f, so wait a beat or interrupt with i12 after the 2nd block</div>
+<div class="entry">
+  <script>document.write(icons('f3','4'))</script>
+  <span class="frame-data">i29~31 | -11~-9 | High, Mid | Balcony Break</span>
+</div>
+<div class="note">Only -9 at tip range — punish only when he's close | Can cancel to HSP with F (-14)</div>
+<div class="entry">
+  <script>document.write(icons('2','1','4'))</script>
+  <span class="frame-data">i20~22 | -12~-10 | High, High, Mid | Balcony Break | Input delayable 14F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f4','3','3+4'))</script>
+  <span class="frame-data">i24~26 | -12 | Mid, Mid, Mid, Mid | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1','4','3','3+4'))</script>
+  <span class="frame-data">i24~26 | -12 | Mid ×5 | Interrupt with i8 from 3rd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff4'))</script>
+  <span class="frame-data">i19~20 | -12 | Mid | Tornado | Low crush 12~26 | Goes to HSP</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1+2'))</script>
+  <span class="frame-data">i22~23 | -12 | Mid | Power Crush (pc7~21) | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.b3'))</script>
+  <span class="frame-data">i36~37 | -12 | Mid | Balcony Break</span>
+</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('1','3'))</script>
+  <span class="frame-data">i23~24 | -14 | High, Mid | Floor Break</span>
+</div>
+<div class="note">Wavu: his common jab string into RLX — <strong>punish with a mid</strong>, because RLX ducks under highs</div>
+<div class="entry">
+  <script>document.write(icons('RLX.4','3'))</script>
+  <span class="frame-data">i28~30 | -13 | Mid, Mid | Heat Engager | Low crush 16~34</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.4','3+4'))</script>
+  <span class="frame-data">i34~36 | -13 | Mid, Mid | Low crush 21~40</span>
+</div>
+<div class="note">Can cancel to HSP with F at -21 — if he does, it's even more punishable</div>
+<div class="entry">
+  <script>document.write(icons('RLX.2','4','4'))</script>
+  <span class="frame-data">i32~33 | -14 | Mid, High, Mid | Balcony Break</span>
+</div>
+<div class="note">Better: duck the ,4 (see Duck and Launch) and the 3rd hit never comes</div>
+<div class="entry">
+  <script>document.write(icons('HSP.2','3'))</script>
+  <span class="frame-data">i26~27 | -13 | Mid, Mid | Balcony Break | Raises Mandinga on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.4','2'))</script>
+  <span class="frame-data">i23~24 | -13 | Mid, Mid | Tornado</span>
+</div>
+<div class="note">HSP.4,2~3 is a different ender: +4c — don't press after the delayed version</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i19~21 | -13 | Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1','3'))</script>
+  <span class="frame-data">i29~30 | -13 | Mid, Mid | Balcony Break | Raises Mandinga on hit</span>
+</div>
+<div class="note">Can cancel to HSP with F (-12)</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3+4'))</script>
+  <span class="frame-data">i17~18 | -13 | Mid, High | Strong Aerial Tailspin | Low crush 15~</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf','4'))</script>
+  <span class="frame-data">uf,n,4 | i23~25 | -13 | Mid | Low crush 9~</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f4','3'))</script>
+  <span class="frame-data">i23~24 | -13 | Mid, Mid | Floor Break | Move delayable 7F</span>
+</div>
+<div class="note">f+4,3,3+4 extends to -12 — still punishable either way</div>
+<div class="entry">
+  <script>document.write(icons('b1','4','3'))</script>
+  <span class="frame-data">i23~24 | -13 | Mid, Mid, Mid | Interrupt with i3 from 1st block</span>
+</div>
+<div class="note">b+1,4 alone is -8 and goes to HSP; b+1,4,3+4 is a low ender (-24c) — this is his common mid/low mixup</div>
+<div class="entry">
+  <script>document.write(icons('db3+4','4','3'))</script>
+  <span class="frame-data">i22~23 | -14 | Mid ×4 | Move delayable 13F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b2','3','3'))</script>
+  <span class="frame-data">i33~35 | -14 | Mid, Mid, Mid | Balcony Break | Interrupt with i12 from 2nd block</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','3'))</script>
+  <span class="frame-data">i19~21 | -15 | High, Mid | Goes to RLX</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3','3'))</script>
+  <span class="frame-data">i26~28 | -15 | Mid, Mid | Goes to RLX | Interrupt with i6 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3'))</script>
+  <span class="frame-data">i15~18 | -18~-16 | Mid | Tornado | Mirage</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub4'))</script>
+  <span class="frame-data">i19~21 | -17 | Mid | Satellite Moon</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i15~16 | -18 | Mid | Elbow</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3','3'))</script>
+  <span class="frame-data">i21~24 | -18 | Mid, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3+4'))</script>
+  <span class="frame-data">i17~18 | -18 | Mid | Tornado | Airborne 1~56</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+<div class="callout">Almost every Eddy low recovers crouching (<span class="mono">c</span> suffix) — punish with your WS launcher, not a standing one.</div>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('RLX.1'))</script>
+  <span class="frame-data">i14 | -11c | Low | High crush 1~16</span>
+</div>
+<div class="note">His fastest RLX option | RLX.1,3 adds a mid (-14) and loops back into RLX</div>
+<div class="entry">
+  <script>document.write(icons('df4'))</script>
+  <span class="frame-data">i18 | -12 | Low | Kneecap Crusher | +14g on CH</span>
+</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3','3'))</script>
+  <span class="frame-data">i16~17 | -13 | Low, High | Jails from 1st hit | Combos on clean hit | Raises Mandinga on hit</span>
+</div>
+<div class="note">Wavu: his main mixup, a hellsweep. -13 on block, -26 crouch-blocked on a non-clean hit. Backdash the clean range, then block and punish</div>
+<div class="entry">
+  <script>document.write(icons('RLX.1','3'))</script>
+  <span class="frame-data">i25~26 | -14 | Low, Mid | Goes to RLX | Interrupt with i6 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4','3'))</script>
+  <span class="frame-data">i21~22 | -13c | Low, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SS.4'))</script>
+  <span class="frame-data">i21~22 | -13c | Low, Low | High crush 6~31</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i21~22 | -14c | Low | Sismo | +27g on CH | High crush 6~54</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i28 | -14c | Low | Rasteira Forte | <strong>Good right sidestep tracking</strong></span>
+</div>
+<div class="note">The move that catches SSR — crouch-block it and WS punish</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">i21~22 | -14c | Low | Terremoto | High crush 15~33</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','4'))</script>
+  <span class="frame-data">i23~24 | -14c | Mid, Low | Delayable 15F | <strong>+71a on CH</strong></span>
+</div>
+<div class="note">Low ender with a long delay — don't press buttons after blocking f+2 (-9); just watch for the low</div>
+<div class="entry">
+  <script>document.write(icons('1','2','4~3'))</script>
+  <span class="frame-data">i32~33 | -14c | High, High, Low | Interrupt with i25 | Whiffs vs SWL/SWR from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3','4'))</script>
+  <span class="frame-data">i24~25 | -14c | Mid, Low | +73a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u4~3'))</script>
+  <span class="frame-data">i32~33 | -14c | Low | Balcony Break | Goes to RLX</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MD1.HSP.3+4'))</script>
+  <span class="frame-data">i21~22 | -14 | Low, Mid, Mid | Mandinga only (also MD2) | Low crush 28~45</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('FC.4'))</script>
+  <span class="frame-data">i13 | -15 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i15~16 | -16c | Low | High crush 6~50</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db2'))</script>
+  <span class="frame-data">i18~19 | -18c | Low | High crush 6~55</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db2','3'))</script>
+  <span class="frame-data">i27~28 | -18 | Low, Mid | Tornado | Interrupt with i8 | +65a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df4'))</script>
+  <span class="frame-data">i24~25 | -21c | Low | Goes to HSP</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f4','3+4'))</script>
+  <span class="frame-data">i22~24 | -24c | Mid, Low, Low | Goes to RLX on hit or whiff</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1','4','3+4'))</script>
+  <span class="frame-data">i22~24 | -24c | Mid, Mid, Low | Interrupt with i2 from 1st block</span>
+</div>
+<div class="note">The low half of his b+1,4 mixup — launch it</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3'))</script>
+  <span class="frame-data">i16~17 | <strong>-26c</strong> | Low | Stagger low | +27a on CH | High crush 1~50</span>
+</div>
+<div class="note">Without the ,3 follow-up, this is a full launch</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+<div class="entry">
+  <script>document.write(icons('RLX.2','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -5 oB | Combo from 1st hit | Interrupt with i8 | Whiffs vs SWR from 1st block</span>
+</div>
+<div class="note">Wavu: "the only way Eddy loops back into RLX" — duck the ,4 and launch. Tell: the spinning right-arm chop | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('uf1','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -8 oB | Heat Engager | Combo from 1st hit</span>
+</div>
+<div class="note">Duck on block only — and ducking also denies the Heat engage | uf+1 alone is -5</div>
+<div class="entry">
+  <script>document.write(icons('df1','3'))</script>
+  <span class="frame-data">(MID, HIGH) | -7 oB | Tornado | Combo from 1st hit with 2F delay | Input delayable 10F</span>
+</div>
+<div class="note">Duck the ,3 on block | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('b2','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -7 oB | Combo from 1st hit | Interrupt with i4 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db4','4'))</script>
+  <span class="frame-data">(MID, HIGH) | <strong>+1 oB</strong> | 8 chip | Interrupt with i8 | Raises Mandinga on hit</span>
+</div>
+<div class="note">Plus on block if you stand it — duck the ,4 on block and launch</div>
+<div class="entry">
+  <script>document.write(icons('ws4','4'))</script>
+  <span class="frame-data">(MID, HIGH) | -4 oB | Combo from 1st hit</span>
+</div>
+<div class="note">ws4,4,4 adds mids (-9); ws4,4,4,3 is +4c — duck the ,4 if you can read it</div>
+<div class="entry">
+  <script>document.write(icons('HSP.3','3'))</script>
+  <span class="frame-data">(MID, HIGH) | -3 oB | Combo from 1st hit</span>
+</div>
+<div class="note">HSP.3,3,3 adds another high (-5) — duck after blocking HSP.3</div>
+<div class="entry">
+  <script>document.write(icons('uf3+4'))</script>
+  <span class="frame-data">(MID, HIGH) | -13 oB | Second hit is high</span>
+</div>
+<div class="callout callout-warn">Not duckable: <span class="mono">2,3</span> and <span class="mono">1,3</span> end in a <em>mid</em> after a high opener. Duck the jab and you eat the mid. Block them and punish <span class="mono">1,3</span> (-14) with a mid.</div>
+<h3>Full-high strings — duck the opener</h3>
+<div class="entry">
+  <script>document.write(icons('1','2','3'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | -9 oB | Interrupt from 2nd block with i5 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','2','4~4'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | <strong>+8~+10 oB</strong> | Interrupt with i11 | Whiffs vs SSL/SSR/SWR from 1st block</span>
+</div>
+<div class="note">Plus on block — duck it or step it</div>
+<div class="entry">
+  <script>document.write(icons('2','1'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -9 oB | Jails from 1st</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -7 oB | Balcony Break | Combos from 1st hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SS.3+4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | i14~15 | -7 oB | Low crush 11~30</span>
+</div>
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('b3+4'))</script>
+  <span class="frame-data">i20~21 | -9 | <strong>HIGH power crush</strong> (pc7~19) | Balcony Break</span>
+</div>
+<div class="note">His standing power crush is a high — duck it and launch</div>
+<div class="entry">
+  <script>document.write(icons('b4'))</script>
+  <span class="frame-data">i21~22 | +0 | b+4,4 adds mids (-9), b+4,4,3 is +4c</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('qcb4'))</script>
+  <span class="frame-data">i21~22 | <strong>+3</strong> | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u1+2'))</script>
+  <span class="frame-data">i16~17 | +0 | +18d on hit | Low crush 9~</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u4~4'))</script>
+  <span class="frame-data">i18~20 | <strong>+8</strong> | Chute Alto | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">i16~18 | -5 | Homing</span>
+</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+<div class="callout callout-key"><strong>The rule for the whole matchup:</strong> Wavu — "It is crucial to not let him loop his stance pressure." HSP and RLX feed into each other (<span class="mono">HSP.n,d</span> → RLX, <span class="mono">RLX.n,d</span> → HSP). Your job is to find the turn each time he enters one.</div>
+<h3>HSP — Bananeira (handstand)</h3>
+<div class="callout">Entered raw with <span class="mono">f+1+2</span> / <span class="mono">b+1+2</span>, or from strings: <span class="mono">2,3</span> (-8, per Wavu counterplay), <span class="mono">3,3</span>, <span class="mono">b+1,4</span> (-8), <span class="mono">1,2</span>+F (-5), <span class="mono">f,F+4</span> (-12), <span class="mono">f,f,F+3</span> (<strong>+8</strong> on block), <span class="mono">H.3+4</span> (+5), and cancels off <span class="mono">f+3,4</span> (-14), <span class="mono">uf+3</span> (-14), <span class="mono">RLX.4,3+4</span> (-21), <span class="mono">b+4,4</span> (-26), <span class="mono">ws4,4,4</span> (-28).<br><strong>Can he block?</strong> <strong>No</strong> — Wavu: "Cannot block in stance"; he must drop to RLX to block. <strong>Lows:</strong> none, except <span class="mono">MD.HSP.3+4</span> once he has Mandinga (-14). <strong>Fastest move:</strong> <span class="mono">HSP.4</span> at i12 (-1). <strong>Watch:</strong> <span class="mono">HSP.1+2</span> power crush (pc7~21), <span class="mono">HSP.3</span> crushes highs 6~18, and the <span class="mono">HSP.1+3</span> throw is unbreakable.</div>
+<div class="entry">
+  <script>document.write(icons('HSP.4'))</script>
+  <span class="frame-data">Mid | i12~13 | -1 | +31a on CH | Returns to HSP</span>
+</div>
+<div class="note">His fastest option — your jab beats it only from his -8 or worse entries</div>
+<div class="entry">
+  <script>document.write(icons('HSP.2'))</script>
+  <span class="frame-data">Mid | i17~18 | -8 | HSP.2,3 → -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.3'))</script>
+  <span class="frame-data">Mid | i17~18 | -8 | High crush 6~18 | HSP.3,3 / 3,3,3 add highs</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1'))</script>
+  <span class="frame-data">Mid | i23~25 | <strong>+6</strong> | 6 chip | Goes to RLX</span>
+</div>
+<div class="note">Slow but plus — this is how he chains HSP into RLX pressure. Interrupt during startup with a mid, or step</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1+2'))</script>
+  <span class="frame-data">Mid | i22~23 | -12 | Power Crush (pc7~21)</span>
+</div>
+<div class="note">Wavu: when he enters HSP off 2,3 at -8, your moves of i13 or slower lose to this. Use a fast jab or a throw</div>
+<div class="entry">
+  <script>document.write(icons('HSP.b3'))</script>
+  <span class="frame-data">Mid | i36~37 | -12 | +58a on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1+3'))</script>
+  <span class="frame-data">High throw | i23~24 | <strong>No throw break</strong> | Goes to RLX</span>
+</div>
+<div class="note">It's a high — duck it</div>
+<div class="entry">
+  <script>document.write(icons('MD1.HSP.b4'))</script>
+  <span class="frame-data">Mid | i23~25 | <strong>+5</strong> | Mandinga only | Low crush 9~23</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> he can't block in HSP and has no low without Mandinga, so <strong>stand block is free and attacking is the answer</strong>. From a -8 entry, a fast jab (i10) beats HSP.4 (i12) and the power crush. Throws also beat the power crush. The exceptions are the plus entries: <span class="mono">f,f,F+3</span> (+8) and <span class="mono">H.3+4</span> (+5) put him in HSP with the turn.</div>
+<h3>RLX — Negativa (relax / low stance)</h3>
+<div class="callout">Entered raw with <span class="mono">d+3+4</span>, or from <span class="mono">1,3</span>, <span class="mono">b+3,3</span>, <span class="mono">ws1,3</span>, <span class="mono">d+2,3</span> (-4c), <span class="mono">f+4,3+4</span>, <span class="mono">SS.3</span> (+0), <span class="mono">FC.df+3</span> (<strong>+6</strong>), <span class="mono">ws3+4</span> (+5c), <span class="mono">HSP.1</span> (+6), <span class="mono">HSP.n,d</span>, <span class="mono">RLX.1,3</span> / <span class="mono">RLX.2,4</span>+D loops, and the Heat Smash on block (+6).<br><strong>Can he block?</strong> Yes — from frame 20 with B or DB. <strong>Lows:</strong> <span class="mono">RLX.1</span> (i14, -11c), <span class="mono">RLX.3</span> (i16~17, <strong>-26c</strong>), <span class="mono">RLX.3,3</span> (-13). <strong>Fastest move:</strong> <span class="mono">RLX.1</span> at i14. <strong>Key property:</strong> RLX.1, RLX.3 and RLX.1+2 crush highs from frame 1 — <strong>your jab whiffs</strong>.</div>
+<div class="entry">
+  <script>document.write(icons('RLX.1'))</script>
+  <span class="frame-data">Low | i14 | -11c | High crush 1~16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3'))</script>
+  <span class="frame-data">Low | i16~17 | -26c | Stagger | High crush 1~50</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3','3'))</script>
+  <span class="frame-data">Low, High | -13 | Jails from 1st hit | Combos on clean hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.2'))</script>
+  <span class="frame-data">Mid | i18~19 | -2 | RLX.2,4 → duck the ,4</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.4'))</script>
+  <span class="frame-data">Mid | i15~16 | -8 | Goes to FC | RLX.4,3 → -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.1+2'))</script>
+  <span class="frame-data">Mid | i18~19 | -8 | High crush 1~17 | 7 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.3+4'))</script>
+  <span class="frame-data">Mid | i17~18 | -18 | Tornado | Airborne 1~56</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.uf1+2'))</script>
+  <span class="frame-data">Throw | i17~18 | Break 1+2</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> stand block is the default — his mids are the safe half, and both RLX lows are punishable (RLX.3 alone is a launch). When you want to take your turn, <strong>use a mid, never a high</strong>: everything he does from the stance crushes highs. Wavu: punish <span class="mono">1,3</span> with a mid for this reason.</div>
+<h3>Mandinga — his level-up</h3>
+<div class="callout">Mandinga level rises on hit of <span class="mono">db+4,4</span>, <span class="mono">uf+1,3</span>, <span class="mono">qcb+4</span>, <span class="mono">HSP.2,3</span> and <span class="mono">RLX.3,3</span>. At level 1+ his <span class="mono">f+1+2</span> / <span class="mono">b+1+2</span> handstand entries <strong>auto-parry lows</strong> and go to Ogum Mandinga, and the <span class="mono">MD.HSP.3+4</span> / <span class="mono">MD.HSP.b+4</span> moves unlock (the HSP low, and a +5 mid). Once he's leveled, stop throwing lows at his handstand.</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | Mid | i18~19 | <strong>+6 oB</strong> | 55 dmg | Goes to RLX on block</span>
+</div>
+<div class="note">Plus on block — no punish, don't press. He's now in RLX with the turn: stand block, and if you act, use a mid</div>
+<div class="entry">
+  <script>document.write(icons('2+3'))</script>
+  <span class="frame-data">Heat Burst | Mid | i16 | +1 oB | Power Crush (pc7~16)</span>
+</div>
+<h3>Heat Engagers — how he gets in</h3>
+<div class="entry">
+  <script>document.write(icons('4','4'))</script>
+  <span class="frame-data">Mid, Mid | i30~31 | -7 | Delayable 7F | Low crush 22~33</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f3+4'))</script>
+  <span class="frame-data">Mid | i19~21 | -9 | 5 chip | Low crush 19~32</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1','4'))</script>
+  <span class="frame-data">Mid, High | -8 | Duck the ,4 on block and the engage never happens</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.4','3'))</script>
+  <span class="frame-data">Mid, Mid | -13 | Punish it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1+3'))</script>
+  <span class="frame-data">Throw (mid) | i12~13 | <strong>No throw break</strong> | Also RLX.1+3</span>
+</div>
+<div class="callout">His engagers are mostly mids — only <span class="mono">uf+1,4</span> is denied by ducking. Block and punish <span class="mono">RLX.4,3</span>; the rest are safe.</div>
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('H.3+4'))</script>
+  <span class="frame-data">Mid | i20~22 | <strong>+5</strong> | Tornado | Goes to HSP</span>
+</div>
+<div class="note">Leaves him in HSP with the turn — he still can't block there</div>
+<div class="entry">
+  <script>document.write(icons('H.qcf4'))</script>
+  <span class="frame-data">High | i22~23 | <strong>+7</strong> | Goes to RLX | 7 chip</span>
+</div>
+<div class="note">Very plus but high — duck it on read</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">Generic throws are i12~14 and homing. <strong>Three of his throws can't be broken at all</strong> — d+1+3, d+2+4 (both mid-level throws) and HSP.1+3 (high).</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Homing | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Homing | Side switch on break</span>
+</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">LEFT</span><span class="frame-data">Left throw | 40 | Break 1</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">RIGHT</span><span class="frame-data">Right throw | 40 | Break 2</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">BACK</span><span class="frame-data">Back throw | 50 | Unbreakable</span></div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">40 | i12~14 | Break 1+2 | 45 on wall splat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RLX.uf1+2'))</script>
+  <span class="frame-data">40 | i17~18 | Break 1+2 | Side switch on break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1+3'))</script>
+  <span class="frame-data">Mid throw | 30 | i12~13 | <strong>No break</strong> | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2+4'))</script>
+  <span class="frame-data">Mid throw | 35 | i12~13 | <strong>No break</strong></span>
+</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1+3'))</script>
+  <span class="frame-data">High throw | 26 | i23~24 | <strong>No break</strong> — duck it</span>
+</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+<div class="entry">
+  <script>document.write(icons('b3+4'))</script>
+  <span class="frame-data"><strong>HIGH</strong> power crush | i20~21 | -9 | pc7~19 | Balcony Break | +0 and 10 chip after absorbing</span>
+</div>
+<div class="note">Duckable — duck and launch</div>
+<div class="entry">
+  <script>document.write(icons('HSP.1+2'))</script>
+  <span class="frame-data">MID power crush | i22~23 | -12 | pc7~21 | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+3'))</script>
+  <span class="frame-data">Heat Burst | MID | i16 | +1 | pc7~16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with his missing health</span>
+</div>
+<div class="callout">His standing power crush (<span class="mono">b+3+4</span>) is a <strong>high</strong> — ducking beats it clean. His handstand power crush and Rage Art are mids — block and punish those.</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+<div class="callout callout-key"><strong>Wavu's summary:</strong> "Eddy's moves are usually as evasive as they are punishable." Lab your punishes — almost every stance move is punishable, and a reliable punish is what stops the stance loop. His plus tools are few and listed below; everything else is your turn.</div>
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i25~27 | <strong>+8</strong> | 9 chip | Goes to HSP on block | Low crush 9~35</span>
+</div>
+<div class="note">His big plus mid — he's in HSP after it, where he can't block. Respect his next move, then attack</div>
+<div class="entry">
+  <script>document.write(icons('ff3+4'))</script>
+  <span class="frame-data">Mid, Mid | i23~24 | <strong>+5</strong> | 6 chip | Can cancel to HSP</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub3'))</script>
+  <span class="frame-data">Mid | i31~33 | <strong>+4c</strong> | 7 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3+4'))</script>
+  <span class="frame-data">Mid | i25~27 | <strong>+5c</strong> | Goes to RLX | 6 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df3'))</script>
+  <span class="frame-data">Mid | i22~23 | <strong>+6</strong> | Goes to RLX | 6 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">Mid | i20 | <strong>+3c</strong> | Spike | Elbow</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3+4'))</script>
+  <span class="frame-data">Mid, Mid | i18~19 | -3~+0 | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u3'))</script>
+  <span class="frame-data">Mid | i38~42 | +0 | 9 chip | Low crush 10~42</span>
+</div>
+<div class="note">Slow — interrupt it with any fast mid</div>
+<div class="entry">
+  <script>document.write(icons('bb2+3'))</script>
+  <span class="frame-data">Fruit Picker | Unblockable | i77~79</span>
+</div>
+<div class="note">Hit him out of the wind-up or step it</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">Bananeira | Auto low parry at Mandinga 1 | Goes to HSP</span>
+</div>
+<div class="note">If he's leveled and sitting in handstand, throw mids, not lows</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data from <a href="https://wavu.wiki/t/Eddy_movelist">Wavu Wiki — Eddy movelist</a> (generic, directional, Heat and motion-input sections) and <a href="https://wavu.wiki/t/Eddy_counterplay">Wavu Wiki — Eddy counterplay</a>, including its prose on 1,3, 2,3, 3,3, b1, RLX.3,3, RLX.2,4 and stance looping. The Wavu movelist read was truncated at its Crouch section, so while-standing, full-crouch, sidestep, HSP, RLX, Mandinga, throw and power-crush rows come from <a href="https://tekkendocs.com/t8/eddy">TekkenDocs — Eddy</a>.<br>
+  <strong>Movement section:</strong> the SSR default is Tier 2 — the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), entry labelled "Season 1". The table rows are Tier 1, quoted from per-move whiff/tracking notes on Wavu and TekkenDocs; they agree with the chart. Nothing on this page is lab-tested.<br>
+  Not confirmed by any source: whether the HSP throw and d+2+4 have any escape other than avoiding them, and the exact clean-hit range of RLX.3,3.
+</div>
+
+</body></html>

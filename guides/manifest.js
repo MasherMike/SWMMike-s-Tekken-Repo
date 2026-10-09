@@ -82,5 +82,14 @@ window.GUIDES = [
     step: 'SSL',
     record: { w: 8, l: 2 },
     added: '2026-10-03'
+  },
+  {
+    character: 'Eddy',
+    file: 'guides/Anti-Eddy.html',
+    artifact: 'https://claude.ai/artifact/CN6GVKPDe86j4TUPYBmHN2',
+    tags: ['SSR', 'Mids Beat RLX', "HSP Can't Block"],
+    step: 'SSR',
+    record: { w: 7, l: 5 },
+    added: '2026-10-09'
   }
 ];
