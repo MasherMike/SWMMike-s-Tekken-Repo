@@ -1,0 +1,34 @@
+# One-time probe: learn the shape of ewgf.gg battle data.
+# Runs only when started by hand (Actions tab -> "Probe ewgf API" -> Run workflow).
+# Saves field names/types to data/ewgf-schema.json - never names or player IDs.
+
+name: Probe ewgf API
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Call the API and summarize the fields
+        env:
+          EWGF_API_KEY: ${{ secrets.EWGF_API_KEY }}
+        run: python scripts/probe_ewgf.py
+
+      - name: Commit the field summary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ewgf-schema.json
+          git diff --cached --quiet || git commit -m "data: ewgf battle field summary (probe)"
+          git push
