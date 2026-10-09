@@ -1,0 +1,1014 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Jin | SSR/SWR Default | EWHF +5~6 oB</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .tier { margin-bottom: 0.5rem; }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .entry:hover { background: var(--bg3); }
+
+  .move-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .frame-data {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    padding-left: 20px;
+    margin-bottom: 3px;
+  }
+
+  .callout {
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg2);
+    border-left: 2px solid var(--accent);
+    padding: 6px 10px;
+    margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .sub-entry {
+    padding-left: 20px;
+    margin-bottom: 2px;
+  }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0.75rem 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sep {
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid var(--green);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
+
+  .stance {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin-right: 2px;
+  }
+
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg3);
+    color: var(--text-muted);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  .side-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .callout-key { border-left-color: var(--green); }
+
+  .step-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0.5rem 0 1rem;
+  }
+  .step-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td {
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--bg3);
+    vertical-align: top;
+  }
+  .step-table td.mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  .combo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    margin: 0.5rem 0 1rem;
+  }
+  .combo-table th {
+    text-align: left;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .combo-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--bg3);
+    vertical-align: middle;
+  }
+  .combo-table tr:hover td { background: var(--bg3); }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Jin &nbsp;|&nbsp; SSR/SWR Default &nbsp;|&nbsp; EWHF +5~6 oB</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Jin on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Jin on P1 side — inputs face right'
+      : 'Jin on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) {
+        el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+      }
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const cardinals = ['f','b'];
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && cardinals.includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) {
+    rot = baseAngles[diagonalFlips[dir]];
+  }
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    const isActive = active.includes(b);
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${isActive?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function sep() { return '<span class="sep"></span>'; }
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) {
+    html += tilde(notation.slice(1));
+    return html;
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    html += arrow('d', false) + arrow('df', false) + arrow('f', false);
+    return html + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    html += arrow('d', false) + arrow('db', false) + arrow('b', false);
+    return html + buttons(notation.slice(3));
+  }
+  const tripleTaps = ['fff','bbb'];
+  for (const tt of tripleTaps) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      html += arrow(d, false) + arrow(d, false) + arrow(d, true);
+      return html + buttons(notation.slice(tt.length));
+    }
+  }
+  const doubleTaps = ['ff','bb','uu','dd'];
+  let doubleTap = null;
+  for (const dt of doubleTaps) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      doubleTap = dt[0]; notation = notation.slice(dt.length); break;
+    }
+  }
+  if (doubleTap) {
+    html += arrow(doubleTap, false);
+    html += arrow(doubleTap, true);
+    return html + buttons(notation);
+  }
+  const dirs = ['df','db','uf','ub','f','b','u','d'];
+  let dir = null;
+  for (const d of dirs) {
+    if (notation.toLowerCase().startsWith(d)) {
+      dir = d; notation = notation.slice(d.length); break;
+    }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+
+<div class="callout callout-key">
+  <strong>Default: Sidestep / sidewalk RIGHT (SSR / SWR).</strong> This is the strongest-evidenced step default in the database so far — it agrees across all three sources. TekkenDocs' community sidestep chart (by @Mezerdie) calls SSR for Jin, and Wavu's own per-move notes back it seven-to-two: seven of his strings are documented as whiffing to your right, two to your left. It's also what the <em>SSR/SWR Default</em> tag in the title above refers to.
+  <br><br>
+  <strong>The cost:</strong> his mid <span class="mono">b,f+2</span> is specifically noted as having <em>good left</em> sidestep tracking. It punishes the wrong habit, not this one, so the default is cheap to hold.
+  <br><br>
+  <strong>The payoff case:</strong> see the <span class="mono">df+2~DF</span> crouch-dash mixup under General Counter Play. Three of its four branches are steppable right and the fourth is slow, which is what makes <strong>SSR → delayed block</strong> work as a single option select covering the whole mixup.
+</div>
+
+<table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">1,2,3</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">df+1,4~4</td><td class="swr">SSR / SW</td><td>from 1st block</td></tr>
+    <tr><td class="mono">d+3,4~4</td><td class="swr">SSR / SW</td><td>from 1st block</td></tr>
+    <tr><td class="mono">db+2,3</td><td class="swr">SSR</td><td>from 1st block (wiki flags it inconsistent)</td></tr>
+    <tr><td class="mono">ZEN.1,3</td><td class="swr">SSR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">2,4</td><td class="swr">SSR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">b,f+2,1,df+2</td><td class="swr">SSR or SWL</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">db+2,2,3</td><td class="swl">SSL / SWL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">ws1,3~3</td><td class="swl">SSL / SW</td><td>from 1st block</td></tr>
+    <tr><td class="mono">df+1,4~4</td><td class="both">Either side</td><td>from 1st <em>hit</em></td></tr>
+    <tr><td class="mono">d+3,4~4</td><td class="both">Either side</td><td>from 1st <em>hit</em></td></tr>
+    <tr><td class="mono">f+4</td><td class="both">Either side</td><td>linear (Wavu prose)</td></tr>
+    <tr><td class="mono">f,F+2</td><td class="both">Either side</td><td>linear (Wavu prose)</td></tr>
+    <tr><td class="mono">b,f+2</td><td class="tracks">Tracks your SSL</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3>Tracking after specific setups — TekkenDocs-sourced, verify in lab</h3>
+<div class="note"><span class="mono">b,f+2</span> tracks especially well after <span class="mono">d+4</span> lands on counter hit — don't trust a step in that window.</div>
+<div class="note"><span class="mono">b,f+2,1</span> tracks well specifically after an electric (<span class="mono">CD.df#2</span>) lands on block.</div>
+<div class="note">Off his <span class="mono">d+2</span> (he recovers crouching): his <span class="mono">ws4</span> follow-up tracks, <strong>SSR beats his ws2</strong>, and <strong>SSL beats his ws1</strong>. His standing <span class="mono">df+1</span> is steppable both ways — SSL is the easier read up close, SSR gets easier the further out you are.</div>
+
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">High | i13~14 | -9 | Homing | High Right Roundhouse</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.2'))</script>
+  <span class="frame-data">HIGH | i18~19 | -5 | Homing | Power Crush (pc6~20) | Fiendish Claw — duck it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.3'))</script>
+  <span class="frame-data">Mid | i17~18 | -9 | Homing | Halberd Heel</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">Mid | i16~18 | -9 | Homing | Bamboo Splitter — expect it after you duck a low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+
+<div class="callout">TekkenDocs additionally tags <strong>FC.df+4</strong> (the low, listed under Low Block Punishment) as <strong>homing</strong> — Wavu's entry for it carries no such tag. A genuine disagreement between the two sources; flagging it rather than picking one. Don't assume you can step it because it's missing from Wavu's homing list.</div>
+
+<div class="callout">Every row in the table above is sourced from per-move notes in Wavu's and TekkenDocs' frame data — none of it is lab-derived. Wavu's numeric Left/Right Tracking columns are blank for almost every entry on Jin's page, so treat the setup-specific notes above as a starting point for the lab rather than settled fact.</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+<div class="callout">Two moves look alike and aren't: plain <strong>df+2</strong> (Wind Hook Fist, CD.df+2) is a naked HIGH at i11~12, -10 on block — but too fast to duck on reaction, so block it standing and punish. The <strong>electric</strong> version (df#2 / EWHF) is a completely different animal: +5~+6 on block. Don't assume every Wind Hook Fist is free.</div>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('db2'))</script>
+  <span class="frame-data">i16 | -10 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2','1','4'))</script>
+  <span class="frame-data">i18~20, i9~10 | -10 | High, Mid, Mid | Balcony Break on CH</span>
+</div>
+<div class="note">His staple string — jab punish it. Watch for the ,4~4 low extension (see Low Block Punishment) instead of the plain ,4 mid ender</div>
+<div class="entry">
+  <script>document.write(icons('CD.df2'))</script>
+  <span class="frame-data">i11~12 | -10 | High | Wind Hook Fist (non-electric)</span>
+</div>
+<div class="note">i11 is too fast to duck on reaction — block standing, then punish. The electrified EWHF (df#2) is +5~+6 instead — see callout above</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">i15~16 | -10~-9 | Mid | Built-in left sidestep | Balcony Break on CH</span>
+</div>
+<div class="note">One of his panic buttons in a rush — evasive to his left, resets neutral on CH. Punishable on block, just don't expect to catch it clean every time</div>
+<div class="entry">
+  <script>document.write(icons('4','n','3'))</script>
+  <span class="frame-data">i24~34 | -11~-2 | Mid | Spike, FUFT</span>
+</div>
+<div class="note">Range varies with charge — treat -11 as the floor</div>
+<div class="note">Labbed 9/19 — confirmed effective punishes across the charge range: Paul's db+2, Jin's own d+4, King's d+3+4 (generic lows work too), Victor's d+1+2 (easy) or f,F+2 (needs precise timing)</div>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">i15~16 | -11 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','3','2'))</script>
+  <span class="frame-data">i18 | -11 | Mid, High, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','3','2','1'))</script>
+  <span class="frame-data">i10 (from block) | -11 | Mid, High, Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f3','1'))</script>
+  <span class="frame-data">i22 | -12 | Mid, Mid | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df1','4','n','4'))</script>
+  <span class="frame-data">i20 | -12 | Mid, Mid | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df2','4'))</script>
+  <span class="frame-data">i26~27 | -12 | Mid, Mid | Balcony Break, Strong Aerial Tailspin</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db2','2'))</script>
+  <span class="frame-data">i8 (2nd hit) | -12 | Mid, High | Jails from 1st block</span>
+</div>
+<div class="note">Jails — you cannot duck the ,2 after blocking the first hit, so just block the whole thing and take the -12 punish</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i14~15 | -12 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i23~24 | -12 | Mid | Punch sabaki (parries punches i3~10)</span>
+</div>
+<div class="note">Also his punch parry — see General Counter Play</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('d1'))</script>
+  <span class="frame-data">i21 | -13 | Mid into Throw | Power Crush (pc7~20)</span>
+</div>
+<div class="note">Blocking the mid denies the throw entirely — see Power Crush &amp; Rage Art</div>
+<div class="entry">
+  <script>document.write(icons('ub4'))</script>
+  <span class="frame-data">i15~17 | -13 | Mid | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i15~17 | -13 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf','n','4'))</script>
+  <span class="frame-data">i23~25 | -13 | Mid | "Delayed Hopkick"</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CD.df1'))</script>
+  <span class="frame-data">i16~17 | -13 | Mid | Tornado | Jab evasion</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CD.df1'))</script>
+  <span class="frame-data">(Electric) i16~17 | -13 | Mid | Tornado | Jab evasion</span>
+</div>
+<div class="note">Both the plain and electric Thrusting Uppercut evade jabs during startup and are still -13 on block — don't try to stuff it with a jab, block and launch</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i13, i8, i12 | -14 | Mid, Mid, Mid | Balcony Break | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1','2'))</script>
+  <span class="frame-data">i23~24 | -14 | Mid, Mid | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b','f2','1','df2'))</script>
+  <span class="frame-data">i28~29 | -14 | Mid, High, Mid | Tornado</span>
+</div>
+<div class="note">Don't try to duck the 2nd hit — sidestep right instead, then block: the plain ,1 ender doesn't track right, and the ,df+2 ender is slow enough to catch you mid-duck. Unsafe at -14 either way if it lands on block</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('1','2','1'))</script>
+  <span class="frame-data">i20~22 | -16 | High, High, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">i14 | -16 | Mid | Naked — punishable alone</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.u1'))</script>
+  <span class="frame-data">i14~16 | -16 | Mid | Tornado</span>
+</div>
+<div class="note">His other panic button alongside uf+2 — fast or repetitive Zenshin players lean on this. Block it and launch</div>
+<div class="entry">
+  <script>document.write(icons('ws1','3','2','1','4','2'))</script>
+  <span class="frame-data">i31~32 | -16 | Mid, High, Mid, Mid, Low, Mid | Balcony Break, Spike</span>
+</div>
+<div class="note">The full 6-hit extension off his crouch string — see the 10 Hit Combo table for where to interrupt earlier stopping points</div>
+<div class="entry">
+  <script>document.write(icons('CD.DF4','2'))</script>
+  <span class="frame-data">i31~32 | -16 | Low, Mid | Balcony Break, Spike</span>
+</div>
+<div class="note">The mid ender after his hellsweep — see Low Block Punishment for the sweep itself (-31)</div>
+<div class="entry">
+  <script>document.write(icons('d3+4'))</script>
+  <span class="frame-data">i15, i10~12 | -19 | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+<div class="note">See Power Crush &amp; Rage Art</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('1','3'))</script>
+  <span class="frame-data">i16~17 | -12 | High, Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2','1','4','n','4'))</script>
+  <span class="frame-data">i20~21 | -12 | High, Mid, Low</span>
+</div>
+<div class="note">Very telegraphed and reactable once you know it — but he can throw the plain 2,1,4 (mid ender) out so often that it's easy to forget this low variant exists. Keep an eye out</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i16~17 | -12 | Low | Flips grounded opponents</span>
+</div>
+<div class="note">Fast, high-crushing poke — low risk/low reward for him, thrown in to interrupt your offense rather than as a real threat</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('1','3','4'))</script>
+  <span class="frame-data">i23 | -13 | High, Low, Low | Cannot low parry the 2nd hit</span>
+</div>
+<div class="note">The first low is unreactable, so you'll eat it sometimes — but if you get hit, BLOCK the 2nd low, don't try to low parry (you can't parry out of a hit state). You'll only get a WS punish here, not a full low-parry punish</div>
+<div class="entry">
+  <script>document.write(icons('3','1','4'))</script>
+  <span class="frame-data">i18 | -13 | High, High, Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i20~21 | -13 | Low</span>
+</div>
+<div class="note">Unseeable low he uses to condition you into crouching rather than as direct damage — the chip adds up if you let him repeat it</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1+2'))</script>
+  <span class="frame-data">i21 | -14 | Low into Throw</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2'))</script>
+  <span class="frame-data">i22~23 | -14 | Low | Balcony break on airborne hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i15~16 | -14 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DVS.4','4'))</script>
+  <span class="frame-data">i25~26 | -14 | Low, Mid | Spike | Heat-only (Devil Stance)</span>
+</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('FC.df4'))</script>
+  <span class="frame-data">i21~22 | -26 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CD.DF4'))</script>
+  <span class="frame-data">i20~21 | -31 | Low | Hellsweep</span>
+</div>
+<div class="note">Slower and visually distinct from the mishima-style crouching hellsweep — Jin stays upright doing this one. Much more reactable when thrown from a single crouch dash rather than buffered into a string. Huge punish if you catch it</div>
+<div class="entry">
+  <script>document.write(icons('ws1','3','2','1','4'))</script>
+  <span class="frame-data">i20~21 | -31 | Mid,High,Mid,Mid,Low</span>
+</div>
+<div class="note">See the 10 Hit Combo table below for the full string's earlier stopping points</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+
+<div class="entry">
+  <script>document.write(icons('df1','4'))</script>
+  <span class="frame-data">(MID, HIGH) | df+1 alone is -3 oB</span>
+</div>
+<div class="note">Duck the ,4 on block only — true combo on hit | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('2','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | Full string -13 oB if it lands standing</span>
+</div>
+<div class="note">His 10-frame punish string — the 2nd hit can be ducked on reaction and launched, but the timing is strict; i16 and slower WS launchers may be too slow to make it in time</div>
+
+<div class="entry">
+  <script>document.write(icons('b1','2'))</script>
+  <span class="frame-data">(HIGH, HIGH) | b+1 alone is -9 oB</span>
+</div>
+<div class="note">Duck the ,2 on read, or skip the read entirely — there's an i2 interrupt window after blocking b+1, meaning almost anything beats the follow-up. Not a true combo on normal hit</div>
+
+<div class="entry">
+  <script>document.write(icons('f','F3','1'))</script>
+  <span class="frame-data">(MID, HIGH) | Full string +1 oB — safe if it lands</span>
+</div>
+<div class="note">Wiki-flagged duckable despite being safe on block — ducking the ,1 denies him even that +1 and opens a launch. Jails into the buffer window so confirm before committing</div>
+
+<div class="entry">
+  <script>document.write(icons('b','f2','1'))</script>
+  <span class="frame-data">(MID, HIGH) | Tracks well — be careful stepping this instead</span>
+</div>
+<div class="note">Duckable on the ,1, but this is one of his better-tracking strings — prefer ducking over sidestepping here</div>
+
+<h3>Stay Low and Launch — crouch through the low, stay down, the high ender whiffs</h3>
+
+<div class="entry">
+  <script>document.write(icons('d3','4'))</script>
+  <span class="frame-data">(LOW, HIGH) | d+3 alone is -14 oB</span>
+</div>
+<div class="note">Duck through the low and stay crouched — the ,4 high extension can be ducked and interrupted on reaction. Don't stand block the low if you can help it; staying low covers both hits</div>
+
+<div class="entry">
+  <script>document.write(icons('d3','4','3'))</script>
+  <span class="frame-data">(LOW, HIGH, MID) | -12 if the full string lands on block</span>
+</div>
+<div class="note">Same as above through the first two hits — if he continues to the ,3 mid ender anyway, it's punishable with your standing i12 launcher</div>
+
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('ZEN.2'))</script>
+  <span class="frame-data">i18~19 | -5 | Homing | Power Crush (pc6~20)</span>
+</div>
+<div class="note">His Zenshin power crush is a high — the duck that also beats his homing</div>
+
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i19~21 | -10~-8 oB | Balcony break on airborne hit</span>
+</div>
+<div class="note">Slow enough to duck on reaction from mid-range; ducking is also just better reward than the modest block punish</div>
+
+<div class="entry">
+  <script>document.write(icons('ZEN.1','3'))</script>
+  <span class="frame-data">i24~25 | -9 oB | Mid, High, Throw</span>
+</div>
+<div class="note">Mostly a combo-ender, but if he throws it out in neutral the 2nd hit can be ducked and it recovers very slowly on whiff — a big opening if you read it</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+
+<h3><span class="stance">ZEN</span> — Zenshin</h3>
+
+<div class="callout">
+Entered via <script>document.write(icons('b3+4'))</script> (backward step, actionable from frame 5) or <script>document.write(icons('f3+4'))</script> (forward step, actionable from frame 10).<br><br>
+<strong>Can he block from a held Zenshin stance?</strong> No source confirms this either way — not asserting it.<br><br>
+<strong>Lows from the stance:</strong> just one — <script>document.write(icons('ZEN.1+2'))</script> at -14 oB. Everything else is mid or high, which is why standing block is the correct default response to Zenshin.<br><br>
+<strong>Fastest option out of the stance:</strong> <script>document.write(icons('ZEN.u1'))</script> at i14~16 (and it's -16 — launch it), then <script>document.write(icons('ZEN.1'))</script> at i16~17. Both are slower than a jab — <strong>but don't mash a jab into Zenshin</strong>: <script>document.write(icons('ZEN.2'))</script> is a high <em>power crush</em> that absorbs it. Ducking beats ZEN.2 outright, and so does a low.
+</div>
+
+<div class="entry">
+  <script>document.write(icons('ZEN.1'))</script>
+  <span class="frame-data">i16~17 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.2'))</script>
+  <span class="frame-data">i18~19 | -5 | HIGH | Homing | Power Crush (pc6~20) — duck it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.3'))</script>
+  <span class="frame-data">i17~18 | -9 | Mid | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1+2'))</script>
+  <span class="frame-data">i21 | -14 | Low into Throw</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1','2'))</script>
+  <span class="frame-data">i16~17 | -14 | Mid, Mid | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1','3'))</script>
+  <span class="frame-data">i24~25 | -9 | Mid, High, Throw</span>
+</div>
+<div class="note">Naked-high duck opportunity — see Duck and Launch above</div>
+
+<div class="note">TekkenDocs frame data for Jin's manual transitions <strong>into</strong> Zenshin from these strings (oH / oB): <span class="stance">3,1</span>, <span class="stance">b,f2,3</span>, <span class="stance">f4</span>, <span class="stance">b3</span>, <span class="stance">2,4</span>, <span class="stance">f3,3</span>, and <span class="stance">ws1,2</span> all cancel into Zenshin — treat each as a fresh neutral-into-stance situation rather than a string ender, since the stance itself is what follows, not another hit.</div>
+
+<h3><span class="stance">DVS</span> — Devil / Awakened Stance (Heat only)</h3>
+
+<div class="callout">
+Only enters via <script>document.write(icons('H.f','F1+2'))</script> or <script>document.write(icons('H.db1+2'))</script> — H.db+1+2 is a power crush (pc6~18, +4 on block) that costs 300F of Heat, and H.f,F+1+2 jumps frames 11~48 (+5 on block) and costs 240F. Either way he arrives in the stance plus.<br><br>
+<strong>Can he block from Devil Stance?</strong> No source confirms this either way — not asserting it.
+</div>
+
+<div class="entry">
+  <script>document.write(icons('DVS.1'))</script>
+  <span class="frame-data">i20~22 | -9 | Mid | 7 chip</span>
+</div>
+<div class="note">Tornado — also evades jabs during its startup</div>
+
+<div class="entry">
+  <script>document.write(icons('DVS.2'))</script>
+  <span class="frame-data">i11~12 | +4 | Special Mid | 6 chip</span>
+</div>
+<div class="note">The real threat out of this stance — fast AND plus on block. It's a true special mid: it hits a crouching opponent who isn't guarding, but you can block it crouching — so holding down-back against Devil Stance doesn't lose to it</div>
+
+<div class="entry">
+  <script>document.write(icons('DVS.3'))</script>
+  <span class="frame-data">i26~28 | +2c | Mid | Jumps frames 5~25</span>
+</div>
+<div class="note">Spike — recovers crouching (the c suffix), so any punish needs a WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('DVS.DF3'))</script>
+  <span class="frame-data">i33~34 | -23 | Low | Jumps frames 5~25</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DVS.4'))</script>
+  <span class="frame-data">i16 | -12 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DVS.4','4'))</script>
+  <span class="frame-data">i25~26 | -14 | Low, Mid | Spike | Jails from 1st block</span>
+</div>
+<div class="note">Already listed under Low Block Punishment above — repeated here for stance completeness</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">i15~16 | +3 | Mid, High, Mid | Heat Smash | Jails | 6 chip</span>
+</div>
+<div class="note">Not punishable. Wavu now confirms why it's plus: on block Jin goes <strong>straight into Crouch Dash</strong> (or back to standing with B). Treat a blocked Heat Smash as the start of his crouch-dash mixup — see the df+2~DF section under General Counter Play — not as a punish window</div>
+
+<div class="entry">
+  <script>document.write(icons('H.2+3','4'))</script>
+  <span class="frame-data">Follow-up hit if the Smash connects</span>
+</div>
+
+<h3>Heat Engagers</h3>
+
+<div class="entry">
+  <script>document.write(icons('f3','1'))</script>
+  <span class="frame-data">i22 | -12 | Mid, Mid | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df4'))</script>
+  <span class="frame-data">i20~21 | +0 | Mid | Spike | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f','F2'))</script>
+  <span class="frame-data">i14 | Mid | Linear | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.1','2'))</script>
+  <span class="frame-data">i16~17 | -14 | Mid, Mid | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i13 | -14 | Mid ×3 | Heat Engager | Median Line Destruction</span>
+</div>
+
+<h3>Heat-only moves</h3>
+
+<div class="note">Both of Jin's Heat-only options are the Devil Stance transitions covered in full under Stance Counterplay above — <script>document.write(icons('H.f','F1+2'))</script> and <script>document.write(icons('H.db1+2'))</script>. Cross-referencing rather than repeating: they cost 300F and 240F of Heat time respectively, and the payoff is <span class="stance">DVS.2</span> at +4 on block.</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 dmg | Break 1 or 2 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 dmg | Break 1 or 2 | Homing | Side switch</span>
+</div>
+<div class="entry">
+  <span class="stance">Left throw</span>
+  <span class="frame-data">43 dmg | Break 1</span>
+</div>
+<div class="entry">
+  <span class="stance">Right throw</span>
+  <span class="frame-data">40 dmg | Break 2 | Side switch</span>
+</div>
+<div class="entry">
+  <span class="stance">Back throw</span>
+  <span class="frame-data">50 dmg | Unbreakable | Side switch</span>
+</div>
+<div class="note">Unbreakable — the only real counterplay is not getting your back turned in the first place</div>
+<div class="entry">
+  <script>document.write(icons('df2+4'))</script>
+  <span class="frame-data">40 dmg | Break 2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">40 dmg | Break 1+2 | Floor break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('qcb1+3'))</script>
+  <span class="frame-data">40 dmg | Break 1 | Opponent recovers face-up, feet-away</span>
+</div>
+
+<!-- ── POWER CRUSH & RAGE ART ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+
+<div class="callout">Jin has exactly one <strong>high</strong> power crush: <strong>ZEN.2</strong> (Fiendish Claw) out of Zenshin — homing, so you can't step it, but you can duck it. Every other power crush here is a mid: respect those, or throw him during the startup.</div>
+
+<div class="entry">
+  <script>document.write(icons('ZEN.2'))</script>
+  <span class="frame-data">i18~19 | pc6~20 | <strong>HIGH</strong> | -5 | Homing | Fiendish Claw</span>
+</div>
+<div class="note">Duck it — the one power crush in this matchup a duck beats</div>
+<div class="entry">
+  <script>document.write(icons('2+3'))</script>
+  <span class="frame-data">i7~16 (Power Crush) | Mid | Heat Burst</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1'))</script>
+  <span class="frame-data">i7~20 (Power Crush) | Mid into throw</span>
+</div>
+<div class="note">Corpse Thrust — already listed under Standing Block Punishment above. Like any power crush, it loses to a throw during its startup</div>
+<div class="entry">
+  <script>document.write(icons('H.db1+2'))</script>
+  <span class="frame-data">i6~18 (Power Crush) | Heat only | Transitions to Devil Stance</span>
+</div>
+<div class="note">Already covered under Stance Counterplay above — the entry into Devil Stance</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i8~ (Power Crush) | -18 | Mid | Rage Art</span>
+</div>
+<div class="note">Already listed under Standing Block Punishment above</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+
+<div class="entry">
+  <script>document.write(icons('b1+3'))</script>
+  <span class="frame-data">i3~9 active | Standalone parry</span>
+</div>
+<div class="note">Catches highs AND mids — not a punches-only parry. Beaten clean by throws, unblockable moves, and charge moves. Vulnerable on frames 1-2 and 10-30 of its animation (TekkenDocs); he can block starting frame 31. A well-timed low or a delayed hit during that vulnerable window punishes the attempt hard</div>
+
+<div class="entry">
+  <script>document.write(icons('ub1+2'))</script>
+  <span class="frame-data">i75~76 | Unblockable | Balcony Break</span>
+</div>
+<div class="note">Avenger — genuinely unblockable, but the startup is enormous. Sidestep or interrupt anywhere during the long wind-up rather than trying to block it</div>
+
+<div class="note">Wavu's own counterplay writeup singles out <script>document.write(icons('uf2'))</script> and <script>document.write(icons('ZEN.u1'))</script> as Jin's two panic buttons against rushdown pressure — both are already tiered under Standing Block Punishment above (-10~-9 and -16 respectively), but worth calling out together: if you're leaning on him and he throws one of these out, that's the tell his offense is running out of ideas.</div>
+
+<div class="callout">Remember the plain <script>document.write(icons('CD.df2'))</script> vs. electric <script>document.write(icons('CD.df2'))</script> (EWHF) distinction from the top of Standing Block Punishment: the plain version is -10 and too fast to duck reactively, the electric version is +5~+6 and unpunishable outright. Learn to tell them apart by sound/visual tell, not by trying to react to the number.</div>
+
+<h3>df+2~DF mixup — Crouch Dash cancel</h3>
+
+<div class="callout">Canceling <script>document.write(icons('df2'))</script> directly into Crouch Dash (df+2~DF, Breaking Step) hands Jin easier access to the <strong>electric</strong> timings on his Crouch Dash follow-ups than starting Crouch Dash cold. Four button options come out of it:</div>
+
+<div class="entry">
+  <script>document.write(icons('CD.df1'))</script>
+  <span class="frame-data">(Electric) i16~17 | -13 | Mid | Tornado</span>
+</div>
+<div class="note">Steppable right</div>
+<div class="entry">
+  <script>document.write(icons('CD.df2'))</script>
+  <span class="frame-data">(Electric / EWHF) +5~6 | High | Tornado launcher</span>
+</div>
+<div class="note">Steppable right</div>
+<div class="entry">
+  <script>document.write(icons('CD.DF4'))</script>
+  <span class="frame-data">i20~21 | -31 | Low | Hellsweep, knockdown</span>
+</div>
+<div class="note">Steppable right</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i16~18 | -9 | Mid | Homing | Bamboo Splitter — slow</span>
+</div>
+<div class="note">NOT steppable — homing. The one option in this mixup that a sidestep alone doesn't solve</div>
+
+<div class="callout">
+<strong>Labbed answer: side-step right, then delay your block (SSR~delayed block).</strong> The sidestep clears the 1, 2, and 4 options outright since all three are steppable right — and delaying the block afterward still leaves enough time to block the homing 3, since Bamboo Splitter is comparatively slow. In effect, SSR~delayed block is a single option select that answers all four branches of the df+2~DF mixup without needing to read which one is coming.
+</div>
+
+<div class="entry">
+  <script>document.write(icons('1+2+3+4'))</script>
+  <span class="frame-data">Ki Charge — can't block for ~5 seconds</span>
+</div>
+<div class="note">If he commits to this taunt/buff, it's a full-commitment window to walk in and open him up</div>
+
+<!-- ── 10 HIT COMBO ── -->
+<h2>The 10 Hit Combo</h2>
+
+<div class="note">Mishima-style canonical string — every stopping point below is a place the string can end, so treat each row as its own punish situation, not just the last one.</div>
+
+<table class="combo-table">
+<tr><th>Hit</th><th>Level</th><th>oBlock</th><th>oHit</th></tr>
+<tr><td><script>document.write(icons('ub2'))</script></td><td>Mid</td><td>-5</td><td>+4</td></tr>
+<tr><td><script>document.write(icons('3'))</script></td><td>Low</td><td>-21</td><td>-10</td></tr>
+<tr><td><script>document.write(icons('3'))</script></td><td>Mid</td><td>-27</td><td>-12</td></tr>
+<tr><td><script>document.write(icons('3'))</script></td><td>High</td><td>-20</td><td>-14</td></tr>
+<tr><td><script>document.write(icons('2'))</script></td><td>Mid</td><td>-19</td><td>-8</td></tr>
+<tr><td><script>document.write(icons('1'))</script></td><td>Mid</td><td>-20</td><td>-9</td></tr>
+<tr><td><script>document.write(icons('2'))</script></td><td>Mid</td><td>-10</td><td>+1</td></tr>
+<tr><td><script>document.write(icons('3'))</script></td><td>High</td><td>-8</td><td>-13</td></tr>
+<tr><td><script>document.write(icons('4'))</script></td><td>Low</td><td>-23</td><td>+18d</td></tr>
+<tr><td><script>document.write(icons('2'))</script></td><td>High</td><td>-14</td><td>+12a (+3)</td></tr>
+</table>
+<div class="note">The i16 mid at hit 5 and the naked high finisher are the two moments most worth drilling reactions to — everything before it is already covered piecemeal in Standing/Low Block Punishment and Duck and Launch above</div>
+
+<!-- ── SOURCES ── -->
+<div class="sources">
+<strong>Sources:</strong> Wavu Wiki <a href="https://wavu.wiki/t/Jin_movelist" target="_blank">Jin movelist</a> and <a href="https://wavu.wiki/t/Jin_counterplay" target="_blank">Jin counterplay</a> pages (primary frame data, hit levels, standing-block punish buckets). <a href="https://tekkendocs.com/t8/jin" target="_blank">TekkenDocs — Jin</a> and <a href="https://tekkendocs.com/t8/jin/antistrat" target="_blank">TekkenDocs — Jin anti-strat</a> (supplementary source added at Mike's request — used here for the Zenshin manual-transition frame table, the setup-specific tracking notes in Move Tracking, and the FC.df+4 homing flag, each called out inline where it diverges from or extends Wavu). Default sidestep direction (SSR) sourced from <a href="https://tekkendocs.com/t8/sidestep-chart.webp" target="_blank">TekkenDocs — Sidestep Chart</a> (community chart by @Mezerdie). <strong>Movement section:</strong> every SSR / SSL / SWR / SWL row is sourced from per-move "Whiffs vs …" and "good … sidestep tracking" notes in Wavu's and TekkenDocs' frame data — none of it is lab-derived. Wavu's numeric Left/Right Tracking columns are blank for almost every entry on Jin's page. The Stance-blockability callouts not sourced to either site are marked unconfirmed rather than asserted.<br>
+<strong>Updated 3 October 2026</strong> against Wavu's Jin movelist, edited 27 September 2026 — after this doc was first built. Changes: 2,4 (SSR) and ws1,3~3 (SSL/SW) now carry whiff notes, and b+1+2 no longer carries a tracking note; ZEN.2 is a <strong>high</strong> power crush at i18~19 (not a mid); Devil Stance, Zenshin, Heat Smash and Heat Engager startups corrected; and four moves previously labelled "Special Mid" (4~3, b,f+2,1,df+2, ws1,3,2,1,4,2, CD.DF+4,2) are written with a capital <strong>M</strong> on Wavu — a mid that hits grounded opponents — so they <strong>can't be blocked crouching</strong>. DVS.2 is the only true special mid here.
+</div>
+
+
+
+
+
+
+</body></html>

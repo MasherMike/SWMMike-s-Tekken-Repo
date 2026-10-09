@@ -1,0 +1,942 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Victor | SW Right | HS tracks Right</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .tier { margin-bottom: 0.5rem; }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .entry:hover { background: var(--bg3); }
+
+  .move-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .frame-data {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    padding-left: 20px;
+    margin-bottom: 3px;
+  }
+
+  .callout {
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg2);
+    border-left: 2px solid var(--accent);
+    padding: 6px 10px;
+    margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .sub-entry {
+    padding-left: 20px;
+    margin-bottom: 2px;
+  }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0.75rem 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sep {
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid var(--green);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
+
+  .stance {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin-right: 2px;
+  }
+
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg3);
+    color: var(--text-muted);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  .side-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .callout-key { border-left-color: var(--green); }
+
+  .step-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0.5rem 0 1rem;
+  }
+  .step-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td {
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--bg3);
+    vertical-align: top;
+  }
+  .step-table td.mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+
+<h1>Anti-Victor &nbsp;|&nbsp; SW Right &nbsp;|&nbsp; HS tracks Right</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Victor on P1 side — inputs face right</span>
+</div>
+
+<!-- ARROW & BUTTON HELPERS via inline SVG functions in JS -->
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Victor on P1 side — inputs face right'
+      : 'Victor on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) {
+        el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+      }
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const cardinals = ['f','b'];
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && cardinals.includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) {
+    rot = baseAngles[diagonalFlips[dir]];
+  }
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    const isActive = active.includes(b);
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${isActive?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function sep() { return '<span class="sep"></span>'; }
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+// Render the button portion of a notation: "1+2" = simultaneous (one icon), "12" = sequential (two icons)
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  // parse notation string into icons
+  // e.g. "df2", "b1", "uf4", "1+2", "IAI.2", "~PRF", "H.IAI.d2", "R.df1+2"
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    // stance / prefix move — everything before the last dot is the prefix (IAI, PRF, H.IAI, R, FC, SS)
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  // check for tilde
+  if (notation.startsWith('~')) {
+    html += tilde(notation.slice(1));
+    return html;
+  }
+  // quarter-circle forward: d, df, f (all taps)
+  if (notation.toLowerCase().startsWith('qcf')) {
+    html += arrow('d', false) + arrow('df', false) + arrow('f', false);
+    return html + buttons(notation.slice(3));
+  }
+  // triple tap (fff) — tap, tap, hold
+  const tripleTaps = ['fff','bbb'];
+  for (const tt of tripleTaps) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      html += arrow(d, false) + arrow(d, false) + arrow(d, true);
+      return html + buttons(notation.slice(tt.length));
+    }
+  }
+  // check for double tap (ff, bb, etc.)
+  const doubleTaps = ['ff','bb','uu','dd'];
+  let doubleTap = null;
+  for (const dt of doubleTaps) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      doubleTap = dt[0]; notation = notation.slice(dt.length); break;
+    }
+  }
+  if (doubleTap) {
+    html += arrow(doubleTap, false); // first — tap (outlined)
+    html += arrow(doubleTap, true);  // second — held (filled)
+    return html + buttons(notation);
+  }
+  // extract directional prefix — order matters: longer matches first
+  const dirs = ['df','db','uf','ub','f','b','u','d'];
+  let dir = null;
+  for (const d of dirs) {
+    if (notation.toLowerCase().startsWith(d)) {
+      dir = d; notation = notation.slice(d.length); break;
+    }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+
+<div class="callout callout-key">
+  <strong>Default: Sidestep Right (SSR).</strong> This is the whole-character recommendation from TekkenDocs' community sidestep chart (by @Mezerdie), and the lab-tested per-move data below broadly backs it: stepping right beats <span class="mono">df4</span> and <span class="mono">df3</span>, two of his most-thrown pokes, plus everything linear.
+  <br><br>
+  <strong>Three places the default does not hold — know these rather than stepping on autopilot:</strong> <span class="mono">ub2</span> tracks SS/W Right (step left instead), <span class="mono">IAI.1</span> tracks right and whiffs left (inside IAI switch to <strong>SWL</strong> to fish for the whiff), and his <strong>Heat Smash tracks right</strong>, so during Heat your neutral habit is exactly what it catches.
+</div>
+
+<table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>Detail</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">df4</td><td class="swr">SSR</td><td>Mostly linear — tracks SS/W L</td></tr>
+    <tr><td class="mono">df3</td><td class="swr">SSR or SWL</td><td>Tracks SSL — SWL is safe, SSL is not</td></tr>
+    <tr><td class="mono">ub2</td><td class="swl">SSL</td><td>Mostly linear — tracks SS/W R</td></tr>
+    <tr><td class="mono">IAI.1</td><td class="swl">SSL / SWL</td><td>Tracks right, whiffs left</td></tr>
+    <tr><td class="mono">df1</td><td class="both">Either side</td><td>Completely linear</td></tr>
+    <tr><td class="mono">f4</td><td class="both">Either side</td><td>Completely linear</td></tr>
+    <tr><td class="mono">uf4</td><td class="both">Either side</td><td>Completely linear</td></tr>
+    <tr><td class="mono">uf1</td><td class="both">Either side</td><td>Completely linear — the ,1 follow-up realigns</td></tr>
+    <tr><td class="mono">b3</td><td class="both">Either side</td><td>Completely linear — the ,1 follow-up realigns</td></tr>
+    <tr><td class="mono">H.2+3</td><td class="tracks">Tracks your SSR</td><td>Heat Smash — don't step right during Heat</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">The SSR default is sourced from the TekkenDocs sidestep chart. Every per-move row above is <strong>lab-tested, not wiki-verified</strong> — Wavu's Left/Right Tracking columns are blank across Victor's entire movelist, and neither Wavu's nor TekkenDocs' frame data carries a single "whiffs vs SSR/SSL" note on him. Re-confirm in practice before trusting a row in a set.</div>
+
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('b4'))</script>
+  <span class="frame-data">High | i18~19 | -2 | Homing | Also PRF.4 | Duck it instead</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">Mid | i19~20 | -9 | Homing | Block and take your turn</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1+2'))</script>
+  <span class="frame-data">High | i20~21 | +3 | Homing | Duck it instead</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1','1+2'))</script>
+  <span class="frame-data">Mid, High | ender is homing | Duck the ender</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('f4'))</script>
+  <span class="frame-data">i14 | -10 | Mid</span>
+</div>
+<div class="note">Naked f4 with no follow-up — jab punish. If he adds ,1 (high) see Duck and Launch; if ,2 (mid) see below</div>
+<div class="entry">
+  <script>document.write(icons('2','2'))</script>
+  <span class="frame-data">i17~18, i7 | -10 | High, Mid, Mid</span>
+</div>
+<div class="note">-10 if the last hit whiffs too | Can extend to 2,2,2 (high ender, ~IAI) — see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('4','3'))</script>
+  <span class="frame-data">i13~14, 23~24 | -10</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2'))</script>
+  <span class="frame-data">i13~14 | -11 | High</span>
+</div>
+<div class="note">Naked f2 is -11 — but f2,2 is -15, so wait one beat to see if the second hit comes before committing</div>
+<div class="entry">
+  <script>document.write(icons('f2','2','1'))</script>
+  <span class="frame-data">i13~14, i11, i13~14 | -11</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i19~20 | -11 | High | Tornado launcher on hit</span>
+</div>
+<div class="note">High — ducking is the better answer (see Duck and Launch) but it's still -11 if you block it standing</div>
+<div class="entry">
+  <script>document.write(icons('2'))</script>
+  <span class="frame-data">i12~13 | -12 | High | Right jab</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','1','2'))</script>
+  <span class="frame-data">i17~18, i9~10 | -12 | All High | Jails from 1st block</span>
+</div>
+<div class="note">Can transition ~PRF with F (-8 for him) — if he goes to PRF instead of finishing, see Stance Counterplay</div>
+<div class="entry">
+  <script>document.write(icons('1','2','1'))</script>
+  <span class="frame-data">i26~27 | -12 | High, High, Mid | Tornado | Delayable up to 12F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f4','2'))</script>
+  <span class="frame-data">i14, 26~27 | -12</span>
+</div>
+<div class="note">Transitions to ~IAI with D or 3+4 — does not affect punish window</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('b3','1'))</script>
+  <span class="frame-data">i17, 25~26 | -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('4','3','2'))</script>
+  <span class="frame-data">i13~14, 23~24, 25~26 | -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','2','2'))</script>
+  <span class="frame-data">i13~14, i11, i14, i12~13, i7~8 | -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.3'))</script>
+  <span class="frame-data">i17 | -13 | Power Crush (pc8~16)</span>
+</div>
+<div class="note">Mid, Throw(Mid) — hit-throw mechanic on last hit | Restores 60F of Heat time on hit</div>
+<div class="entry">
+  <script>document.write(icons('PRF.2','2','1+2'))</script>
+  <span class="frame-data">i12~13, i13~14, i12 | -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1'))</script>
+  <span class="frame-data">i14 | -13</span>
+</div>
+<div class="note">Spacing on block affects punish viability — confirm range before committing</div>
+<div class="entry">
+  <script>document.write(icons('uf1','1'))</script>
+  <span class="frame-data">i13, 25~26 | -14</span>
+</div>
+<div class="note">Transitions to PRF or IAI on follow-up</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1','1'))</script>
+  <span class="frame-data">i13~14, 25~26 | -14 | Same move as uf1,1 from stance</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df2'))</script>
+  <span class="frame-data">i15~16 | -14</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i14~15 | -14</span>
+</div>
+<div class="note">See General Counter Play for full ws3 counterplay notes</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('f2','2'))</script>
+  <span class="frame-data">i13~14, i11 | -15</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','2','1','1'))</script>
+  <span class="frame-data">i13~14, i11, i13~14, i20~21 | -15 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">i18~20 | -16 with pushback | Tornado | 7 chip on block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i15~16 | -16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3+4'))</script>
+  <span class="frame-data">i14~15 | -17 | Balcony Break | Shoulder</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1','2','2'))</script>
+  <span class="frame-data">i13~14, 23~24 | -18c | Spike | 9 chip on block</span>
+</div>
+<div class="note">-18c = you recover crouching — use a WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1','2'))</script>
+  <span class="frame-data">i13~14, 22~24 | -19 | Hit-confirmable (11F) | 6 chip on block</span>
+</div>
+<div class="note">This is his big IAI mid launcher — if you block it, launch him back</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i15~17, 28~30 | -19 | Tornado | Follow-up on 1st hit only</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u1+2'))</script>
+  <span class="frame-data">i31~32 | -20c | Teleport overhead (frame 10) | 9 chip on block</span>
+</div>
+<div class="note">Evades some highs/mids during the jump but is vulnerable to lows and throws on the way down | -20c = WS launch</div>
+<div class="entry">
+  <script>document.write(icons('b1+4'))</script>
+  <span class="frame-data">i26~27 | -21</span>
+</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('1','3'))</script>
+  <span class="frame-data">i10, 21~22 | -12</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.4'))</script>
+  <span class="frame-data">i18~19 | -12 | Recovers in IAI</span>
+</div>
+<div class="note">If he adds ,2 (high) it becomes -5 — see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('PRF.1'))</script>
+  <span class="frame-data">i19~20 | -12 | Unparryable (weapon low) | Recovers FC</span>
+</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i18~19 | -13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i16 | -13</span>
+</div>
+<div class="note">On counter hit becomes a hit-throw (Guilty Mariko) — don't press buttons into this low</div>
+<div class="entry">
+  <script>document.write(icons('FC.1+2'))</script>
+  <span class="frame-data">i16, i10~11 | Low, High | -23 on 1st hit alone, -13 full string | Unparryable</span>
+</div>
+<div class="note">Second hit is high but comes out i10 from a -23 low — it jails, don't try to duck it | Can transition ~PRF (-17 for him)</div>
+<div class="entry">
+  <script>document.write(icons('fff1+2'))</script>
+  <span class="frame-data">i18, i14~15 | Low, Low | -14 | Unparryable | Transitions ~IAI on hit (+4 / +15g)</span>
+</div>
+<div class="note">This is the running low that feeds his IAI mixup — blocking it is your best chance to shut the stance down before it starts</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('d1'))</script>
+  <span class="frame-data">i16 | -17 oB</span>
+</div>
+<div class="note">Follow-up ,1 (HIGH) is -7 oB but -26 if d1 blocked — launch punish opportunity | Cannot be parried (weapon low)</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i20~21 | -26</span>
+</div>
+<div class="note">On counter hit becomes a hit-throw (Musk-Scented Natasha, +49a) — same rule as d4, don't press into it</div>
+<div class="entry">
+  <script>document.write(icons('IAI.d1+2'))</script>
+  <span class="frame-data">i20~21, i14~15 | -29 | Unparryable (weapon low, low) | Restores 60F Heat time on hit</span>
+</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+
+<div class="entry">
+  <script>document.write(icons('f4','1'))</script>
+  <span class="frame-data">(MID, HIGH) | f4 is -10 oB alone | Heat Engager on the ,1</span>
+</div>
+<div class="note">Duck the ,1 on block only — true combo on hit | Ducking also denies his Heat engage | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('df1','1'))</script>
+  <span class="frame-data">(MID, HIGH, HIGH) | df1 is -2 oB, full string -4 oB</span>
+</div>
+<div class="note">Duck the ,1 on block only — true combo on hit | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('df4','2'))</script>
+  <span class="frame-data">(MID, HIGH) | df4 is -9 oB, full string -3 oB | ,2 is a weapon projectile (6 chip)</span>
+</div>
+<div class="note">Duck the ,2 on block only — true combo on hit | The ,2 only comes out on hit or block, never on whiff | After df4,2 he is locked into IAI (r36, cannot cancel) | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b1','2'))</script>
+  <span class="frame-data">(MID, HIGH) | b1 is -13 oB — punishable alone</span>
+</div>
+<div class="note">The ,2 is a hit-throw — ducking causes throw to whiff entirely | String can be delayed up to 9F — Victor controls when he commits to ,2 or ~PRF | Not a true combo on normal hit | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('PRF.2','2','1'))</script>
+  <span class="frame-data">(MID, MID, HIGH) | Full string -1 oB — safe if completed</span>
+</div>
+<div class="note">Duck the ,1 ender only — not a true combo on normal hit | PRF.2,2 shows -4 IAI on block — don't be intimidated | The -4 is into the stance, not from it — Victor is vulnerable during transition | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('IAI.4','2'))</script>
+  <span class="frame-data">(LOW, HIGH) | IAI.4 is -12 oB — punishable alone</span>
+</div>
+<div class="note">Duck the ,2 on block only | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('IAI.1','1+2'))</script>
+  <span class="frame-data">(MID, HIGH) | IAI.1 is -9 oB | ,1+2 is +3 oB, Homing, i20~21</span>
+</div>
+<div class="note">11F gap after blocking IAI.1 — you can duck the ,1+2 on reaction or interrupt with i10 | Not a true combo on normal hit (hit-confirmable 11F) | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('2','2','2'))</script>
+  <span class="frame-data">(HIGH, MID, MID, HIGH) | 2,2 is -10 oB | Full string -3 oB, ~IAI</span>
+</div>
+<div class="note">Duck the last 2 — it's a projectile but still a high | Delayable 8F so watch for the pause | If he stops at 2,2 you get a jab punish instead</div>
+
+<div class="entry">
+  <script>document.write(icons('3','1+2'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | 3 is -9 oB | Full string -9 oB</span>
+</div>
+<div class="note">Entire string is high — duck at any point | Delayable 6F</div>
+
+<h3>Naked highs — duck on read</h3>
+
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i19~20 | -11 oB | Tornado launcher on hit</span>
+</div>
+<div class="note">His go-to whiff punish / CH fishing high — slow enough to duck on reaction from mid range</div>
+
+<div class="entry">
+  <script>document.write(icons('b4'))</script>
+  <span class="frame-data">i18~19 | -2 oB | Homing | Also PRF.4</span>
+</div>
+<div class="note">This is his homing move — if you're getting stepped-checked, duck instead of stepping</div>
+
+<div class="entry">
+  <script>document.write(icons('IAI.1+2'))</script>
+  <span class="frame-data">i20~21 | +3 oB | Homing | 12 chip on block</span>
+</div>
+<div class="note">His plus-on-block homing high from stance — the answer to IAI pressure is to duck this, not block it</div>
+
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i19~20 | -9 oB | Power Crush (pc7~18) | 7 chip on block</span>
+</div>
+<div class="note">His power crush is a HIGH — ducking beats it clean, then launch | Don't try to trade with it</div>
+
+<div class="entry">
+  <script>document.write(icons('qcf2'))</script>
+  <span class="frame-data">i22 | -3 oB | Projectile | ~IAI</span>
+</div>
+<div class="note">Slow high that puts him in IAI — duck and launch</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+
+<h3>IAI — Iai Stance</h3>
+<div class="callout">Entered with 3+4, or off f4,2 / uf1,1 / df4,2 / 2,2,2 / qcf2 / fffF+2 / fffF+1+2 / PRF.2,2 / H.db1+2. He CAN block from IAI after 11F. He can cancel to crouch with db. IAI.f parries lows — don't throw lows at a standing Iai stance.</div>
+
+<div class="entry">
+  <script>document.write(icons('IAI.1'))</script>
+  <span class="frame-data">Mid | i13~14 | -9 | His fastest option from stance</span>
+</div>
+<div class="note">Extensions: ,1 (mid, -14) | ,2 (mid launcher, -19) | ,2,2 (mid spike, -18c) | ,1+2 (HIGH homing, +3 — duck)</div>
+<div class="entry">
+  <script>document.write(icons('IAI.2'))</script>
+  <span class="frame-data">Mid | i16~17 | -9 | Tornado | FUFA knockdown on CH | 9 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.3'))</script>
+  <span class="frame-data">Mid hit-throw | i17 | -13 | Power Crush pc8~16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.4'))</script>
+  <span class="frame-data">LOW | i18~19 | -12 | ,2 ender is high (-5) — duck it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.1+2'))</script>
+  <span class="frame-data">HIGH | i20~21 | +3 | Homing | Duck it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.d1'))</script>
+  <span class="frame-data">Mid | i18 | ±0 | Heat Engager | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.d2'))</script>
+  <span class="frame-data">Mid, Mid, SM | i23~24 | +4 | Projectile | Stays in IAI | Powered up in Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.d1+2'))</script>
+  <span class="frame-data">LOW, LOW | i20~21 | -29 | Unparryable</span>
+</div>
+
+<div class="callout"><strong>How to deal with it:</strong> His only lows from IAI are IAI.4 (i18, -12) and IAI.d1+2 (i20, -29) — both slow, both punishable. Everything else is mid or high. <strong>Default: stand block.</strong> When he enters IAI at disadvantage (f4,2 = -12, uf1,1 = -9, IAI.1,1 cancel = -9) his i13 IAI.1 loses to your jab — take your turn. When he enters at advantage (fffF+2 = +5, PRF.2,2 = +5 on hit) respect the mid, look to duck IAI.1+2 on read, and remember IAI.1 whiffs to his left (your SWL).</div>
+
+<h3>PRF — Perfumer</h3>
+<div class="callout">Entered with f+3, or off 1,1,2 / 2,1 / b1 / db1,1 / uf1,1 / ub2 / ws1+2 / FC.1+2 with F. <strong>He cannot block in PRF.</strong> The stance is a punch parry only (frames 5~10, +15~+20 for him on a successful parry). He can cancel to crouch with df (blocks 2F faster) or go to IAI with 3+4 (10F intangible).</div>
+
+<div class="entry">
+  <script>document.write(icons('PRF.2'))</script>
+  <span class="frame-data">Mid | i12~13 | -8 | His fastest mid from stance</span>
+</div>
+<div class="note">Extensions: ,2 (mid, -4 into IAI) | ,2,1 (HIGH ender, -1 — duck) | ,2,1+2 (mid, -13)</div>
+<div class="entry">
+  <script>document.write(icons('PRF.b2'))</script>
+  <span class="frame-data">HIGH | i10 | -6 | Recoverable damage only, can't KO</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('PRF.1'))</script>
+  <span class="frame-data">LOW | i19~20 | -12 | Unparryable | His only low from PRF</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('PRF.3'))</script>
+  <span class="frame-data">Mid knee | i15~17 | -8 | Heat Engager | Jumps frames 11~23 — crushes lows</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('PRF.4'))</script>
+  <span class="frame-data">HIGH | i18~19 | -2 | Homing | Same as b4 — duck it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('PRF.1+2'))</script>
+  <span class="frame-data">Mid | i25~27 | +6 | Can go ~IAI on hit or block with D</span>
+</div>
+
+<div class="callout"><strong>How to deal with it:</strong> He can't block, and the parry only catches <em>punches</em>. So when he transitions to PRF at disadvantage (b1~F = -5, 2,1~F = -4, db1,1~F = -5, 1,1,2~F = -8, ws1+2~F = -8, uf1,1~F = -10) hit him with a <strong>kick, knee, or elbow</strong> — anything that isn't a punch is free. Don't jab into PRF; that's exactly what the parry wants. If you'd rather not guess, a fast mid kick also beats PRF.1 (his only low) and PRF.b2 (his only high) cleanly.</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | LOW, Mid | i20 | -14 | 8 chip on block</span>
+</div>
+<div class="note">Heat Smash is a LOW — block it low, then it's -14 standing. Punish with i14 or faster. Attack-throw on 1st hit if it connects (39 dmg)</div>
+
+<h3>Heat Engagers — how he gets in</h3>
+<div class="entry">
+  <script>document.write(icons('f4','1'))</script>
+  <span class="frame-data">Mid, HIGH | -4 | Duck the ,1 to deny the engage</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">Mid | i24~25 | +3 | 9 chip | Slow — step or interrupt</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2'))</script>
+  <span class="frame-data">Mid | i18 | ±0 | 6 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('IAI.d1'))</script>
+  <span class="frame-data">Mid | i18 | ±0 | 7 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('PRF.3'))</script>
+  <span class="frame-data">Mid knee | i15~17 | -8 | Low-crushes</span>
+</div>
+
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('H.db1+2'))</script>
+  <span class="frame-data">Monsieur Samurai | Mid | i28~29 | +6 | ~IAI | 9 chip | Burns 270F of Heat</span>
+</div>
+<div class="note">Slow and plus — this is the move he uses to force IAI on you during Heat. Step or interrupt the i28 startup</div>
+<div class="entry">
+  <script>document.write(icons('H.u1+2'))</script>
+  <span class="frame-data">Excalibur | Mid | i31~32 | -4 | Teleport overhead | 15 chip | Burns 450F of Heat</span>
+</div>
+<div class="note">Same teleport as u1+2 but safe (-4 instead of -20c) — lows and throws still catch him on the way down</div>
+<div class="entry">
+  <script>document.write(icons('H.IAI.d2'))</script>
+  <span class="frame-data">Longinus | Mid ×3, SM ×2 | i23~24 | +5 | Projectile | ~IAI | 10 chip | Burns 210F of Heat</span>
+</div>
+<div class="note">Plus-on-block projectile that keeps him in IAI — he's +5 in stance afterwards, respect IAI.1</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">All i12~14. Generic throws are homing.</div>
+
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | FDFT</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Side switch, FDFT</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">LEFT</span>
+  <span class="frame-data">Left throw | 40 | Break 1</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">RIGHT</span>
+  <span class="frame-data">Right throw | 40 | Break 2</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">BACK</span>
+  <span class="frame-data">Back throw | 50 | Unbreakable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">Romancing Chaser | 40 | Break 1+2 | Floor Break | FUFA</span>
+</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">HIGH power crush | i19~20 | -9 | pc7~18</span>
+</div>
+<div class="note">It's a high — duck it, don't armor through it</div>
+<div class="entry">
+  <script>document.write(icons('IAI.3'))</script>
+  <span class="frame-data">Mid power crush | i17 | -13 | pc8~16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with his missing health</span>
+</div>
+<div class="note">Block it and launch. Freezes the timer on activation</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+
+<div class="entry">
+  <script>document.write(icons('f4','1'))</script>
+  <span class="frame-data">(MID, HIGH) — Victor loses either way</span>
+</div>
+<div class="note">Block alone: jab punish the -10 | Duck the ,1: punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('df3','4','2'))</script>
+  <span class="frame-data">All Mid/Special Mid, -9 oB throughout — no punish on block, respect it</span>
+</div>
+<div class="note">13-frame gap between 4 and 2 (wiki: interrupt with i12 from 2nd block):</div>
+<div class="note" style="padding-left:36px;">i10-11 (1,2 or 2,3) — beats clean, low risk</div>
+<div class="note" style="padding-left:36px;">i12 (b1,2 or d1+2) — beats clean, moderate (-14) to high (-15+) risk</div>
+<div class="note" style="padding-left:36px;">i13 (f2) — trades</div>
+
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">(HIGH) | -14 oB — punishable standing if thrown naked</span>
+</div>
+<div class="note">If Victor goes for ws3,2: the ,2 is a Special Mid projectile — not a clean duck and launch opportunity</div>
+<div class="note" style="padding-left:36px;">i10 interrupt beats the ,2 cleanly — safer answer than going for a launch</div>
+<div class="note" style="padding-left:36px;">Going for a launch is risky — the ,2 may still catch you during the attempt</div>
+
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">Mid | i18~20 | -16 | Tornado | Jab evasion frames 6~17</span>
+</div>
+<div class="note">His main CH launcher from range — it evades jabs during startup, so don't try to jab-check the approach. Block it and launch (-16)</div>
+
+<div class="entry">
+  <script>document.write(icons('fff2'))</script>
+  <span class="frame-data">Mid | i18~19 | +2 | Can go ~IAI (+5) | 6 chip</span>
+</div>
+<div class="note">The safe running mid — plus on block, plus more if he goes to IAI. This is how he starts the IAI mixup from range. See Stance Counterplay for what comes next</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data verified against <a href="https://wavu.wiki/t/Victor_movelist">Wavu Wiki — Victor movelist</a> and <a href="https://wavu.wiki/t/Victor_counterplay">Wavu Wiki — Victor counterplay</a>, cross-checked against <a href="https://tekkendocs.com/t8/victor">TekkenDocs — Victor</a>.<br>
+  <strong>Movement section:</strong> the SSR default is from the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie). The homing list is wiki-sourced. Every per-move SSR / SSL / SWR / SWL row is <strong>lab-tested and not wiki-verified</strong> — Wavu's Left/Right Tracking columns are blank across Victor's entire movelist, and neither source carries a "whiffs vs step" note on him.<br>
+  Heat-time restore notes on IAI.3 and IAI.d1+2 are from the in-game movelist.<br>
+  Re-verified against Wavu on 3 October 2026 — the movelist is unchanged since its 17 September 2026 edit, and every hit level here matches it (Wavu's capital M means a mid that hits grounded opponents, not a special mid; this doc's only special mids — df+3,4,2, ws3,2 and the IAI.d+2 projectiles — are lowercase sm or SM on Wavu).<br>
+  Further reading: Spag's Anti-Victor Tutorial · Joey Fury's Block and Punish Guide: Anti-Victor (both linked from the Wavu counterplay page).
+</div>
+
+
+</body></html>

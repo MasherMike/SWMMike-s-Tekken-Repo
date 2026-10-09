@@ -1,0 +1,1043 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Bob | SW Right</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .tier { margin-bottom: 0.5rem; }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .entry:hover { background: var(--bg3); }
+
+  .move-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .frame-data {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    padding-left: 20px;
+    margin-bottom: 3px;
+  }
+
+  .callout {
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg2);
+    border-left: 2px solid var(--accent);
+    padding: 6px 10px;
+    margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .callout-key {
+    border-left-color: var(--green);
+  }
+
+  .sub-entry {
+    padding-left: 20px;
+    margin-bottom: 2px;
+  }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0.75rem 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sep {
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid var(--green);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
+
+  .stance {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin-right: 2px;
+  }
+
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg3);
+    color: var(--text-muted);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  .side-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .step-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0.5rem 0 1rem;
+  }
+  .step-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td {
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--bg3);
+    vertical-align: top;
+  }
+  .step-table td.mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+
+<h1>Anti-Bob &nbsp;|&nbsp; SW Right</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Bob on P1 side — inputs face right</span>
+</div>
+
+<!-- ARROW & BUTTON HELPERS via inline SVG functions in JS -->
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Bob on P1 side — inputs face right'
+      : 'Bob on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function sep() { return '<span class="sep"></span>'; }
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));  // handles H.BAL.4, R.df1+2, FC.db1+2
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  // crouch dash / wavedash motion: f,n,d,df
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+
+<div class="callout callout-key">
+  <strong>Default: sidestep / sidewalk RIGHT (SSR / SWR).</strong> Wavu documents whiff-vs-step behavior on 11 of Bob's strings. Five of them whiff to your right, three to your left, and four whiff to either side. Stepping right beats strictly more of his committal enders, including two of his most common block-pressure strings (<span class="mono">db4,4</span> and <span class="mono">b4,3</span>).
+  <br><br>
+  <strong>The cost of that default:</strong> his <span class="mono">uf1</span> is specifically noted as having good <em>right</em> sidestep tracking, so a Bob who knows the matchup checks your SWR with it. It's only i16 / -9 and leads to <span class="mono">uf1,2</span>, so the punishment for getting caught is small — but it's the read he has.
+</div>
+
+<table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">2,1,4</td><td class="swr">SSR / SWR</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">df4,4</td><td class="swr">SSR</td><td>from 1st block (inconsistent)</td></tr>
+    <tr><td class="mono">b4,3</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">db4,4</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">f3,4</td><td class="swr">SSR</td><td>from 1st <em>hit</em></td></tr>
+    <tr><td class="mono">d2,1,2,2</td><td class="swl">SSL / SWL</td><td>from 3rd block</td></tr>
+    <tr><td class="mono">ws2,1</td><td class="swl">SSL / SWL</td><td>from 1st block</td></tr>
+    <tr><td class="mono">uf1,2,H.2</td><td class="swl">SSL / SWL</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">4,4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">3+4,4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">f3,4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">d2,3</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">uf1</td><td class="tracks">Tracks your SSR</td><td>—</td></tr>
+    <tr><td class="mono">f,F+3</td><td class="tracks">Tracks your SSL</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('f4'))</script>
+  <span class="frame-data">High | i16~17 | -6 | Homing | Shifts to a 14 dmg throw on CH from the front</span>
+</div>
+<div class="note">Duck it instead of stepping — and note the CH throw, so don't press into it either</div>
+<div class="entry">
+  <script>document.write(icons('ff4'))</script>
+  <span class="frame-data">Mid | i22~23 | -9 | Homing | Low crush 14~26</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">High | i17~18 | -8 to -7 | Homing | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.2'))</script>
+  <span class="frame-data">Mid | i23~24 | -8 | Homing | Strong Aerial Tailspin | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('cd1+2'))</script>
+  <span class="frame-data">i15 | -10 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('4','3','4'))</script>
+  <span class="frame-data">i28~33 | -10 | High, High, Mid | Spike | Low crush 18~35</span>
+</div>
+<div class="note">First two hits are high — ducking the string beats it outright, see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('df1','2'))</script>
+  <span class="frame-data">i19 | -10 | Mid, Mid | Elbow | Jails from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd3'))</script>
+  <span class="frame-data">i16~17 | -10 | Mid | Knee | Low crush 14~27</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2','1','4'))</script>
+  <span class="frame-data">i27~28 | -10 | High, Mid, Mid | Spike | Whiffs vs SSR/SWR from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i13~15 | -11 | Mid | Elbow</span>
+</div>
+<div class="note">Careful: ws1,2 is only -5 and ws1,3 is -13 — confirm he stopped at ws1 before committing</div>
+<div class="entry">
+  <script>document.write(icons('d2','1'))</script>
+  <span class="frame-data">i14~15 | -11 | Mid, Mid | Jails from 1st block</span>
+</div>
+<div class="note">Extensions get worse for him: d2,1,2 is -12 and d2,1,2,2 is -15 — but the 4th hit whiffs to your left</div>
+<div class="entry">
+  <script>document.write(icons('b4'))</script>
+  <span class="frame-data">i15 | -11 | Mid | Knee</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2','1'))</script>
+  <span class="frame-data">i30 | -11 | Mid, Mid | Interrupt with i5 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u1+2'))</script>
+  <span class="frame-data">i16~18 | -11 | Mid | Can transition to BAL with F (+0/+8)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub3+4','4'))</script>
+  <span class="frame-data">i29~31 | -11 | Mid ×3 | Interrupt with i6 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('bb1+4','2'))</script>
+  <span class="frame-data">i57~58 actual | -11 | Mid | Feint knuckle off the Grater Langouste charge</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','1','2'))</script>
+  <span class="frame-data">i19 | -12 | All High | Jails from 1st block</span>
+</div>
+<div class="note">Whole string is high — ducking is the stronger answer</div>
+<div class="entry">
+  <script>document.write(icons('d2','1','2'))</script>
+  <span class="frame-data">i22~24 | -12 | Mid ×3 | Interrupt with i3 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff4','4'))</script>
+  <span class="frame-data">i14~16 | -12 | Mid, Mid | Available on hit or block only</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3+4'))</script>
+  <span class="frame-data">i15~16, i5~7 | -12 | Mid, Mid | Slight jab evasion frames 6~9</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','H.1+2','1'))</script>
+  <span class="frame-data">i25~30 | -12 | High, Mid, Mid, Mid | Heat-only | Consumes 270F of Heat</span>
+</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('ws1','3'))</script>
+  <span class="frame-data">i25~26 | -13 | Mid, Mid | Hip | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('3','1','1'))</script>
+  <span class="frame-data">i19 | -13 | Mid, High, Mid | Cannot be interrupted | Delayable 9F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('3','3'))</script>
+  <span class="frame-data">i25~26 | -13 | Mid, Mid | Balcony Break | Interrupt with i6 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i19~20 | -13 | Mid | Spike | Can transition to BAL r23 with F (+1)</span>
+</div>
+<div class="note">If he goes to BAL instead of stopping, the punish window closes — see Stance Counterplay</div>
+<div class="entry">
+  <script>document.write(icons('d2','4'))</script>
+  <span class="frame-data">i17 | -13 | Mid, Mid | Balcony Break | Low crush 19~32 | Jails from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db1+2'))</script>
+  <span class="frame-data">i17~18 | -13 | Mid | Strong jab evasion frames 5~13</span>
+</div>
+<div class="note">Don't try to jab-check this one — it ducks under jabs. Block it and take the -13</div>
+<div class="entry">
+  <script>document.write(icons('b2','1'))</script>
+  <span class="frame-data">i23 | -13 | Mid, Mid | Can transition to BAL r27 with F on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b2','2','4'))</script>
+  <span class="frame-data">i22 | -13 | Mid, High, Mid | Interrupt with i2 from 2nd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3'))</script>
+  <span class="frame-data">i20 | -13 | Mid | Low crush 9~26</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ufn4'))</script>
+  <span class="frame-data">i23~25 | -13 | Mid | Delayed hopkick | Jump status 9~30</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df2','1','1+2'))</script>
+  <span class="frame-data">i26 | -13 | Mid ×3 | Polpo Swing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df4','4'))</script>
+  <span class="frame-data">i25~26 | -13 | High, Mid | Heat Engager | Whiffs vs SSR from 1st block</span>
+</div>
+<div class="note">First hit is high — ducking df4 denies the Heat engage entirely</div>
+<div class="entry">
+  <script>document.write(icons('df1','d1'))</script>
+  <span class="frame-data">i26~27 | -13c | Mid, Mid | Low crush 19~29 | Recovers FC</span>
+</div>
+<div class="note">-13c = you recover crouching, so this one takes a WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('ws2','2'))</script>
+  <span class="frame-data">i23 | -13c | Mid, Mid | WS launcher punish</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.3+4'))</script>
+  <span class="frame-data">i29~33 | -13c | Mid | Hip | Floor Break | WS launcher punish</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.df3+4'))</script>
+  <span class="frame-data">i21 | -13 | LOW | Heat-only | Consumes 300F of Heat | Goes to BAL on hit</span>
+</div>
+<div class="note">Blocked low, but only -13 — see Low Block Punishment</div>
+<div class="entry">
+  <script>document.write(icons('1','2','2'))</script>
+  <span class="frame-data">i20~21 | -14 | High, High, Mid | Heat Engager | Interrupt with i1 from 1st block</span>
+</div>
+<div class="note">Two highs into a mid — duck the opener and the Heat engage never happens</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">i16~17 | -14 | Mid | Power Crush (pc7~15) | Body slam | Balcony Break</span>
+</div>
+<div class="note">Mid power crush — can't duck it. 9 chip and only -9 if it absorbs a hit first</div>
+<div class="entry">
+  <script>document.write(icons('3+4','4'))</script>
+  <span class="frame-data">i28~29 | -14 | Mid ×3 | Low crush 9~30 | Whiffs vs SS/SW from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('3+4','4','2'))</script>
+  <span class="frame-data">i19~20 | -14 | Mid ×4 | Cannot be interrupted | 20F timestop on hit</span>
+</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('f2','3'))</script>
+  <span class="frame-data">i14~15 | -15 | High, Mid | Balcony Break | Jails from 1st block with 6F delay</span>
+</div>
+<div class="note">f2 alone is only -7 — the ,3 is what you're punishing. Delayable 5F, so confirm it came out</div>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">i17~18 | -15 | Mid | CH +27a</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2','1+2'))</script>
+  <span class="frame-data">i18~19 | -15 | Mid, Mid | Balcony Break | Delayable up to 16F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2','1','2','2'))</script>
+  <span class="frame-data">i29 | -15 | Mid ×4 | Balcony Break | Whiffs vs SSL/SWL from 3rd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4','3','4'))</script>
+  <span class="frame-data">i25~26 | -15 | Low, High, Mid | Balcony Break | Cannot be interrupted</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub1'))</script>
+  <span class="frame-data">i26 | -15 | Mid | Backswing blow | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2','1','2'))</script>
+  <span class="frame-data">i12 | -16 | Mid, Mid, High | Balcony Break | 20F timestop on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1+2','2','1'))</script>
+  <span class="frame-data">i7~8 | -16 | High, High, Mid, High | Jails from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u1+2','1+2'))</script>
+  <span class="frame-data">i18~22 | -17 | Mid, Mid | Body slam | Interrupt with i7 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd4','1+2'))</script>
+  <span class="frame-data">i25 | -17 | LOW, Mid | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Mid | Rage Art | Power Crush (pc8~) | 55–82 dmg scaling with his missing health</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws2','1'))</script>
+  <span class="frame-data">i28~31 | -20 | Mid, Mid | Tornado | Whiffs vs SSL/SWL from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd2'))</script>
+  <span class="frame-data">i16~17 | -23 | Mid | Tornado | Parryable | Low crush 17~39</span>
+</div>
+<div class="note">His big crouch-dash launcher. Massively unsafe — this is your biggest reward in the matchup</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i16 | -12 | Low | -1c on crouching hit</span>
+</div>
+<div class="note">Extensions are safer for him: d4,3 is -7 and d4,3,4 is -15 — punish the naked d4, or block the whole string and launch the ender</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i20 | -12 | Low | +14g on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i24~25 | -12 | Low | High crush 6~38</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db4','4'))</script>
+  <span class="frame-data">i25~27 | -12 | Low, Mid | Spike | Whiffs vs SSR/SWR from 1st block</span>
+</div>
+<div class="note">Steps right beat the mid follow-up outright — this is the single most common reason SWR is the default</div>
+<div class="entry">
+  <script>document.write(icons('db4','4','3','3'))</script>
+  <span class="frame-data">i35~38 | -12 | Low, Mid, High, Mid | Interrupt with i10 from 3rd block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df4'))</script>
+  <span class="frame-data">i19 | -12 | Low | High crush 1~26 | CH +29d</span>
+</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('H.df3+4'))</script>
+  <span class="frame-data">i21 | -13 | Low | Heat-only | CH +75a | Goes to BAL on hit</span>
+</div>
+<div class="note">His Heat low. Blocking it costs him 300F of Heat time for nothing — but on counter hit it launches for huge damage, so block, don't press</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('hFC.4'))</script>
+  <span class="frame-data">i12 | -15 | Low | High crush 1~</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('hFC.3'))</script>
+  <span class="frame-data">i16 | -16 | Low | High crush 1~</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i19~20 | -18 | Low | High crush 6~56 | -7 on hit</span>
+</div>
+<div class="note">Follow-up d3,4 is a high and only -8 — if you're eating the string, duck the ,4 instead</div>
+<div class="entry">
+  <script>document.write(icons('BAL.4'))</script>
+  <span class="frame-data">i23~26 | -24 | Low | High crush 1~55 | Side switch on CH</span>
+</div>
+<div class="note">His only low out of BAL, and it's enormously unsafe — this is why you stand-block the stance</div>
+<div class="entry">
+  <script>document.write(icons('uf3+4'))</script>
+  <span class="frame-data">i21, i10 | -25 first hit, -15 full | Low, High | Low crush 24~30</span>
+</div>
+<div class="note">Careful — uf3+4,4 (adding the second high) is only -4. Confirm he stopped before launching</div>
+<div class="entry">
+  <script>document.write(icons('cd4'))</script>
+  <span class="frame-data">i18~19 | -28 | Low | Stagger low</span>
+</div>
+<div class="note">Unless he adds 1+2, which takes it to -17 — still launch-punishable either way</div>
+<div class="entry">
+  <script>document.write(icons('db3+4','4'))</script>
+  <span class="frame-data">i19, i9 | -28 | Low, Low | Spike | -9c if only the 2nd hit connects</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db3+4'))</script>
+  <span class="frame-data">i19 | -31 | Low | Stagger low</span>
+</div>
+<div class="note">The worst low in his kit on block. If you see the stagger animation and he stopped, take everything you have</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+
+<div class="entry">
+  <script>document.write(icons('3','1'))</script>
+  <span class="frame-data">(MID, HIGH) | 3 is -6 oB | Full string -3 oB, cannot be interrupted</span>
+</div>
+<div class="note">Duck the ,1 — but note 3,1,1 continues into a mid, so this is a read, not a reaction | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">(MID, HIGH) | 3 is -6 oB | Full string +1 oB | Instant Tornado on CH</span>
+</div>
+<div class="note">This is the one that hurts if you press — +1 on block and a CH tornado. Ducking the ,2 is the clean answer | Delayable 9F, interrupt with i3 from 1st block | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b2','2'))</script>
+  <span class="frame-data">(MID, HIGH) | b2 is -5 oB | Full string -3 oB | Cannot be interrupted</span>
+</div>
+<div class="note">Duck the ,2 | Delayable 3F | Extensions b2,2,4 (-13) and b2,2,4,4 (-7) continue if you block instead | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b4','4'))</script>
+  <span class="frame-data">(MID, HIGH) | b4 is -11 oB — punishable alone | Full string -3 oB</span>
+</div>
+<div class="note">Duck the ,4 | Interrupt with i3 from 1st block | 4 chip damage on block | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('d3','4'))</script>
+  <span class="frame-data">(LOW, HIGH) | d3 is -18 oB — heavily punishable alone | Full string -8 oB</span>
+</div>
+<div class="note">If you block the low you should be launching; if you get hit by it, duck the ,4 | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('d4','3'))</script>
+  <span class="frame-data">(LOW, HIGH) | d4 is -12 oB | Full string -7 oB</span>
+</div>
+<div class="note">Duck the ,3 | Interrupt with i3 from 1st block | Careful: d4,3,4 adds a mid ender at -15 | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('db4','4','3'))</script>
+  <span class="frame-data">(LOW, MID, HIGH) | -9 oB | Wavu marks the ender explicitly Duckable | Jails from 2nd block</span>
+</div>
+<div class="note">The ,3 jails from the 2nd block, so you can't duck it on reaction — duck it on the read that he's going for the full string | Continues to db4,4,3,3 (-12) if you don't | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('uf3+4','4'))</script>
+  <span class="frame-data">(LOW, HIGH, HIGH) | -4 oB | Wavu marks it Duckable | Balcony Break</span>
+</div>
+<div class="note">Safe if it completes, so ducking is the only real answer | Jails attack inputs from 2nd block | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('u1+2','4'))</script>
+  <span class="frame-data">(MID, HIGH) | u1+2 is -11 oB — punishable alone | Full string -8 oB</span>
+</div>
+<div class="note">Duck the ,4 | Interrupt with i7 from 1st block | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b1+2','1','2'))</script>
+  <span class="frame-data">(MID, MID, HIGH) | -16 oB if it completes | 20F timestop on hit</span>
+</div>
+<div class="note">You can duck the ender, but blocking it is already a launch — take the simpler option unless you want the extra damage | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('BAL.1','2'))</script>
+  <span class="frame-data">(MID, HIGH) | BAL.1 is -5 oB | Full string +1 oB | Heat Engager | Balcony Break</span>
+</div>
+<div class="note">Plus on block if it completes, and it engages Heat — ducking the ,2 is the answer to BAL pressure | Delayable 8F, cannot be interrupted | Punish with character's FC or WS launcher</div>
+
+<h3>Full-high strings — duck the opener</h3>
+
+<div class="entry">
+  <script>document.write(icons('1','1','2'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | -12 oB | Jails from 1st block</span>
+</div>
+<div class="note">Entire string is high. Jailing means you duck it on the read at the start, not mid-string</div>
+
+<div class="entry">
+  <script>document.write(icons('4','3'))</script>
+  <span class="frame-data">(HIGH, HIGH) | 4 is -9 oB | -9 oB full | 4,3,4 adds a Mid at -10</span>
+</div>
+<div class="note">Both hits high — a read on the naked 4 beats the whole branch</div>
+
+<div class="entry">
+  <script>document.write(icons('4','4'))</script>
+  <span class="frame-data">(HIGH, MID) | +2c oB | Whiffs vs SS/SW from 1st block</span>
+</div>
+<div class="note">Plus on block, so don't block-and-press — duck the 4, or step it, since the ,4 whiffs to either side</div>
+
+<div class="entry">
+  <script>document.write(icons('d1+2','2'))</script>
+  <span class="frame-data">(HIGH, HIGH, MID) | -8 oB | Jails from 1st block</span>
+</div>
+<div class="note">Opener is a fast double high (i14, i11) | Full extension d1+2,2,1 is -16 — blocking it out is also fine</div>
+
+<h3>Naked highs — duck on read</h3>
+
+<div class="entry">
+  <script>document.write(icons('f4'))</script>
+  <span class="frame-data">i16~17 | -6 | Homing | Shifts to a 14 dmg throw on CH from the front</span>
+</div>
+<div class="note">Homing, so stepping does nothing — ducking is the answer. And don't press into it or you eat the CH throw</div>
+
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i17~18 | -8 to -7 | Homing | Balcony Break</span>
+</div>
+<div class="note">ws3,3+4 extends into a Mid at -4c, so ducking the naked ws3 is a read</div>
+
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">i18~19 | -6 | +32a on hit | Can transition to CD with DF (+2)</span>
+</div>
+<div class="note">Tracks your SSL specifically, so don't try to step left out of it — duck instead | Big reward for him on hit, so this one is worth the read</div>
+
+<div class="entry">
+  <script>document.write(icons('cd1'))</script>
+  <span class="frame-data">i13~14 | -4 | Instant Tornado on hit | Balcony Break</span>
+</div>
+<div class="note">A high launcher off crouch dash — huge payoff for him, nearly safe on block. Ducking it is the only way to make him pay</div>
+
+<div class="entry">
+  <script>document.write(icons('bb2+3'))</script>
+  <span class="frame-data">i48~50 | Unblockable-class charge high | +13d on hit</span>
+</div>
+<div class="note">48+ frames of startup — you have time to duck, step, or just hit him out of it</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+
+<h3>BAL — Balance (Spinner Ball)</h3>
+<div class="callout">
+  Entered with <span class="mono">f+3+4</span> (high crush frames 8~48), or with F off <span class="mono">1+2</span> (+1), <span class="mono">df4,3</span> (+12g/+0), <span class="mono">b2,1</span> (+12g on hit), <span class="mono">b4,3</span> (-1/+25a), <span class="mono">u+3</span> (+7/+12g/+16c) and <span class="mono">u+1+2</span> (+0/+8). <strong>He cannot block in BAL.</strong> With no input the stance drops to full crouch.
+</div>
+
+<div class="entry">
+  <script>document.write(icons('BAL.1'))</script>
+  <span class="frame-data">Mid | i15~17 | -5 | His fastest option from stance</span>
+</div>
+<div class="note">Extensions: ,2 (HIGH, +1 oB, Heat Engager — duck it) | H.BAL.1,4 (Heat-only, +4, attack throw on front hit)</div>
+<div class="entry">
+  <script>document.write(icons('BAL.2'))</script>
+  <span class="frame-data">Mid | i23~24 | -8 | Homing | Strong Aerial Tailspin | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.3'))</script>
+  <span class="frame-data">Mid | i24~25 | +4 | Instant Tornado on CH | Low crush 21~25</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.4'))</script>
+  <span class="frame-data">LOW | i23~26 | -24 | High crush 1~55 | Side switch on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.3+4'))</script>
+  <span class="frame-data">Mid | i29~33 | -13c | Hip | Floor Break | WS launcher punish</span>
+</div>
+
+<div class="callout callout-key">
+  <strong>How to deal with it:</strong> He has exactly one low from BAL — <span class="mono">BAL.4</span>, at i23 and <strong>-24 on block</strong>. Everything else is mid or high, and the fastest is i15. So <strong>stand block is the default and it is barely a decision</strong>: the low is slow enough to react to and the punishment for blocking it is a full launch.
+  <br><br>
+  The one thing to respect is that he <strong>can't block in the stance</strong>. When he enters BAL at disadvantage or neutral — off <span class="mono">1+2</span> (+1), <span class="mono">u+1+2</span> (+0), <span class="mono">b4,3</span> (-1) — your i10 jab beats his i15 <span class="mono">BAL.1</span> outright. Take your turn instead of waiting. When he enters at real advantage (<span class="mono">u+3</span> at +7, <span class="mono">df4,3</span> at +12g) block the mid and duck <span class="mono">BAL.1,2</span> on the read.
+</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | Mid, Throw | i16~17, i29 | +6 oB | t86 r39</span>
+</div>
+<div class="note">His Heat Smash is a MID and plus on block — you do not get a punish. Block it and reset to neutral rather than pressing</div>
+
+<h3>Heat Engagers — how he gets in</h3>
+<div class="entry">
+  <script>document.write(icons('1','2','2'))</script>
+  <span class="frame-data">High, High, Mid | -14 | Duck the opener to deny the engage</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df4','4'))</script>
+  <span class="frame-data">High, Mid | -13 | Duck df4 to deny it | Whiffs vs SSR from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','2'))</script>
+  <span class="frame-data">Mid, High | i13~15 | -5 | Balcony Break | Duck the ,2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">Mid | i14 | -8 | Heat Dash +5, +36a | Balcony Break</span>
+</div>
+<div class="note">The only engager here you can't duck or step out of — it's a clean mid at i14. Block it and accept the Heat</div>
+<div class="entry">
+  <script>document.write(icons('BAL.1','2'))</script>
+  <span class="frame-data">Mid, High | +1 | Duck the ,2</span>
+</div>
+
+<div class="callout">Four of his five Heat Engagers end in or start with a high. Ducking is the throughline of this matchup — it denies Heat, not just damage.</div>
+
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('H.df3+4'))</script>
+  <span class="frame-data">Breaking Villain | LOW | i21 | -13 | CH +75a | ~BAL on hit | Costs 300F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1','2','H.2'))</script>
+  <span class="frame-data">Verdict Pound | Mid ×3 | i31 | +5 | Whiffs vs SSL/SWL from 2nd block | Costs 300F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','H.1+2','1'))</script>
+  <span class="frame-data">Federal Whopper | High, Mid, Mid, Mid | i25~30 | -12 | Costs 270F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAL.1','H.4'))</script>
+  <span class="frame-data">Lyonnaise Lockdown | Mid ×3, Throw | +4 | Attack throw on front hit | Costs 240F of Heat</span>
+</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">Generic throws are i12~14 and homing.</div>
+
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Homing | FDFT</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Floor Break | Side swap | FDFT</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">LEFT</span>
+  <span class="frame-data">Left throw | 40 (45 at wall) | Break 1</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">RIGHT</span>
+  <span class="frame-data">Right throw | 40 | Break 1 | Opponent recovers FUFT</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">BACK</span>
+  <span class="frame-data">Back throw | 50 (60 at wall) | Unbreakable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">40 (45 at wall) | i12 | Break 1+2 | Side swap on break | FDFA</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.db1+2'))</script>
+  <span class="frame-data">35 | i12, i30 | Break 1+2 | Crouch throw</span>
+</div>
+<div class="note">Extended version FC.db1+2:3 does 45 with a Balcony Break — same 1+2 break</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">MID power crush | i16~17 | -14 | pc7~15 | Balcony Break</span>
+</div>
+<div class="note">Unlike a lot of the cast, Bob's power crush is a mid — you can't duck it. Block it and take the -14. It only becomes -9 if it actually absorbs a hit</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with his missing health</span>
+</div>
+<div class="note">Block it and launch</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+
+<div class="entry">
+  <script>document.write(icons('cd2'))</script>
+  <span class="frame-data">Mid | i16~17 | -23 | Tornado | Parryable | Low crush 17~39</span>
+</div>
+<div class="note">The crouch-dash launcher, and the single biggest mistake he can make. It's also parryable, which most of his kit isn't</div>
+
+<div class="entry">
+  <script>document.write(icons('cd1'))</script>
+  <span class="frame-data">HIGH | i13~14 | -4 | Instant Tornado on hit | Balcony Break</span>
+</div>
+<div class="note">The other half of the crouch dash mixup — near-safe, huge on hit, but high. Between cd1 (high, safe) and cd4 (low, -28) and cd2 (mid, -23), <strong>ducking is the correct guess against a crouch dash</strong>: it beats cd1 outright and the lows are so unsafe he can't afford them</div>
+
+<div class="entry">
+  <script>document.write(icons('db1+2'))</script>
+  <span class="frame-data">Mid | i17~18 | -13 | Strong jab evasion frames 5~13 | +33a on hit</span>
+</div>
+<div class="note">Evades jabs, so don't jab-check his pressure — this is what punishes that habit. A mid or a low beats it instead</div>
+
+<div class="entry">
+  <script>document.write(icons('df2'))</script>
+  <span class="frame-data">Mid | i15~16 | -8 | CH +33a | Slight jab evasion frames 8~10</span>
+</div>
+<div class="note">Same idea as db1+2 at a faster speed — his answer to mashed jabs</div>
+
+<div class="entry">
+  <script>document.write(icons('d2','3'))</script>
+  <span class="frame-data">Mid, Mid | i41 on the ender | -2 | Crumple stun on CH | +67a on CH</span>
+</div>
+<div class="note">Huge 21-frame gap after the first hit — interrupt with i21 or faster from block, i10 from hit | Also whiffs to either side, so stepping works | Don't let this land as a counter hit</div>
+
+<div class="entry">
+  <script>document.write(icons('f3','4'))</script>
+  <span class="frame-data">Mid, Mid | +3 oB on the full string | CH +55cs</span>
+</div>
+<div class="note">Plus on block if it completes, but there's an 11-frame gap: interrupt with i11 from 1st block, i5 from 1st hit | Whiffs vs SS/SW from 1st block, and vs SSR from 1st hit</div>
+
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i20~24 | +6 | 9 chip on block | Balcony Break | Low crush 3~25</span>
+</div>
+<div class="note">His running mid — plus 6 and chips. Nothing to do but block it; don't try to low-crush-check a running Bob</div>
+
+<div class="entry">
+  <script>document.write(icons('fff3+4'))</script>
+  <span class="frame-data">Mid | i26~33 | +0 | 5 chip on block | Forces tech back roll on hit</span>
+</div>
+
+<div class="entry">
+  <script>document.write(icons('bb1+4'))</script>
+  <span class="frame-data">Grater Langouste | Unblockable-class | i72~74 | 60 dmg | Cancels to FC at frame 42</span>
+</div>
+<div class="note">72 frames. Step it, duck it, or launch him out of it | He can cancel at 42 into the feint (bb1+4,2, i57~58, -11), so a badly-timed whiff punish attempt gets caught</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data cross-verified against <a href="https://wavu.wiki/t/Bob_movelist">Wavu Wiki — Bob movelist</a>, <a href="https://wavu.wiki/t/Bob_counterplay">Wavu Wiki — Bob counterplay</a>, and <a href="https://tekkendocs.com/t8/bob">TekkenDocs — Bob</a>.
+  Where the two sources differed on a note, Wavu's wording was kept.<br>
+  <strong>Movement section:</strong> every SSL / SSR / SWL / SWR entry is taken directly from the per-move "Whiffs vs …" and "Has good … sidestep tracking" notes in the Wavu and TekkenDocs frame data — all of it sourced, none of it lab-derived. The <em>SW Right</em> recommendation is the tally of those notes (5 moves whiff right, 3 whiff left, 4 whiff either way), weighted toward the moves he actually throws. Worth cross-checking against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which gives a whole-character default per matchup. Checked 3 October 2026: Bob doesn't appear on the chart, so there's no Tier 2 read to compare against.<br>
+  No lab-tested tracking data has been added to this document.<br>
+  <strong>Corrected 3 October 2026:</strong> earlier versions labelled several of Bob's moves "Special Mid" (b+3, f+2,3, 3+4,4, f,n,d,df+2, BAL.3+4 and others). Wavu writes those as a capital <strong>M</strong>, which means a mid that also hits grounded opponents — not a special mid. They're ordinary mids: <strong>you cannot block them crouching</strong>. Bob has no special mids.
+</div>
+
+
+
+</body></html>

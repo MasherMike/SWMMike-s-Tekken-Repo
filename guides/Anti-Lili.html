@@ -1,0 +1,859 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Lili | SSR Default | Don't Step Backturn</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--accent); margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  h3 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin: 1rem 0 0.5rem;
+  }
+
+  .entry {
+    display: flex; align-items: center; gap: 10px; padding: 5px 8px;
+    border-radius: 4px; margin-bottom: 3px; flex-wrap: wrap;
+  }
+  .entry:hover { background: var(--bg3); }
+  .move-icons { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+  .frame-data { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-muted); flex: 1; min-width: 12rem; }
+  .note { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 20px; margin-bottom: 3px; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .callout {
+    font-size: 13px; color: var(--text); background: var(--bg2);
+    border-left: 2px solid var(--accent); padding: 6px 10px; margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-key { border-left-color: var(--green); }
+  .callout-warn { border-left-color: var(--yellow); }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+  .tier-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin: 0.75rem 0 0.25rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stance { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: white; margin-right: 2px; }
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; background: var(--bg3); color: var(--text-muted);
+    border: 0.5px solid var(--border); border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .side-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+
+  .table-wrap { overflow-x: auto; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  .step-table th {
+    text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td { padding: 4px 10px 4px 0; border-bottom: 0.5px solid var(--bg3); vertical-align: top; }
+  .step-table td.mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; white-space: nowrap; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    font-size: 11px; color: var(--text-muted); line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Lili &nbsp;|&nbsp; SSR Default &nbsp;|&nbsp; Don't Step Backturn</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Lili on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Lili on P1 side — inputs face right'
+      : 'Lili on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}" role="img" aria-label="${notations.join(', ')}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+<div class="callout callout-key"><strong>Default: Sidestep / sidewalk RIGHT (SSR / SWR) — and this one disagrees with the chart.</strong> The @Mezerdie sidestep chart calls <strong>SSL</strong> for Lili. Wavu's per-move data points the other way, six to nothing: six of her strings are documented whiffing to your <em>right</em>, and not one is documented whiffing specifically to your left. Seven more whiff to either side. Under this database's evidence rule, the per-move notes (Tier 1) outrank the chart (Tier 2), so this doc goes right. It's the only doc so far where the two sources directly contradict — <strong>worth a lab session to settle</strong>.<br><br><strong>Step a lot.</strong> Wavu's counterplay page opens with it: "without frequent sidestepping, fighting Lili can be an absolute pain," because so many of her moves are linear. The plan is to step until she reaches for her slower tracking options, then punish those.<br><br><strong>The hard exception: never step her backturn.</strong> Out of BT, both her mid (<span class="mono">BT.3</span>) and her fast low (<span class="mono">BT.d+2</span>) track <em>and</em> high-crush — Wavu: "avoid doing highs or stepping!" Backdash and crouch-block instead (see Stance Counterplay). And duck, don't step, <span class="mono">DEW.3+4</span>, which Wavu calls her best tracking move.</div>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">3,2,3</td><td class="swr">SSR / SWR</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">d+1,2,4</td><td class="swr">SSR</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">uf+4,3</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">f,F+3,3+4</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">BT.3,4</td><td class="swr">SSR / SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">f+3+4,3</td><td class="swr">SWR</td><td>from 1st block</td></tr>
+    <tr><td class="mono">1,2,4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">1,2,H.4</td><td class="both">Either side — right is more reliable</td><td>"SSL/SWL less consistent with big bodies"</td></tr>
+    <tr><td class="mono">uf+3+4,3</td><td class="both">Either side — left is more reliable</td><td>"SSR less consistent on 2nd active frame block"</td></tr>
+    <tr><td class="mono">df+3+4,3+4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">u+3,3</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">u+3,3,3+4</td><td class="both">Either side</td><td>from 2nd block</td></tr>
+    <tr><td class="mono">uf+3+4,3+4</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">BT.3 / BT.d+2</td><td class="tracks">Don't step — tracks and high-crushes</td><td>Wavu counterplay</td></tr>
+    <tr><td class="mono">DEW.3+4</td><td class="tracks">Tracks — duck it</td><td>"Lili's best tracking move"</td></tr>
+  </tbody>
+</table></div>
+<div class="note">Her own evasion, not yours: <span class="mono">uf+2</span> has a built-in sidestep to her left, and <span class="mono">d+3+4</span> / <span class="mono">uf+3+4,3+4</span> go under some highs and mids.</div>
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('3+4'))</script>
+  <span class="frame-data">High, High | i23~24 | -2 | Homing | Heat Engager | Black Swan | Jails</span>
+</div>
+<div class="note">Both hits high — duck it. Ducking also denies the Heat engage</div>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">Mid | i20~22 | -3 | Homing | Circle Knee | +34d on CH</span>
+</div>
+<div class="note">Can't duck a mid either — just block</div>
+<div class="entry">
+  <script>document.write(icons('u1+2'))</script>
+  <span class="frame-data">Mid | i18~19 (effective i28~29) | -9 | Homing | Lashing Iris</span>
+</div>
+<div class="note">The two-spin charge is +12g; the three-spin version is unblockable</div>
+<div class="entry">
+  <script>document.write(icons('DEW.2'))</script>
+  <span class="frame-data">Mid | i14 | -9 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.3'))</script>
+  <span class="frame-data">Mid | i14~15 | -10 | Homing | Crouches frames 4~37</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">Low | i30~31 | -24 | Homing | Edelweiss | Instant Tornado on hit</span>
+</div>
+<div class="note">Block low and launch</div>
+<div class="entry">
+  <script>document.write(icons('RAB.3'))</script>
+  <span class="frame-data">Low | i20~21 | -13 | Homing | Instant Tornado on CH</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+<div class="callout callout-warn">The SSR default is Tier 1 (Wavu's per-move whiff notes) and <strong>overrides</strong> the Tier 2 chart, which says SSL. Every row is quoted from Wavu; nothing is lab-derived.</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('BT.3'))</script>
+  <span class="frame-data">i14~15 | -10 | Mid | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">i20~21 | -10 | Mid | Built-in left sidestep</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2','2'))</script>
+  <span class="frame-data">i17~18 | -10 | Mid, High | Can go to RAB with b+3 (-7)</span>
+</div>
+<div class="note">The ,2 is high — see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('3'))</script>
+  <span class="frame-data">i15~16 | -11 | Mid | Goes to BT</span>
+</div>
+<div class="note">She recovers backturned — see Stance Counterplay before you press</div>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">i13 | -11 | High</span>
+</div>
+<div class="note">b+2,1 (High, Mid) is only -4 and cannot be interrupted</div>
+<div class="entry">
+  <script>document.write(icons('df2'))</script>
+  <span class="frame-data">i16~17 | -11 | Mid | Launches crouching opponents | Can go to BT with b</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i13~14 | -11 | Mid</span>
+</div>
+<div class="note">ws1,2 is only -3 — confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('b1','4'))</script>
+  <span class="frame-data">i25~26 | -11 | Mid, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DEW.3'))</script>
+  <span class="frame-data">i17~18 | -11 | Mid | Tornado | Platinum Grace</span>
+</div>
+<div class="note">Her oki tool — see General Counter Play</div>
+<div class="entry">
+  <script>document.write(icons('DEW.1+2'))</script>
+  <span class="frame-data">i16~17 | -11 | Mid | Power Crush (pc6~15) | Tornado</span>
+</div>
+<div class="note">Only -7 if it absorbed one of your hits</div>
+<div class="entry">
+  <script>document.write(icons('BT.1+2'))</script>
+  <span class="frame-data">i13~14 | -11c | Mid, Mid | Floor Break</span>
+</div>
+<div class="note">-11c — WS punish</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i12~13 | -12 | Mid | Broken Heart | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i23~24 | -12 | Mid | Dendrobium | Backswing blow</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b2','1','1+2'))</script>
+  <span class="frame-data">i23~24 | -12 | High, Mid, Mid</span>
+</div>
+<div class="note">Interrupt with i5 from 2nd block</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i16~18 | -12 | Mid | Can go to BT with B</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u3','3'))</script>
+  <span class="frame-data">i28 | -12 | Mid, Mid | Whiffs vs SS/SW from 1st block</span>
+</div>
+<div class="note">Interrupt with i22 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">i22 | -12 | Mid | Can go to DEW with F (-3)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.3','4'))</script>
+  <span class="frame-data">i30~33 | -12 | Mid, Mid | Whiffs vs SSR/SWR from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i25~29 | -12~-8 | Mid | Can go to BT with B</span>
+</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('3','1'))</script>
+  <span class="frame-data">i27~28 | -13 | Mid, Mid | Heat Engager | Forces tech roll</span>
+</div>
+<div class="note">Interrupt with i5 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">i16 | -13 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u4'))</script>
+  <span class="frame-data">i15~17 | -13 | Mid | Jumps frames 9~27</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1+2'))</script>
+  <span class="frame-data">i20~21 | -13 | Mid | Power Crush (pc7~19) | Barcarolle</span>
+</div>
+<div class="note">Only -9 if it absorbed one of your hits</div>
+<div class="entry">
+  <script>document.write(icons('DEW.2','1'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid, Mid | Heat Engager | Nocturne</span>
+</div>
+<div class="note">Interrupt with i3 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('BT.1','2'))</script>
+  <span class="frame-data">i24~26 | -13 | High, Mid | Tornado</span>
+</div>
+<div class="note">Wavu notes it's parryable by standard punch parries</div>
+<div class="entry">
+  <script>document.write(icons('BT.2'))</script>
+  <span class="frame-data">i14~16 | -13 | Mid | Power Crush (pc6~13)</span>
+</div>
+<div class="note">Her BT power crush — the reason a slow check into backturn loses</div>
+<div class="entry">
+  <script>document.write(icons('d2','2','4'))</script>
+  <span class="frame-data">i22 | -13 | Mid, High, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3'))</script>
+  <span class="frame-data">i15~17 | -13~-11 | Mid | Hopkick</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DEW.1','2'))</script>
+  <span class="frame-data">i23~24 | -14 | Mid, Mid | Rose Pique</span>
+</div>
+<div class="note">Can cancel to BT with B (-14)</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('1','1','3'))</script>
+  <span class="frame-data">i20~21 | -15 | High, High, Mid | Tricolore</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','3'))</script>
+  <span class="frame-data">i22~23 | -15 | High, Mid | Mars Sword</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u3'))</script>
+  <span class="frame-data">i22~23 | -16 | Mid | Can go to DEW with F (-13)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f3+4','3','4'))</script>
+  <span class="frame-data">i19~23 | -20 | Mid ×4</span>
+</div>
+<div class="note">Wavu: "huge pushback on block, difficult to punish" — the -20 is real but you may need a long-range launcher to reach</div>
+<div class="entry">
+  <script>document.write(icons('d3+4'))</script>
+  <span class="frame-data">i17~21 | -21 | Mid | Tornado | Matterhorn Ascension | Evasive frames 14~44</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3+4','3+4'))</script>
+  <span class="frame-data">i19~23 | -21 | Mid, Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i15~16 | -21 | Mid | Instant Tornado on hit</span>
+</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('d1'))</script>
+  <span class="frame-data">i18~19 | -11 | Low | Crouches frames 9~29</span>
+</div>
+<div class="note">If you blocked the d+1 and she still throws the ,2 it's <strong>-27</strong>. If the d+1 hit you, duck the ,2</div>
+<div class="entry">
+  <script>document.write(icons('BT.d4'))</script>
+  <span class="frame-data">i14 | -11 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i19~20 | -12 | Low | Thorn Whip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff4'))</script>
+  <span class="frame-data">i22~23 | -12 | Low | Floor Break | Can go to BT with B (-6)</span>
+</div>
+<div class="note">On hit with the BT entry she's +10 — the most advantageous way she gets into backturn</div>
+<div class="entry">
+  <script>document.write(icons('BT.d2'))</script>
+  <span class="frame-data">i16 | -12 | Low | Crouches from frame 4</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d1','2','4'))</script>
+  <span class="frame-data">i30~32 | -12 | Low, High, Mid | Whiffs vs SSR from 2nd block</span>
+</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('1','2','3'))</script>
+  <span class="frame-data">i26 | -13 | High, High, Low</span>
+</div>
+<div class="note">Also 2,3 (High, Low, -13)</div>
+<div class="entry">
+  <script>document.write(icons('df4','4'))</script>
+  <span class="frame-data">i20~21 | -13 | Mid, Low | Floor Break</span>
+</div>
+<div class="note">Can go to BT with B (-9)</div>
+<div class="entry">
+  <script>document.write(icons('RAB.3'))</script>
+  <span class="frame-data">i20~21 | -13 | Low | Homing | Instant Tornado on CH</span>
+</div>
+<div class="note">Block it, don't press into it</div>
+<div class="entry">
+  <script>document.write(icons('BT.d3','4'))</script>
+  <span class="frame-data">i22~24 | -13 | Low, Mid</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i12 | -15 | Low</span>
+</div>
+<div class="note">Also FC.4 (-15)</div>
+<div class="entry">
+  <script>document.write(icons('FC.3'))</script>
+  <span class="frame-data">i16 | -17 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.d3'))</script>
+  <span class="frame-data">i17~19 | -17 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db3+4'))</script>
+  <span class="frame-data">i24~25 | -18 | Low | Freesia Thrust | Recovers crouching</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df3'))</script>
+  <span class="frame-data">i19~28 | -18~-9 | Low | Horizon Slide</span>
+</div>
+<div class="note">Range-dependent — -18 point blank, only -9 at max range</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i30~31 | <strong>-24</strong> | Low | Homing | Edelweiss | Stagger on block</span>
+</div>
+<div class="note">Slow enough to react to. Block low and launch</div>
+<div class="entry">
+  <script>document.write(icons('BT.d3+4'))</script>
+  <span class="frame-data">i20~22 | <strong>-26</strong> | Low | Orchid Ring | Stagger on block</span>
+</div>
+<div class="note">Her long-range BT sweep — the one the fuzzy guard is built to catch (see Stance Counterplay)</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+<div class="entry">
+  <script>document.write(icons('d1','2'))</script>
+  <span class="frame-data">(LOW, HIGH) | -8 oB | Can go to BT with B</span>
+</div>
+<div class="note">Duck the ,2 — and if you blocked the d+1, it's -27 anyway | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('d2','2'))</script>
+  <span class="frame-data">(MID, HIGH) | -10 oB | Jails from 1st with 6F delay</span>
+</div>
+<div class="note">Duck the ,2. d+2,2,3 adds another high (-3); d+2,2,4 adds a mid (-13)</div>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">(MID, HIGH) | -5 oB | Can go to DEW with F</span>
+</div>
+<div class="note">Duck the ,2. 3,2,3 adds another high (-9~-6) that whiffs to your right</div>
+<div class="entry">
+  <script>document.write(icons('ws1','2'))</script>
+  <span class="frame-data">(MID, HIGH) | -3 oB | Can go to DEW with F</span>
+</div>
+<div class="note">Duck the ,2 | Interrupt with i4 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('uf3+4','3'))</script>
+  <span class="frame-data">(MID, HIGH) | -4 oB | Wall Crush</span>
+</div>
+<div class="note">Duck the ,3 | Interrupt with i8 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('DEW.3+4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | <strong>+6 oB</strong> | Jails | Cloisonne | Also qcf+3+4</span>
+</div>
+<div class="note">Wavu: "Lili's best tracking move." Duck and punish — <strong>wait for both hits</strong>. Off Dew Glide it's always interruptible on block | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('BT.1','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -1 oB | Heat Engager | Scorpio's Sting</span>
+</div>
+<div class="note">Both hits high — duck it and the Heat engage never happens</div>
+<h3>Full-high strings — duck the opener</h3>
+<div class="entry">
+  <script>document.write(icons('3+4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -2 oB | Homing | Heat Engager | Black Swan</span>
+</div>
+<div class="note">Homing, so you can't step it — duck it</div>
+<div class="entry">
+  <script>document.write(icons('fff1+2'))</script>
+  <span class="frame-data">(HIGH, HIGH) | <strong>+4 oB</strong> | Zephyranthes | 4 chip</span>
+</div>
+<div class="note">Her running high — duck on read</div>
+<div class="entry">
+  <script>document.write(icons('2','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -2~+2 oB | Delayable 10F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','1'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -6 oB | Goes to BT</span>
+</div>
+<div class="note">1,1,3 adds a mid (-15)</div>
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i19~22 | -9~-6 | +34d on hit | Crouches frames 6~18</span>
+</div>
+<div class="note">Twist of Fate — crouches under your highs, but is itself high</div>
+<div class="entry">
+  <script>document.write(icons('BT.1'))</script>
+  <span class="frame-data">i8 | -8 | Her fastest move anywhere</span>
+</div>
+<div class="note">Out of BT — i8, so it beats your jab</div>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">i12 | -4</span>
+</div>
+<div class="callout">All three of her power crushes are mids, so there's no high power crush to duck — see Power Crush &amp; Rage Art.</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+<h3>BT — Backturn (Mirror Image)</h3>
+<div class="callout">Entered raw with <span class="mono">b+3+4</span> (actionable after 16F), and off <span class="mono">1,1</span> (-6), <span class="mono">df+3+4</span> backflip (-4~+1), <span class="mono">3</span> (-11), <span class="mono">f+1+2</span> with B (-3), <span class="mono">b+2,1</span> with B (-4), <span class="mono">df+4,4</span> with B (-9), <span class="mono">uf+4</span> with B, and on hit off <span class="mono">d+1,2</span> and <span class="mono">f,F+4</span> (+10). <strong>Unlike the other stances in this database, BT has a lot of lows</strong> — that's what makes it a real mixup. <strong>Can she block in BT?</strong> Wavu doesn't say directly; its advice is to check her with a mid or low when she isn't plus.</div>
+<div class="entry">
+  <script>document.write(icons('BT.1'))</script>
+  <span class="frame-data">HIGH | i8 | -8 | Her fastest option</span>
+</div>
+<div class="note">BT.1,2 (High, Mid, -13) | BT.1,4 (High, High, -1, Heat Engager — duck)</div>
+<div class="entry">
+  <script>document.write(icons('BT.2'))</script>
+  <span class="frame-data">Mid | i14~16 | -13 | Power Crush (pc6~13)</span>
+</div>
+<div class="note">Beats a slow check</div>
+<div class="entry">
+  <script>document.write(icons('BT.3'))</script>
+  <span class="frame-data">Mid | i14~15 | -10 | Homing | Crouches frames 4~37</span>
+</div>
+<div class="note">Tracks and high-crushes — don't step, don't throw highs. BT.3,4 (-12) whiffs to your right</div>
+<div class="entry">
+  <script>document.write(icons('BT.4'))</script>
+  <span class="frame-data">Mid, Mid | i26~28 | -7 | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.3+4'))</script>
+  <span class="frame-data">Mid | i29~32 | +2~+5 | Jumps frames 5~31 | 9 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.d2'))</script>
+  <span class="frame-data">LOW | i16 | -12 | Crouches from frame 4</span>
+</div>
+<div class="note">Same timing as BT.3, also high-crushes, also can't be stepped</div>
+<div class="entry">
+  <script>document.write(icons('BT.d4'))</script>
+  <span class="frame-data">LOW | i14 | -11</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.d3'))</script>
+  <span class="frame-data">LOW | i17~19 | -17</span>
+</div>
+<div class="note">BT.d+3,4 (Low, Mid) is -13</div>
+<div class="entry">
+  <script>document.write(icons('BT.d3+4'))</script>
+  <span class="frame-data">LOW | i20~22 | -26 | Orchid Ring | Stagger on block | Long range</span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it — the fuzzy guard:</strong> Wavu's answer is to <strong>backdash, then crouch-block</strong>. Her two fast options, BT.3 and BT.d+2, are short-range, so the backdash makes them whiff. The move that catches backdashing is the slower, longer BT.d+3+4 sweep — so crouch-block in time for it. "At most ranges, backdashing into crouch guard will beat all backturn mix." If she isn't plus, Wavu says a ~i16 mid interrupts the 1,1 and backflip entries; after d+1,2 on hit, crouch jab beats both follow-ups. High-level Lilis also sit in BT to bait a press, since her crouching exit from BT slides her far enough back to make most moves whiff.</div>
+<h3>DEW — Dew Glide</h3>
+<div class="callout">Entered raw with <span class="mono">qcf</span> (moves available for 25 frames), and with F off <span class="mono">b+1</span> (-2), <span class="mono">3,2</span> (-2), <span class="mono">b+2,1</span> (-4), <span class="mono">ws1,2</span> (-1), <span class="mono">f,F+3</span> (-3), <span class="mono">u+3,3</span> (-3) and <span class="mono">u+3</span> (-13). Can cancel to Feisty Rabbit with b+3. <strong>Can she block?</strong> Not stated.</div>
+<div class="entry">
+  <script>document.write(icons('DEW.3+4'))</script>
+  <span class="frame-data">HIGH, HIGH | i12~14 | <strong>+6</strong> | Jails | Her fastest option here</span>
+</div>
+<div class="note">Her best tracking move — duck it, wait for both hits</div>
+<div class="entry">
+  <script>document.write(icons('DEW.2'))</script>
+  <span class="frame-data">Mid | i14 | -9 | Homing</span>
+</div>
+<div class="note">DEW.2,1 (-13, Heat Engager)</div>
+<div class="entry">
+  <script>document.write(icons('DEW.1'))</script>
+  <span class="frame-data">Mid | i15~16 | -9 | Elbow</span>
+</div>
+<div class="note">DEW.1,2 (-14) | DEW.1,4 (-9; in Heat DEW.1,H.4 is +5)</div>
+<div class="entry">
+  <script>document.write(icons('DEW.3'))</script>
+  <span class="frame-data">Mid | i17~18 | -11 | Tornado | Platinum Grace</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DEW.1+2'))</script>
+  <span class="frame-data">Mid | i16~17 | -11 | Power Crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df3'))</script>
+  <span class="frame-data">LOW | -18~-9 | Horizon Slide | Also DEW.df+3</span>
+</div>
+<div class="note">Her only low out of Dew Glide</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> stand block is the default — her only low is the range-dependent Horizon Slide. Her fastest move, DEW.3+4, is a high, so a duck covers it; every mid she has here is -9 or worse on block.</div>
+<h3>RAB — Feisty Rabbit</h3>
+<div class="callout">Entered with <span class="mono">b+3</span> (or b+4) — airborne frames 12~22, actionable after 20F, and the stance only lasts 40F. Also off <span class="mono">d+2,2</span> with b+3 (-7), Dew Glide, <span class="mono">DEW.3+4</span> (+0), <span class="mono">FC.df+4</span> (-15) and <span class="mono">BT.b+3</span>. <strong>Can she block?</strong> Not stated.</div>
+<div class="entry">
+  <script>document.write(icons('RAB.2'))</script>
+  <span class="frame-data">Mid | i20~21 | -9 | Heat Engager | Forces tech roll</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAB.3'))</script>
+  <span class="frame-data">LOW | i20~21 | -13 | Homing | Instant Tornado on CH</span>
+</div>
+<div class="note">Her only low here</div>
+<div class="entry">
+  <script>document.write(icons('RAB.4'))</script>
+  <span class="frame-data">Mid | i23~29 | -2~+4 | 9 chip | Rabbit Piercing Thorn</span>
+</div>
+<div class="note">+5 in Heat</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> everything out of Rabbit is i20 or slower. When she enters it at real disadvantage — d+2,2 at -7, Demilune at -15 — a jab or fast mid beats the whole stance. The entry jumps, so don't try to low-check the hop itself.</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | Mid ×3, Throw | i16~17 | <strong>+7 oB</strong> | 6 chip</span>
+</div>
+<div class="note">Not punishable. On block she can go straight into Dew Glide at +14g with F</div>
+<div class="entry">
+  <script>document.write(icons('H.BT.2+3'))</script>
+  <span class="frame-data">Heat Smash from BT | Low, Mid ×3 | i16 | -8 | Homing | Balcony Break</span>
+</div>
+<div class="note">Starts low — crouch-block it</div>
+<div class="callout callout-warn"><strong>What Heat changes:</strong> her Piercing Thorns go plus (+5) — <span class="mono">1,2,H.4</span>, <span class="mono">H.f,F+3+4</span>, <span class="mono">DEW.1,H.4</span>, <span class="mono">H.RAB.4</span> — and in Heat, Piercing Thorn gives a wall slump that forces you to crouch. Wavu: <strong>at the wall, step into the background</strong> to escape the loop. Rabbit Dance (RAB.3) also knocks down on normal hit.</div>
+<h3>Heat Engagers — how she gets in</h3>
+<div class="entry">
+  <script>document.write(icons('3+4'))</script>
+  <span class="frame-data">High, High | -2 | Homing | Black Swan</span>
+</div>
+<div class="note">Duck it</div>
+<div class="entry">
+  <script>document.write(icons('BT.1','4'))</script>
+  <span class="frame-data">High, High | -1</span>
+</div>
+<div class="note">Duck it</div>
+<div class="entry">
+  <script>document.write(icons('3','1'))</script>
+  <span class="frame-data">Mid, Mid | -13 | Punish it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DEW.2','1'))</script>
+  <span class="frame-data">Mid, Mid | -13 | Punish it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAB.2'))</script>
+  <span class="frame-data">Mid | -9</span>
+</div>
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('H.ff3+4'))</script>
+  <span class="frame-data">Mid | i19~25 | +5 | 36 dmg | 14 chip | Costs 240F</span>
+</div>
+<div class="note">Wavu: "more linear than it looks" — step it, or float her with an i11 WS move. Against the wall, step into the background</div>
+<div class="entry">
+  <script>document.write(icons('1','2','H.4'))</script>
+  <span class="frame-data">High, High, Mid | +5~+10 | Costs 270F | Whiffs vs SS/SW from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('3+4','H.3+4'))</script>
+  <span class="frame-data">White Swan | High, High, Mid, Mid, Throw | +7 | Homing | Costs 300F</span>
+</div>
+<div class="note">Becomes a 45-dmg attack throw on the first hit</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">Generic throws are i12~14 and homing.</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Kiss of Devotion | 35 | Break 1 or 2 | Homing | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">Femme Fatale | 35 | Break 1 or 2 | Homing | Side switch</span>
+</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">LEFT</span><span class="frame-data">Left throw | 42 | Break 1</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">RIGHT</span><span class="frame-data">Right throw | 43 | Break 2 | Side switch</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">BACK</span><span class="frame-data">Back throw | 60 | Unbreakable</span></div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">Rafflesia | 40 | i12 | Break 1+2</span>
+</div>
+<div class="note">Against a wall-splatted opponent her 1+3, 2+4 and uf+1+2 all become wall throws, and her wall-splat 1+3 (Larkspur) is <strong>unbreakable</strong>.</div>
+<div class="entry">
+  <script>document.write(icons('b1+3'))</script>
+  <span class="frame-data">Attack Reversal | Punch parry (high and mid) frames 5~15 | Side switch</span>
+</div>
+<div class="note">Doesn't catch kicks, lows or throws</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+<div class="entry">
+  <script>document.write(icons('d1+2'))</script>
+  <span class="frame-data">Mid power crush | i20~21 | -13 | pc7~19 | Barcarolle | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DEW.1+2'))</script>
+  <span class="frame-data">Mid power crush | i16~17 | -11 | pc6~15 | Angel Heart | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BT.2'))</script>
+  <span class="frame-data">Mid power crush | i14~16 | -13 | pc6~13 | Rompez Fleuret</span>
+</div>
+<div class="note">Becomes a Reversal Break after absorbing</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with her missing health</span>
+</div>
+<div class="callout">All three are mids — no duck trap. Block and punish, or throw her during the startup.</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+<div class="entry">
+  <script>document.write(icons('df3+4'))</script>
+  <span class="frame-data">Mid | i24~29 | -4~+1 | Backflip | Goes to BT</span>
+</div>
+<div class="note">Wavu: "likely Lili's most contemptuous move." In neutral, sidewalk it. On block, a ~i18 low is guaranteed but low-reward; a mid is a reasonable turn since the worst you eat is BT power crush. Safest: backdash and punish whichever BT follow-up she picks with i11~13</div>
+<div class="entry">
+  <script>document.write(icons('df3'))</script>
+  <span class="frame-data">Mid | i20~22 | <strong>+3c</strong> | Floor Break | Submissive Heel</span>
+</div>
+<div class="note">Wavu: sidestep it</div>
+<div class="entry">
+  <script>document.write(icons('DEW.3'))</script>
+  <span class="frame-data">Mid | i17~18 | -11 | Platinum Grace</span>
+</div>
+<div class="note"><strong>Always tech-roll against Lili.</strong> Wavu: Platinum Grace "heavily punishes opponents that stay on the ground" and out-damages Kazuya's Steel Pedal — but she has no reliable hellsweep or safe launching mid on wakeup, so a normal tech roll is far less scary</div>
+<div class="entry">
+  <script>document.write(icons('b1+4'))</script>
+  <span class="frame-data">Piercing Thorn Fortissimo | Unblockable | i63~65 | 50 dmg</span>
+</div>
+<div class="note">Step it or hit her out of it</div>
+<div class="entry">
+  <script>document.write(icons('u1+2'))</script>
+  <span class="frame-data">Lashing Iris charge | Two spins: +12g | Three spins: unblockable (i74~75)</span>
+</div>
+<div class="note">The longer she spins, the more you should step or interrupt</div>
+<div class="entry">
+  <script>document.write(icons('1+2+3+4'))</script>
+  <span class="frame-data">Ki Charge — can't block for 5 seconds</span>
+</div>
+<div class="note">Walk in and take everything</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data from <a href="https://wavu.wiki/t/Lili_movelist">Wavu Wiki — Lili movelist</a> (last edited 17 September 2026) and <a href="https://wavu.wiki/t/Lili_counterplay">Wavu Wiki — Lili counterplay</a>, including its prose on sidestepping, backturn, the fuzzy guard, ukemi, df+3+4, df+3, qcf+3+4 and Piercing Thorn. Step direction checked against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls <strong>SSL</strong>.<br><strong>Movement section:</strong> the SSR default is Tier 1 — Wavu's per-move whiff notes (six right, none left) — and deliberately overrides the Tier 2 chart. Nothing here is lab-derived. Stance blockability isn't stated on Wavu and is marked unconfirmed.
+</div>
+
+</body></html>

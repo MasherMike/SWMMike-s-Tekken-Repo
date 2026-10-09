@@ -1,0 +1,792 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Heihachi | SSL | Heat Smash +10 → RAI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--accent); margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  h3 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin: 1rem 0 0.5rem;
+  }
+
+  .entry {
+    display: flex; align-items: center; gap: 10px; padding: 5px 8px;
+    border-radius: 4px; margin-bottom: 3px; flex-wrap: wrap;
+  }
+  .entry:hover { background: var(--bg3); }
+  .move-icons { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+  .frame-data { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-muted); flex: 1; min-width: 12rem; }
+  .note { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 20px; margin-bottom: 3px; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .callout {
+    font-size: 13px; color: var(--text); background: var(--bg2);
+    border-left: 2px solid var(--accent); padding: 6px 10px; margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-key { border-left-color: var(--green); }
+  .callout-warn { border-left-color: var(--yellow); }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+  .tier-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin: 0.75rem 0 0.25rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stance { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: white; margin-right: 2px; }
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; background: var(--bg3); color: var(--text-muted);
+    border: 0.5px solid var(--border); border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .side-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+
+  .table-wrap { overflow-x: auto; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  .step-table th {
+    text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td { padding: 4px 10px 4px 0; border-bottom: 0.5px solid var(--bg3); vertical-align: top; }
+  .step-table td.mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; white-space: nowrap; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    font-size: 11px; color: var(--text-muted); line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Heihachi &nbsp;|&nbsp; SSL &nbsp;|&nbsp; Heat Smash +10 &rarr; RAI</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Heihachi on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Heihachi on P1 side — inputs face right'
+      : 'Heihachi on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}" role="img" aria-label="${notations.join(', ')}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+<div class="callout callout-key"><strong>Default: Sidestep / sidewalk LEFT (SSL / SWL)</strong> — but treat this as the lowest-confidence default in the database. The @Mezerdie sidestep chart calls SSL. Wavu's per-move data doesn't break the tie: it flags exactly two of his moves as tracking a step, and they point opposite ways. <span class="mono">f+3</span> is "pseudo-homing" to your <em>right</em>; <span class="mono">b+4</span> has good tracking to your <em>left</em>. His counterplay page on Wavu has no prose to settle it. So the chart decides, and the data only tells you what each choice costs.<br><br><strong>What SSL costs you:</strong> <span class="mono">b+4</span> (Indra's Kick) — i18~19, +30a on hit, +53a on counter hit, and it recovers 11 frames faster on hit or block. That's the bigger of the two tracking threats, which is exactly why this default is soft. What SSR costs you is <span class="mono">f+3</span>, a knee that's only -5 on block and +9 on hit. If a Heihachi keeps catching your left step with b+4, switching right is a reasonable read rather than a mistake.<br><br><strong>Don't step his stances at all.</strong> Both have homing options: <span class="mono">RAI.2</span> out of Thunder God's Kamae and <span class="mono">FUJ.1+2</span> / the unbreakable <span class="mono">FUJ.1+3</span> throw out of Wind God's Kamae. Read the stance instead (see Stance Counterplay).</div>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">f+3</td><td class="tracks">Tracks your SSR</td><td>"pseudo-homing to SSR/SWR" — knee, -5 on block</td></tr>
+    <tr><td class="mono">b+4</td><td class="tracks">Tracks your SSL</td><td>"good left sidestep tracking" — +30a on hit, +53a CH</td></tr>
+    <tr><td class="mono">df+1,2* (charged)</td><td class="both">Either side</td><td>from 1st block</td></tr>
+    <tr><td class="mono">df+1,2* (charged)</td><td class="swr">SSR / SWR</td><td>from 1st <em>hit</em></td></tr>
+  </tbody>
+</table></div>
+<div class="callout">Tier 2 (the @Mezerdie chart) sets the default here, because Tier 1 is a 1–1 split. Every row in the table is quoted from Wavu's per-move notes; nothing is lab-derived. Worth a lab session to see which of b+4 and f+3 your opponents actually throw.</div>
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">High | i14~15 | -9 | Homing</span>
+</div>
+<div class="note">Duck it — b+3,2 (-1) and b+3,3 (-12c) both continue from here</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">Mid | i24~26 | -9 | Homing | +43a on hit | Jumps frames 9~29</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAI.2'))</script>
+  <span class="frame-data">High | i17~18 | <strong>+10</strong> | Homing | Guard break</span>
+</div>
+<div class="note">Out of RAI — duck it</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+2'))</script>
+  <span class="frame-data">Mid | i18~19 | -13 | Homing | Power Crush (pc7~17)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+3'))</script>
+  <span class="frame-data">Throw | i18 | Homing | <strong>Unbreakable</strong></span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+<div class="callout">Two Wind God Fists look alike and aren't. Plain <strong>WGF</strong> (<span class="mono">f,n,d,df+2</span>) is a high at i11~12 and <strong>-10</strong> on block. The electric version, <strong>EWGF</strong> (<span class="mono">f,n,d,df#2</span>), is <strong>+5</strong>. In Heat he can throw EWGF without the just-frame, so in Heat assume every one is electric.</div>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">i12 | -10 | Mid | Demon Breath | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd2'))</script>
+  <span class="frame-data">i11~12 | -10 | High | Wind God Fist (non-electric)</span>
+</div>
+<div class="note">Too fast to duck on reaction — block it standing and punish. The electric version is +5</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.2'))</script>
+  <span class="frame-data">i15~16 | -10 | Mid | Tornado | Crouches frames 6~14</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.3'))</script>
+  <span class="frame-data">i28~29 | -10 | Mid | Jumps from frame 8</span>
+</div>
+<div class="note">FUJ.3,4 continues at +4 — only available on hit or block</div>
+<div class="entry">
+  <script>document.write(icons('uf3'))</script>
+  <span class="frame-data">i28~29 | -10 | Mid | Jumps from frame 9</span>
+</div>
+<div class="note">Same idea — uf+3,4 (Hell Axle) is +4</div>
+<div class="entry">
+  <script>document.write(icons('RAI.1'))</script>
+  <span class="frame-data">i17~18 | -11 | Mid | Crouches 6~14, jumps 17~43</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd1'))</script>
+  <span class="frame-data">i19~21 | -11 | Mid | Electric Thunder God Fist | Heat | 9 chip</span>
+</div>
+<div class="note">Plain TGF (non-electric) is -15 — see Red tier</div>
+<div class="entry">
+  <script>document.write(icons('f2','1'))</script>
+  <span class="frame-data">i13 | -11 | Mid | f+2~1 | Can cancel to sidestep with D or U</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','2','2','1'))</script>
+  <span class="frame-data">i13 | -11 | High, High, Mid</span>
+</div>
+<div class="note">Extends to 1,2,2~1,1+2 at -13</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">i18~19 | -11 | Mid</span>
+</div>
+<div class="note">ws3,1+2 (-9) continues — interrupt with i2 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i42 | -11 | Mid | Parries mid and high punches or kicks frames 5~25 | Heat Engager</span>
+</div>
+<div class="note">See General Counter Play — the parry is the point, not the hit</div>
+<div class="entry">
+  <script>document.write(icons('uf2','1'))</script>
+  <span class="frame-data">i27~28 | -11 | Mid, Mid | Heat Engager | Chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','2','2'))</script>
+  <span class="frame-data">i17 | -12 | High, High, High</span>
+</div>
+<div class="note">Can enter FUJ with D at frame 22 (-9) — and it's all high, so ducking beats it</div>
+<div class="entry">
+  <script>document.write(icons('df4','2'))</script>
+  <span class="frame-data">i20 | -12 | Mid, Mid | +55a on CH | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3','3'))</script>
+  <span class="frame-data">i22~26 | -12c | High, Mid | Spike</span>
+</div>
+<div class="note">-12c — you recover crouching, so WS launcher</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid, Mid | Can enter FUJ with D (-2)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df1','2'))</script>
+  <span class="frame-data">i21 | -13 | Mid, Mid | Muso Tekken</span>
+</div>
+<div class="note">The charged version (df+1,2*) is +1 — there's a 21-frame gap, interrupt with i21 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+2'))</script>
+  <span class="frame-data">i18~19 | -13 | Mid | Power Crush | Homing</span>
+</div>
+<div class="note">Only -7 if it absorbed one of your hits</div>
+<div class="entry">
+  <script>document.write(icons('uf1'))</script>
+  <span class="frame-data">i24~25 | -13 | Mid | Power Crush (pc7~23) | Balcony Break</span>
+</div>
+<div class="note">Only -8 if it absorbed one of your hits</div>
+<div class="entry">
+  <script>document.write(icons('b1','4'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid, Mid | Tornado | Knee</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1','2'))</script>
+  <span class="frame-data">i21~22 | -13 | High, Mid | Spike</span>
+</div>
+<div class="note">Interrupt with i4 from 1st block</div>
+<div class="entry">
+  <script>document.write(icons('f2','1','1+2'))</script>
+  <span class="frame-data">i26 | -13 | Mid, Mid | f+2~1,1+2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','2','2','1','1+2'))</script>
+  <span class="frame-data">i26 | -13 | High, High, Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','2'))</script>
+  <span class="frame-data">i22~23 | -13 | High, Mid | Can enter FUJ with D (-2)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','b2','2'))</script>
+  <span class="frame-data">i25~26 | -13c | High, Mid, Mid | Spike | Head</span>
+</div>
+<div class="note">-13c — WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i13~14 | -14 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.df2'))</script>
+  <span class="frame-data">i15 | -14 | Mid | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">i12 | -14 | HIGH | Chrome Dome | Spike</span>
+</div>
+<div class="note">It's high — a duck beats it as well as a block</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('cd1'))</script>
+  <span class="frame-data">i19~21 | -15 | Mid | Thunder God Fist (non-electric) | Jumps 19~40</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','b2','1'))</script>
+  <span class="frame-data">i35~39 | -15 | High, Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3','1+2'))</script>
+  <span class="frame-data">i14 | -15 | Mid, High, Mid, Mid | Jails from 1st</span>
+</div>
+<div class="note">df+3,1+2,1 is also -15</div>
+<div class="entry">
+  <script>document.write(icons('ws4','4'))</script>
+  <span class="frame-data">i15 | -15 | Mid, Mid | Spike | Jails from 1st block</span>
+</div>
+<div class="note">Can enter FUJ with D instead (-9)</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">i19~21 | -16 | Mid | Demon God Fist | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','1','2'))</script>
+  <span class="frame-data">i18 | -17 | High, High, Mid | Balcony Break | Clean wall splat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df2','1'))</script>
+  <span class="frame-data">i20~21 | -17 | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('qcf2'))</script>
+  <span class="frame-data">i14~15 | -17 | Mid | Iron Hand | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art | Power Crush (pc8~)</span>
+</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('cd4','4'))</script>
+  <span class="frame-data">i24 | -10 | Low, Low | Spinning Demon second low</span>
+</div>
+<div class="note">Only -10 — the first low is the one to punish (see Red tier)</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i16 | -13 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.4'))</script>
+  <span class="frame-data">i18~19 | -14 | Low | Spike | His only low from Wind God's Kamae</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WAR.cd4'))</script>
+  <span class="frame-data">i16~17 | -14 | Low | Warrior Instinct only | No stagger on block</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+<div class="entry">
+  <script>document.write(icons('db2'))</script>
+  <span class="frame-data">i23~25 | -18 | Low | Spike | Recovers crouching</span>
+</div>
+<div class="note">WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('cd4'))</script>
+  <span class="frame-data">i16~17 | <strong>-23</strong> | Low | Spinning Demon (hellsweep)</span>
+</div>
+<div class="note">Launch it if he stops. If he keeps going, the ,4 and ,4,4 lows are only -10, the ,1 mid ender is -15, and the ,3 high ender is <strong>+9</strong> — and Wavu notes that ,3 is <strong>not duckable from the 2nd or 3rd low</strong>, so don't try</div>
+<div class="entry">
+  <script>document.write(icons('FC.df4'))</script>
+  <span class="frame-data">i19~21 | -23 | Low | Clean hit +17a</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAI.4'))</script>
+  <span class="frame-data">i19~20 | -23 | Low | From RAI | Links into the Spinning Demon extensions</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd3'))</script>
+  <span class="frame-data">i33~34 | -23 | Low | Earth Scraper Kick | Jumps frames 5~28</span>
+</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+<h3>Full-high strings — duck the opener</h3>
+<div class="entry">
+  <script>document.write(icons('FUJ.1','1'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -2 oB | Heat Engager | Combo from 1st hit</span>
+</div>
+<div class="note">Both hits high — ducking beats the string <em>and</em> denies the Heat engage | Punish with character's FC or WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('1','2','2'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | -12 oB</span>
+</div>
+<div class="note">Can enter FUJ with D instead of finishing</div>
+<div class="entry">
+  <script>document.write(icons('1','2','4'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH) | -9 oB | Tornado</span>
+</div>
+<div class="note">The charged version (1,2,4*) is <strong>+6</strong> and tornadoes on standing hit — the slow wind-up is your duck cue</div>
+<div class="entry">
+  <script>document.write(icons('b3','2'))</script>
+  <span class="frame-data">(HIGH, HIGH) | -1 oB | b+3 is homing</span>
+</div>
+<div class="note">Can't step the opener, so duck it | Interrupt with i1 from 1st block</div>
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+<div class="entry">
+  <script>document.write(icons('df1','1'))</script>
+  <span class="frame-data">(MID, HIGH) | -2 oB | Combo from 1st hit</span>
+</div>
+<div class="note">Duck the ,1 on block only | Interrupt with i1 from 1st block</div>
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('RAI.2'))</script>
+  <span class="frame-data">i17~18 | <strong>+10</strong> | Homing | Guard break</span>
+</div>
+<div class="note">His best option out of RAI — duck it and launch</div>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">i15~16 | -9 | Tornado | Otoko Geri</span>
+</div>
+<div class="note">The charged version (4*) is <strong>+6</strong> — duck the wind-up</div>
+<div class="entry">
+  <script>document.write(icons('fff1+2'))</script>
+  <span class="frame-data">i15 | +3 | Spike | Roaring Stonehead | Jumps frames 3~23</span>
+</div>
+<div class="note">Can transition to RAI at +6 with F</div>
+<div class="entry">
+  <script>document.write(icons('ub2'))</script>
+  <span class="frame-data">i18~19 | -6 | Skull Rupture | Parries mid and high punches frames 5~12</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('cd2'))</script>
+  <span class="frame-data">i11~12 | <strong>+5</strong> | EWGF</span>
+</div>
+<div class="note">Too fast to duck on reaction. In Heat he can throw it without the just-frame — a duck on read is the only way to make him pay</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">i12 | -14 | Chrome Dome</span>
+</div>
+<div class="callout">Every one of his power crushes is a mid or special mid, so there's no high power crush to duck in this matchup — see Power Crush &amp; Rage Art.</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+<h3>FUJ — Wind God's Kamae</h3>
+<div class="callout">Entered raw with <span class="mono">d+1+2</span> (actionable after 30F), or with D off <span class="mono">1,2,2</span> (-9), <span class="mono">3,2</span> (-2), <span class="mono">f+2,2</span> (-2), <span class="mono">f+3</span> (-2), <span class="mono">ws4,4</span> (-9), <span class="mono">f+4</span> and <span class="mono">1,b+2</span>. <span class="mono">FUJ.DF</span> goes into Wind God Step with a <strong>low parry</strong> on roughly frames 1~14. <strong>Can he block in FUJ?</strong> Wavu doesn't say — unconfirmed.</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1'))</script>
+  <span class="frame-data">HIGH | i12~13 | -4 | His fastest option</span>
+</div>
+<div class="note">Extensions: ,1 (HIGH, -2, Heat Engager — duck) | ,2 (Mid, -13)</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.2'))</script>
+  <span class="frame-data">Mid | i15~16 | -10 | Tornado | +75a on hit | Crouches frames 6~14</span>
+</div>
+<div class="note">Hidden Wind God Fist — ducks under your jab. Only -3 in Warrior Instinct</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.3'))</script>
+  <span class="frame-data">Mid | i28~29 | -10 | Jumps from frame 8</span>
+</div>
+<div class="note">FUJ.3,4 is +4</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.4'))</script>
+  <span class="frame-data">LOW | i18~19 | -14 | Spike | His only low from the stance</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+2'))</script>
+  <span class="frame-data">Mid | i18~19 | -13 | Power Crush | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+3'))</script>
+  <span class="frame-data">Throw | i18 | Homing | <strong>Unbreakable</strong></span>
+</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> his only low is FUJ.4 (-14), and his fastest move, FUJ.1, is a <strong>high</strong> — so stand block is the default and ducking covers his quickest jab. He usually enters at -2 to -9, so you often have the turn — but <strong>check with a fast mid, not a jab</strong>: FUJ.2 crouches under jabs, FUJ.1+2 power-crushes slow buttons, and FUJ.3 jumps your lows. The FUJ.1+3 throw is unbreakable and homing, which is why you can't just sit and block forever. And don't throw lows at him in FUJ — FUJ.DF parries them.</div>
+<h3>RAI — Thunder God's Kamae</h3>
+<div class="callout">Entered raw with <span class="mono">f+3+4</span> (actionable after 40F, and he can hold it indefinitely), or with F off <span class="mono">d+1,2</span> (-5), <span class="mono">SS.2</span> (-5), <span class="mono">b+2*</span> (+8), <span class="mono">fff1+2</span> (+6) and <span class="mono">H.FUJ.1+3</span>. <strong>The big one: a blocked Heat Smash puts him in RAI at +10.</strong> <strong>Can he block in RAI?</strong> Wavu doesn't say — unconfirmed.</div>
+<div class="entry">
+  <script>document.write(icons('RAI.1'))</script>
+  <span class="frame-data">Mid | i17~18 | -11 | Hidden Thunder God Fist | Crouches 6~14, jumps 17~43 | +12a on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAI.2'))</script>
+  <span class="frame-data">HIGH | i17~18 | <strong>+10</strong> | Homing | Guard break | Chip</span>
+</div>
+<div class="note">Duck it</div>
+<div class="entry">
+  <script>document.write(icons('RAI.3'))</script>
+  <span class="frame-data">Mid | i22~23 | -7 | Spike | Chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('RAI.4'))</script>
+  <span class="frame-data">LOW | i19~20 | -23 | Links into Spinning Demon</span>
+</div>
+<div class="note">His only low here — block it and launch</div>
+<div class="entry">
+  <script>document.write(icons('RAI.1+3'))</script>
+  <span class="frame-data">Throw | i15~16 | <strong>Unbreakable</strong> | 42 dmg on wall splat</span>
+</div>
+<div class="note">Wavu doesn't list its hit level — most Tekken throws whiff against a crouching opponent, but verify this one in the lab before relying on it</div>
+<div class="callout callout-key"><strong>How to deal with it:</strong> this is a real mixup, not a free turn. Ducking beats RAI.2 (the +10 high) and probably the throw; standing beats RAI.4. His two mids, RAI.1 and RAI.3, beat a duck — but RAI.3 is only -7, and RAI.1 is -11 if you block it. The default that loses least is <strong>stand block and react to the low</strong>; duck only when you've seen this player lean on RAI.2.</div>
+<h3>WAR — Warrior Instinct</h3>
+<div class="callout">Once per match, through <span class="mono">1+4</span>, and only after he's banked 3 Ultimate Count (gained by activating Heat with certain engagers). It makes several of his launch-punishable moves safe — so if he's in WAR, re-check the numbers below before committing.</div>
+<div class="entry">
+  <script>document.write(icons('WAR.FUJ.2'))</script>
+  <span class="frame-data">Mid | -3 (normally -10) | Tornado | Reversal Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WAR.RAI.1'))</script>
+  <span class="frame-data">Mid | -8~-6 (normally -11) | Reversal Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WAR.cd4'))</script>
+  <span class="frame-data">Low | -14 (normally -23) | No stagger on block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WAR.1+2'))</script>
+  <span class="frame-data">Mid | -10 | 9 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('WAR.ff2'))</script>
+  <span class="frame-data">Mid | -16 | Tornado | Extended range</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df2','WAR.1'))</script>
+  <span class="frame-data">Mid, Mid | -17 | Tornado | +66a on hit</span>
+</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | Mid, Mid | i15 | <strong>+10 oB</strong> | 50 dmg | Reversal Break | 15 chip</span>
+</div>
+<div class="note">Not punishable. On block he goes straight into <strong>RAI at +10</strong> (or cancels with B to stay standing at +6). Treat a blocked Heat Smash as the start of the RAI mixup above</div>
+<div class="callout callout-warn"><strong>What Heat changes:</strong> he can throw EWGF and Electric TGF without the just-frame input; Wind God's Kamae gets an attack-reversal against highs and mids (<span class="mono">H.d+1+2,P</span>); and he unlocks Warrior Instinct.</div>
+<h3>Heat Engagers — how he gets in</h3>
+<div class="entry">
+  <script>document.write(icons('FUJ.1','1'))</script>
+  <span class="frame-data">High, High | -2 | Duck it — denies the engage</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff1+2'))</script>
+  <span class="frame-data">Mid | i13 | -8 | Raoh Thrust | 4 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf2','1'))</script>
+  <span class="frame-data">Mid, Mid | -11 | Chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('qcf2'))</script>
+  <span class="frame-data">Mid | i14~15 | -17 | Iron Hand — launch it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">Mid | i42 | -11 | Parry frames 5~25</span>
+</div>
+<div class="note">Each of these also banks one Ultimate Count toward Warrior Instinct when it activates Heat.</div>
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('H.db1+2'))</script>
+  <span class="frame-data">Special Mid | i30 | +0 | Power Crush (pc7~29) | Tornado | Costs 300F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3','H.2'))</script>
+  <span class="frame-data">Mid, Special Mid | i30 | +0 | Tornado | Costs 300F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3','3','H.2'))</script>
+  <span class="frame-data">High, Mid, Special Mid | +0 | Tornado | Costs 300F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4','H.1'))</script>
+  <span class="frame-data">Mid, Mid | -3 | Jails from 1st block | Costs 300F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.FUJ.1+3'))</script>
+  <span class="frame-data">Unbreakable homing throw | Puts him in RAI at +8 | Costs 300F</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.d1+2','1'))</script>
+  <span class="frame-data">Charging Hard | Parries high and mid punches or kicks frames 19~40 | Costs ~240F</span>
+</div>
+<div class="note">Shown here with a punch press — the parry is the input, not the button</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">Generic throws are i12~14 and homing.</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Homing | Floor Break | Side switch on break</span>
+</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">LEFT</span><span class="frame-data">Left throw | 40 | Break 1</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">RIGHT</span><span class="frame-data">Right throw | 45 | Break 2 | Floor Break</span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">BACK</span><span class="frame-data">Back throw | 60 | Unbreakable</span></div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">Stonehead | 35 | i12 | Break 1+2 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1+4'))</script>
+  <span class="frame-data">Headbutt Clash | 30 | i12 | Break 1+2</span>
+</div>
+<div class="note">Only works on male characters and Reina. The headbutt itself can be reversed with any button</div>
+<div class="entry">
+  <script>document.write(icons('RAI.1+3'))</script>
+  <span class="frame-data">Thunder Broken Toy | 30 | <strong>Unbreakable</strong></span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+3'))</script>
+  <span class="frame-data">Fire Starter | 15 | Homing | <strong>Unbreakable</strong></span>
+</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+<div class="entry">
+  <script>document.write(icons('uf1'))</script>
+  <span class="frame-data">Mid power crush | i24~25 | -13 | pc7~23 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FUJ.1+2'))</script>
+  <span class="frame-data">Mid power crush | i18~19 | -13 | pc7~17 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.db1+2'))</script>
+  <span class="frame-data">Special Mid power crush | i30 | +0 | pc7~29 | Heat only</span>
+</div>
+<div class="note">A special mid can be blocked crouching — but it still hits crouchers, so you can't duck under it</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid | i20 | -18 | pc8~ | 55–82 dmg scaling with his missing health</span>
+</div>
+<div class="callout">None of his power crushes is a high — there's no duck trap here. Block and punish, or throw him during the startup.</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">Heaven's Merciless Wrath | Parries ALL mid and high punches or kicks frames 5~25 | i42 | -11</span>
+</div>
+<div class="note">A long parry window with a guaranteed attack after it. It doesn't catch lows or throws — if he's sitting in it, throw him or go low</div>
+<div class="entry">
+  <script>document.write(icons('df1','2'))</script>
+  <span class="frame-data">Charged (df+1,2*): +1 oB | 21-frame gap after the first hit</span>
+</div>
+<div class="note">Interrupt with i21 from 1st block, i9 from 1st hit. It whiffs to either side from block, and to your right from hit</div>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">Charged (b+2*): +5 oB, enters RAI at +8 with F | Strong Aerial Tailspin</span>
+</div>
+<div class="note">The charge is your cue — interrupt or step it</div>
+<div class="entry">
+  <script>document.write(icons('d1+4'))</script>
+  <span class="frame-data">Lightning Hammer | Unblockable | i60 | 50 dmg</span>
+</div>
+<div class="note">Step it or hit him out of the wind-up</div>
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i22~25 | +6 | 9 chip | Jumps frames 3~25</span>
+</div>
+<div class="note">His running mid — plus and chips. Block it; don't low-check a running Heihachi</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">Mid | i18 | -8 | Possible 8F evasion (unconfirmed on Wavu)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2+3+4'))</script>
+  <span class="frame-data">Ki Charge — can't block for 5 seconds</span>
+</div>
+<div class="note">Walk in and take everything</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data from <a href="https://wavu.wiki/t/Heihachi_movelist">Wavu Wiki — Heihachi movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Heihachi_counterplay">Wavu Wiki — Heihachi counterplay</a> (punishment tables only; no prose). Default step direction from the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls SSL.<br><strong>Movement section:</strong> the SSL default is Tier 2 — the chart — because Wavu's only two tracking notes (f+3 tracks right, b+4 tracks left) cancel out. Every table row is quoted from Wavu's per-move notes; nothing is lab-derived. Stance blockability and the RAI.1+3 throw's hit level aren't stated on Wavu and are marked unconfirmed.
+</div>
+
+</body></html>

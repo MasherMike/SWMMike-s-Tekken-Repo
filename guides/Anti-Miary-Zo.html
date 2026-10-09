@@ -1,0 +1,950 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Anti-Miary Zo | Duck BAO.1 | Heat Smash → BAO +6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .tier { margin-bottom: 0.5rem; }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+  }
+
+  .entry:hover { background: var(--bg3); }
+
+  .move-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .frame-data {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    padding-left: 20px;
+    margin-bottom: 3px;
+  }
+
+  .callout {
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg2);
+    border-left: 2px solid var(--accent);
+    padding: 6px 10px;
+    margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .sub-entry {
+    padding-left: 20px;
+    margin-bottom: 2px;
+  }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0.75rem 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sep {
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid var(--green);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
+
+  .stance {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin-right: 2px;
+  }
+
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg3);
+    color: var(--text-muted);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  .side-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .callout-key { border-left-color: var(--green); }
+
+  .step-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0.5rem 0 1rem;
+  }
+  .step-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td {
+    padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--bg3);
+    vertical-align: top;
+  }
+  .step-table td.mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+  .sources {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+<h1>Anti-Miary Zo &nbsp;|&nbsp; Duck BAO.1 &nbsp;|&nbsp; Heat Smash &rarr; BAO +6</h1>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Miary Zo on P1 side — inputs face right</span>
+</div>
+
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Miary Zo on P1 side — inputs face right'
+      : 'Miary Zo on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) {
+        el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+      }
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const cardinals = ['f','b'];
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && cardinals.includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) {
+    rot = baseAngles[diagonalFlips[dir]];
+  }
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    const isActive = active.includes(b);
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${isActive?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function sep() { return '<span class="sep"></span>'; }
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) {
+    html += tilde(notation.slice(1));
+    return html;
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    html += arrow('d', false) + arrow('df', false) + arrow('f', false);
+    return html + buttons(notation.slice(3));
+  }
+  const tripleTaps = ['fff','bbb'];
+  for (const tt of tripleTaps) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      html += arrow(d, false) + arrow(d, false) + arrow(d, true);
+      return html + buttons(notation.slice(tt.length));
+    }
+  }
+  const doubleTaps = ['ff','bb','uu','dd'];
+  let doubleTap = null;
+  for (const dt of doubleTaps) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      doubleTap = dt[0]; notation = notation.slice(dt.length); break;
+    }
+  }
+  if (doubleTap) {
+    html += arrow(doubleTap, false);
+    html += arrow(doubleTap, true);
+    return html + buttons(notation);
+  }
+  const dirs = ['df','db','uf','ub','f','b','u','d'];
+  let dir = null;
+  for (const d of dirs) {
+    if (notation.toLowerCase().startsWith(d)) {
+      dir = d; notation = notation.slice(d.length); break;
+    }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}">${html}</span>`;
+}
+</script>
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+<h2>Movement — Which Way to Step</h2>
+
+<div class="callout callout-key">
+  <strong>Default: Sidestep / sidewalk LEFT (SSL / SWL)</strong> — the opposite of the rest of this database, so don't carry the habit over from a Jin or Bob set.
+  <br><br>
+  <strong>The reasoning is different too.</strong> Against Jin or Bob you step a direction because lots of things whiff there. Against Miary Zo you step left because <em>nothing punishes it</em>: Wavu flags three of her moves as having <strong>good right sidestep tracking</strong> — <span class="mono">MOR.1</span> (her fastest stance option), <span class="mono">1+2</span> (a Heat Engager) and <span class="mono">b+4</span> — and flags nothing at all as tracking left. TekkenDocs' community sidestep chart (by @Mezerdie) independently calls SSL for her. The case is absence of risk, not abundance of reward.
+  <br><br>
+  <strong>Know the exception:</strong> her two high jab strings, <span class="mono">1,2,2</span> and <span class="mono">2,2</span>, whiff to your <em>right</em>. Both are fully high, so ducking beats them as well and keeps you on your default — don't break the SSL habit for these.
+</div>
+
+<table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">MOR.1</td><td class="tracks">Tracks your SSR</td><td>—</td></tr>
+    <tr><td class="mono">1+2</td><td class="tracks">Tracks your SSR</td><td>—</td></tr>
+    <tr><td class="mono">b+4</td><td class="tracks">Tracks your SSR</td><td>—</td></tr>
+    <tr><td class="mono">1,2,2</td><td class="swr">SSR / SWR</td><td>from 1st block — or just duck it, it's all high</td></tr>
+    <tr><td class="mono">2,2</td><td class="swr">SSR / SWR</td><td>from 1st block — or just duck it, it's all high</td></tr>
+    <tr><td class="mono">f+4,4,4</td><td class="both">Either side</td><td>from 2nd block</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">Nothing in Wavu's or TekkenDocs' frame data is flagged as whiffing specifically to the left. That's what the SSL default rests on — she has no documented left-tracking move — rather than a tally of left whiffs.</div>
+
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">High | i13 | -12 | Homing | Duck it instead (see Duck and Launch)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df3'))</script>
+  <span class="frame-data">Mid | i20~21 | -9 | Homing | Weapon | Can't duck a mid — block it; the ,3 extension is what's punishable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAO.3'))</script>
+  <span class="frame-data">Mid, Mid | i19~20 | -9 | Homing | Heat Engager | Block and take your turn</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">Mid | i20~21 | -9 | Homing | Strong Aerial Tailspin | Block it</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws are homing | Break 1 or 2</span>
+</div>
+
+<div class="callout">Every row above is wiki-sourced. Wavu publishes no numeric Left/Right Tracking data for Miary Zo yet, and this is still the first edition of her guide — there is no prior lab testing to carry forward, so nothing here has been verified in practice.</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+<h2>Standing Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('3','1'))</script>
+  <span class="frame-data">i18~19 | -10 | Mid, Mid</span>
+</div>
+<div class="note">Naked 3 alone is only -9 — barely changes on the ,1 ender. He can also cancel from here into MOR at -7</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">i14~15, i8~9 | -10 | Mid, Mid | Opens the Claw Rain flurry</span>
+</div>
+<div class="note">Extends to f+1+2,1+2 (-13) and f+1+2,1+2,3+4 (-22, see Red tier) — punish the first hit rather than let the chain run</div>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">i12 | -12 | High</span>
+</div>
+<div class="note">Naked 4 — extends to 4,4 (-13, both High — duck it, see Duck and Launch)</div>
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">i13 | -12 | High | Homing</span>
+</div>
+<div class="note">His homing high — duck it instead of trying to sidestep (see Duck and Launch)</div>
+<div class="entry">
+  <script>document.write(icons('df1','1','2'))</script>
+  <span class="frame-data">i13, i19, i30 | -12 | Mid, High, Mid | Spike | Weapon</span>
+</div>
+<div class="note">Third-hit branch off df+1,1 (-3 alone) — his other branch, df+1,1,1+2, is a Tornado at -17 (see Red tier). Wait a beat before committing</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('3','1','2'))</script>
+  <span class="frame-data">i16~18 | -14 | Mid, Mid, Mid</span>
+</div>
+<div class="note">3,1 alone is only -10 — the ,2 ender can be delayed up to 9f, so he controls when he commits to the bigger punish</div>
+<div class="entry">
+  <script>document.write(icons('4','4'))</script>
+  <span class="frame-data">i29~30 | -13 | High, High</span>
+</div>
+<div class="note">Naked 4 is already -12 — both hits High, duck instead of blocking (see Duck and Launch)</div>
+<div class="entry">
+  <script>document.write(icons('f2'))</script>
+  <span class="frame-data">i20 | -13 | Mid | Punch Sabaki (parry, frames 5~10)</span>
+</div>
+<div class="note">This is also his own punch parry — on a successful parry he gets +30 and a Balcony Break. Mix kicks/mids into your pressure instead of pure jabs</div>
+<div class="entry">
+  <script>document.write(icons('f1+2','1+2'))</script>
+  <span class="frame-data">i14~15, i7~8, i7~8 | -13 | Mid ×5 | Lightning Claws</span>
+</div>
+<div class="note">Second stage of the claw flurry — extends further to f+1+2,1+2,3+4 (-22, see Red tier)</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i15~16 | -13 | Mid | Possible jab evasion (unconfirmed per wiki)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.1','4'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid, Mid | Knee</span>
+</div>
+<div class="note">MOR.1 alone is only -4 — delayable up to 10f before he commits to the knee (see Stance Counterplay)</div>
+<div class="entry">
+  <script>document.write(icons('MOR.3'))</script>
+  <span class="frame-data">i17 | -13 | Mid | Power Crush (pc7~16)</span>
+</div>
+<div class="note">His stance power crush — it's a Mid, so armor through it with block, not a duck (see Power Crush)</div>
+<div class="entry">
+  <script>document.write(icons('df1','4'))</script>
+  <span class="frame-data">i18~19 | -13 | Mid, Mid | Knee</span>
+</div>
+<div class="note">df+1 alone is -2 (near safe) — delayable up to 9f before the knee comes out</div>
+<div class="entry">
+  <script>document.write(icons('df3','3'))</script>
+  <span class="frame-data">i26~27 | -13 | Mid, Mid | Weapon</span>
+</div>
+<div class="note">Naked df+3 is -9 and Homing — can't step it, and it's Mid so can't duck it either, just block. The ,3 ender is what makes it punishable</div>
+<div class="entry">
+  <script>document.write(icons('db2','4'))</script>
+  <span class="frame-data">i22~23 | -13 | Mid, Mid | Knee</span>
+</div>
+<div class="note">db+2 alone is already -11 — the ,4 knee ender only adds 2 more frames of risk for him</div>
+<div class="entry">
+  <script>document.write(icons('b1','4'))</script>
+  <span class="frame-data">i22~23 | -13 | High, High</span>
+</div>
+<div class="note">Naked b+1 (Elbow) is -9 if he stops — full string is entirely High, duck it (see Duck and Launch). CH on the first hit launches him into a bigger combo for you anyway on block</div>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">i16~17 | -13 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3','4'))</script>
+  <span class="frame-data">i24 | -13 | Mid, High</span>
+</div>
+<div class="note">Same -13 as the naked version — but adds a High ender. Duck the ,4 on block only, it's a true combo on hit (see Duck and Launch)</div>
+<div class="entry">
+  <script>document.write(icons('b3','4','2'))</script>
+  <span class="frame-data">i28~29 | -13 | Mid, High, High | Strong Aerial Tailspin</span>
+</div>
+<div class="note">Duck starting at the ,4 — both remaining hits are High (see Duck and Launch)</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i18 | -13 | Mid | Power Crush (pc7~17) | Spike</span>
+</div>
+<div class="note">His other power crush, thrown from neutral — Mid, block and launch (see Power Crush)</div>
+<div class="entry">
+  <script>document.write(icons('u4'))</script>
+  <span class="frame-data">i16~17 | -13 | Mid | Knee</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4','4'))</script>
+  <span class="frame-data">i24~25 | -13 | Mid, Mid | Tornado</span>
+</div>
+<div class="note">Naked uf+4 alone is actually worse for him (-15, see Red tier) — if he commits to the ,4 ender it softens to -13. Either way, launch him</div>
+<div class="entry">
+  <script>document.write(icons('ws1','4'))</script>
+  <span class="frame-data">i20 | -13 | Mid, Mid | Heat Engager | Balcony Break</span>
+</div>
+<div class="note">ws1 alone is -8 — the ,4 ender is how he tries to Heat Engage from a while-standing situation, delayable up to 9f</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('f1+2','1+2','3+4'))</script>
+  <span class="frame-data">i16~17, i6~7 | -22 | Mid ×7 | Oram-Baratra | Balcony Break</span>
+</div>
+<div class="note">Full claw flurry commitment — minimal delay (1f) on the final input, so don't wait for this if you already had a punish earlier in the chain</div>
+<div class="entry">
+  <script>document.write(icons('f3+4','2'))</script>
+  <span class="frame-data">i29~30 | -20 | Mid, Mid | Tornado | Fanasin'ny Mpamsavy</span>
+</div>
+<div class="note">Naked f+3+4 alone is only -9 — the ,2 ender is the trap. Instant Tornado on hit, can hit grounded off-axis</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Mid, Throw | Rage Art | pc8~</span>
+</div>
+<div class="note">Block it and launch. 55–82 dmg scaling with his missing health, freezes the timer on activation</div>
+<div class="entry">
+  <script>document.write(icons('BAO.2'))</script>
+  <span class="frame-data">i23~25 | -18 | Mid | Tornado | Weapon | Steel pedal</span>
+</div>
+<div class="note">Free launch if he throws this out of Baobab Mihira — see Stance Counterplay</div>
+<div class="entry">
+  <script>document.write(icons('df1','1','1+2'))</script>
+  <span class="frame-data">i27~28 | -17 | Mid, High, Mid | Tornado | Weapon</span>
+</div>
+<div class="note">The other branch off df+1,1 — his ,2 ender is only -12 (see Green tier), this ,1+2 ender is much worse for him. Wait for the ender</div>
+<div class="entry">
+  <script>document.write(icons('d1+2'))</script>
+  <span class="frame-data">i19~20 | -17 | Mid | Tornado | Weapon | Sometimes written Buffalo Horn</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i15~16 | -15 | Mid</span>
+</div>
+<div class="note">Naked version of the move above — bigger punish if he stops here instead of adding ,4</div>
+<div class="entry">
+  <script>document.write(icons('uf1'))</script>
+  <span class="frame-data">i17 | -15 | Mid, Throw</span>
+</div>
+<div class="note">Transitions to an attack throw on hit — Floor Break, side switch on hit</div>
+<div class="entry">
+  <script>document.write(icons('ub1'))</script>
+  <span class="frame-data">i17 | -15 | Mid, Throw</span>
+</div>
+<div class="note">Mirror of uf+1 — also transitions to an attack throw on hit, Floor Break</div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+<h2>Low Block Punishment</h2>
+
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+
+<div class="entry">
+  <script>document.write(icons('MOR.4'))</script>
+  <span class="frame-data">i17 | -12 | Low | His only low from Morengy Miroso stance</span>
+</div>
+<div class="note">If he adds ,3 it becomes a High ender at -13 — see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i18 | -12 | Low</span>
+</div>
+
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i20 | -14 | Low | Weapon</span>
+</div>
+
+<div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
+
+<div class="entry">
+  <script>document.write(icons('BAO.4'))</script>
+  <span class="frame-data">i18~19, i27~28 | -24 | Low, Mid | Tornado | His only low from Baobab Mihira</span>
+</div>
+<div class="note">Fixed sequence — the mid follow-up is only available after the low hits or is blocked, so block both low-then-mid for the full -24. This is the single biggest defensive reason to respect BAO instead of pressing buttons into it</div>
+<div class="entry">
+  <script>document.write(icons('MOR.4','3','H.1+2'))</script>
+  <span class="frame-data">i29~30 | -17 | Low, High, Mid | Heat-only</span>
+</div>
+<div class="note">Only available in Heat — block the low, then the natural combo, for a full launch (see Heat)</div>
+<div class="entry">
+  <script>document.write(icons('df3+4'))</script>
+  <span class="frame-data">i21 | -15 | Low</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i22~23 | -26 | Low</span>
+</div>
+<div class="note">Stagger on block — you still recover in time to launch, the stagger animation doesn't change the frame advantage</div>
+<div class="entry">
+  <script>document.write(icons('FC.df4'))</script>
+  <span class="frame-data">i18~19 | -26 | Low | From crouch</span>
+</div>
+<div class="note">Stagger on block, same as db+3 — still launch punishable</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+<h2>Duck and Launch</h2>
+
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+
+<div class="entry">
+  <script>document.write(icons('b3','4'))</script>
+  <span class="frame-data">(MID, HIGH) | b+3 alone is -13 oB — already punishable if he stops</span>
+</div>
+<div class="note">Duck the ,4 on block only — true combo on hit | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b3','4','2'))</script>
+  <span class="frame-data">(MID, HIGH, HIGH) | Full string -13 oB</span>
+</div>
+<div class="note">Duck starting at the ,4 — both remaining hits are High | Combo from 1st hit on hit only, not a threat on block | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('MOR.4','3'))</script>
+  <span class="frame-data">(LOW, HIGH) | MOR.4 alone is -12 oB — punishable alone if you'd rather not duck</span>
+</div>
+<div class="note">Duck the ,3 ender on block — true combo on hit | The wiki notes an unusually bad -36 recovery if he stops right after the low is blocked, so you're rewarded either way | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('f4','4'))</script>
+  <span class="frame-data">(MID, HIGH) | f+4 alone is -6 oB, full string -5 oB</span>
+</div>
+<div class="note">Duck the ,4 on block — his other branch, f+4,2, is a Mid ender and must be blocked instead, so wait to see which one comes</div>
+
+<div class="entry">
+  <script>document.write(icons('f4','4','4'))</script>
+  <span class="frame-data">(MID, HIGH, HIGH) | Full string -9 oB | Balcony Break</span>
+</div>
+<div class="note">Duck from the first ,4 onward — both enders are High | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('4','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | Naked 4 alone is -12 oB</span>
+</div>
+<div class="note">Full string is entirely High — duck either hit | Punish with character's FC or WS launcher</div>
+
+<div class="entry">
+  <script>document.write(icons('b1','4'))</script>
+  <span class="frame-data">(HIGH, HIGH) | Naked b+1 (Elbow) alone is -9 oB</span>
+</div>
+<div class="note">Full string entirely High — duck it | CH on the first hit launches him into a much bigger combo for you if he was going to throw this anyway</div>
+
+<div class="entry">
+  <script>document.write(icons('1','1','2'))</script>
+  <span class="frame-data">(HIGH, HIGH, HIGH, HIGH) | Naked 1,1 is -4 oB</span>
+</div>
+<div class="note">Entirely High from start to finish — the wiki flags this string "Duckable" outright | Punish with character's FC or WS launcher</div>
+
+<h3>Naked highs — duck on read</h3>
+
+<div class="entry">
+  <script>document.write(icons('b2'))</script>
+  <span class="frame-data">i13 | -12 oB | Homing</span>
+</div>
+<div class="note">His homing high — if you're getting step-checked, duck instead of stepping, then launch</div>
+
+<div class="entry">
+  <script>document.write(icons('db1+2'))</script>
+  <span class="frame-data">i18 | +3 oB | Balcony Break (airborne)</span>
+</div>
+<div class="note">Plus on block — blocking this hands him his turn back. Duck it instead</div>
+
+<div class="entry">
+  <script>document.write(icons('fff2','1'))</script>
+  <span class="frame-data">(HIGH, HIGH) | wr2 alone -9 oB | Full string +1 oB, jails from the first hit</span>
+</div>
+<div class="note">Entirely High — duck the whole thing. If blocked he can also cancel into MOR at +4 on hit or block, so ducking denies both the plus frames and the stance entry</div>
+
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">i17 | -2 oB</span>
+</div>
+<div class="note">Sets up uf+2,4 (Mid ender, full string -11 oB, Floor Break) — this first hit is your duck window; if you don't take it, the ,4 continuation is a Mid and has to be blocked instead</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+<h2>Stance Counterplay</h2>
+
+<h3>MOR — Morengy Miroso</h3>
+<div class="callout">Entered raw with f+3 (r15, actionable after frame 15, stance moves available frames 15~31, can cancel to crouch with DB on frame 16~). Far more often reached automatically off block or hit: 1,1,2~F (-8), 3,1~F (-7), df+1,1~F (±0), f,f,F+2,1~F (+4, on hit OR block), SS.2~F (+4, on hit), b+3,4,2~F (-1, on hit), and WAL.4~F (+5, on hit). No block-restriction is flagged on the wiki for MOR — treat it as a normal blocking stance unlike some characters' offense-only stances.</div>
+
+<div class="entry">
+  <script>document.write(icons('MOR.1'))</script>
+  <span class="frame-data">Mid | i13 | -4 | His fastest option from the stance | Good right sidestep tracking</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.1','2'))</script>
+  <span class="frame-data">Mid, High ×3 (weapon flurry) | i21~23 | -3 | Heat Engager | Heat Dash | Weapon</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.1','4'))</script>
+  <span class="frame-data">Mid, Mid | i22~23 | -13 | Knee | See Standing Block Punishment</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.2'))</script>
+  <span class="frame-data">Mid | i15~17 | -6 | Tornado | Elbow | Big CH reward (+72a) — respect it even though it's not very punishable on block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.3'))</script>
+  <span class="frame-data">Mid power crush | i17 | -13 | pc7~16 | See Power Crush</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.4'))</script>
+  <span class="frame-data">Low | i17 | -12 | His only low from this stance</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.4','3'))</script>
+  <span class="frame-data">Low, High | i22~23 | -13 | Duck the ,3 (see Duck and Launch)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.1+2'))</script>
+  <span class="frame-data">Mid | i26 | +6 | Spike | Auto-transitions to BAO</span>
+</div>
+<div class="note">Plus on block and dumps him into Baobab Mihira — slow enough (i26) to interrupt on reaction rather than just eating the free turn</div>
+<div class="entry">
+  <script>document.write(icons('MOR.u1+2'))</script>
+  <span class="frame-data">Mid | i16~17 | -2</span>
+</div>
+
+<div class="callout"><strong>How to deal with it:</strong> His only low is MOR.4 (i17, -12) — slow and clearly launch punishable, so <strong>default to standing block</strong>. His fastest attack out of the stance is only i13 (MOR.1, -4), so when he enters MOR at real disadvantage (1,1,2~F = -8, 3,1~F = -7, MOR.4 already blocked) your jab wins the race outright. The one entry to actually respect is MOR.1+2 (+6 on block) — since it's slow, look to interrupt it rather than block it, and don't press random buttons into it.</div>
+
+<h3>BAO — Baobab Mihira</h3>
+<div class="callout">Entered raw with 3+4 (r20, actionable after frame 20, cancel to r35 with DB on frame 20). Reached automatically off several knee/tornado strings on hit only (df+1,4 / 4,4 / db+2,4 / u+4, all +6), off a blocked Heat Smash (+6, automatic on block only), and off MOR.1+2 (+6, on hit OR block). No block-restriction is flagged for BAO either — treat it as a normal stance.</div>
+
+<div class="entry">
+  <script>document.write(icons('BAO.1'))</script>
+  <span class="frame-data">High | i13~14 | +4 | His fastest option out of the stance</span>
+</div>
+<div class="note">It's High and plus on block — duck it, don't stand and block it</div>
+<div class="entry">
+  <script>document.write(icons('BAO.1','4'))</script>
+  <span class="frame-data">High, Mid, Mid | i25~26 | -5 | Balcony Break | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAO.2'))</script>
+  <span class="frame-data">Mid | i23~25 | -18 | Tornado | Weapon | Steel pedal | Free launch (see Standing Block Punishment)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAO.3'))</script>
+  <span class="frame-data">Mid, Mid | i19~20 | -9 | Heat Engager | Homing | Can't duck a mid — just block and take your turn</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAO.4'))</script>
+  <span class="frame-data">Low, Mid | i18~19, i27~28 | -24 | Tornado | His only low — see Low Block Punishment</span>
+</div>
+
+<div class="callout"><strong>How to deal with it:</strong> He usually arrives in BAO already plus (most transitions land at +6), so don't try to mash a jab into it — respect the first beat. His only low, BAO.4, is slow and disastrous for him if you block it. His fastest option, BAO.1, is High and plus on block — duck it rather than block it. Everything else he has from the stance is Mid, so <strong>default to standing block</strong> and launch BAO.2 or BAO.4 the moment you see either.</div>
+
+<h3>WAL — Tromba (wall stance)</h3>
+<div class="callout">Wall-contextual only. Reached with b+3+4 (r70, transitions on wall contact) or the directional jump variants d+3+4 / u+3+4 (foreground/background leap toward or away from the wall), or for free without a wall during Heat via H.b+3+4.</div>
+
+<div class="entry">
+  <script>document.write(icons('WAL.4'))</script>
+  <span class="frame-data">Mid | i12~20 | +2 | 40 damage | Reversal Break | Balcony Break</span>
+</div>
+<div class="note">Big damage and plus on block, and can't be reversaled — just block it and take your turn back. He can also bail out with DB, or cancel into MOR or BAO instead of attacking</div>
+
+<!-- ── HEAT ── -->
+<h2>Heat</h2>
+
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | Mid, Throw | i17~18 | 52 dmg | Floor Break | 6 chip on block</span>
+</div>
+<div class="note">Not directly punishable on block — he auto-cancels straight into BAO at +6 instead of recovering normally. Treat a blocked Heat Smash as "he's entering Baobab Mihira plus" (see Stance Counterplay) rather than expecting a free launch</div>
+
+<h3>Heat Engagers — how he gets in</h3>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">Mid, High | i26~28 | -6 | Heat Engager | Heat Dash +43d(+35) | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">Mid, High | i15, i11~12 | -9 | Heat Engager | Heat Dash, Wall Crush | Good right sidestep tracking</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','4'))</script>
+  <span class="frame-data">Mid, Mid | i20 | -13 | Heat Engager | Knee, Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('MOR.1','2'))</script>
+  <span class="frame-data">Mid, High ×3 | i21~23 | -3 | Heat Engager | Weapon flurry</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BAO.3'))</script>
+  <span class="frame-data">Mid, Mid | i19~20 | -9 | Heat Engager | Homing</span>
+</div>
+
+<h3>Heat-only moves</h3>
+<div class="entry">
+  <script>document.write(icons('f4','H.2'))</script>
+  <span class="frame-data">Mid, Mid | i31 | +2 | Weapon | Balcony Break</span>
+</div>
+<div class="note">Push variants: f+4,H.d+2 pushes to foreground, f+4,H.u+2 pushes to background | Partially consumes remaining Heat Time</div>
+<div class="entry">
+  <script>document.write(icons('u3','H.2'))</script>
+  <span class="frame-data">Mid, Mid | i30~32 | -9 | Tornado | Weapon | 5 chip on block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3','H.2'))</script>
+  <span class="frame-data">High, High, Mid, Mid | i24~25 | +4 | Balcony Break | Weapon</span>
+</div>
+<div class="note">Plus on block — respect it, don't press into this one</div>
+<div class="entry">
+  <script>document.write(icons('ff2','H.2'))</script>
+  <span class="frame-data">Mid, Mid | i22~23 | -1 | Balcony Break | Weapon</span>
+</div>
+<div class="note">Near-safe even blocked — not worth trying to punish, just reset</div>
+<div class="entry">
+  <script>document.write(icons('MOR.4','3','H.1+2'))</script>
+  <span class="frame-data">Low, High, Mid | i29~30 | -17 | Full launch if blocked (see Low Block Punishment)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.b3+4'))</script>
+  <span class="frame-data">Enters WAL without needing a wall | d+3+4 / u+3+4 variants jump foreground/background</span>
+</div>
+
+<!-- ── THROWS ── -->
+<h2>Throws</h2>
+<div class="callout">All i12~14. Generic throws (1+3, 2+4) are Homing.</div>
+
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Floor Break</span>
+</div>
+<div class="note">Transitions to WAL on throw break if she makes contact with a wall</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">35 | Break 1 or 2 | Floor Break | Side switch on hit and on break</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">LEFT</span>
+  <span class="frame-data">Left throw | 40 | Break 1 | Floor Break</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">RIGHT</span>
+  <span class="frame-data">Right throw | 40 | Break 2 | Floor Break | Side switch on hit</span>
+</div>
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">BACK</span>
+  <span class="frame-data">Back throw | 50 | Unbreakable | Floor Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">40 | Break 1+2 | Balcony Break</span>
+</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+<h2>Power Crush &amp; Rage Art</h2>
+
+<div class="entry">
+  <script>document.write(icons('MOR.3'))</script>
+  <span class="frame-data">Mid power crush | i17 | -13 | pc7~16 | From the stance</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">Mid power crush | i18 | -13 | pc7~17 | From neutral | Spike</span>
+</div>
+<div class="note">"Block advantage -9 on successful attack absorption" per wiki — if she only absorbs your hit without landing her own, she's still negative</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Rage Art | Mid, Throw | i20 | -18 | pc8~ | 55–82 dmg scaling with missing health</span>
+</div>
+<div class="note">Block it and launch. Freezes the match timer on activation and on hit</div>
+
+<div class="callout">Both power crushes are Mid — ducking doesn't beat either one. Block and launch, or interrupt before the active window (frame 7 on both).</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+<h2>General Counter Play</h2>
+
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">Claw flurry chain: f+1+2 (-10) &rarr; f+1+2,1+2 (-13) &rarr; f+1+2,1+2,3+4 (-22)</span>
+</div>
+<div class="note">Delay windows are minimal (1f on the final input) — punish the earliest hit you catch instead of waiting him out. Letting the chain run just makes the eventual punish bigger while giving him more chances to stop early and stay safe</div>
+
+<div class="entry">
+  <script>document.write(icons('fff2','1'))</script>
+  <span class="frame-data">(HIGH, HIGH) — wr2 alone -9 oB, full string +1 oB and jails</span>
+</div>
+<div class="note">His running elbow — entirely High, duck the whole thing. Blocking it standing hands him a plus frame and a free cancel into MOR at +4 (also listed in Duck and Launch)</div>
+
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i23~26 | +6~+9 oB(!) | Auto-transitions to BAO</span>
+</div>
+<div class="note">His safe running mid launcher threat — it's a Mid, so you can't duck it pre-emptively. It has to be blocked, and once you do he's plus and picking from Baobab Mihira with initiative (see Stance Counterplay). Don't press random buttons into the block</div>
+
+<div class="entry">
+  <script>document.write(icons('f2'))</script>
+  <span class="frame-data">Mid | i20 | -13 | Punch Sabaki (parry, frames 5~10)</span>
+</div>
+<div class="note">Doubles as her own parry — catches punches only. On a successful parry she gets +30 and a Balcony Break. If she's fishing for this, favor kicks and mids over naked jab pressure</div>
+
+<div class="entry">
+  <span class="stance" style="margin-right:6px;">1+2+3+4</span>
+  <span class="frame-data">Ki Charge — universal Heat-adjacent buff, not a normal attack</span>
+</div>
+<div class="note">While charging she can't block for 5 seconds and takes counter hit on everything during that window — if you ever see it, punish immediately with anything in range</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data verified against <a href="https://wavu.wiki/t/Miary_Zo_movelist">Wavu Wiki — Miary Zo movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Miary_Zo_counterplay">Wavu Wiki — Miary Zo counterplay</a> (last edited 23 February 2026).
+  Default sidestep direction (SSL) sourced from <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs — Sidestep Chart</a> (community chart by @Mezerdie).
+  <strong>Movement section:</strong> every row is wiki-sourced — Homing flags, "Whiffs vs …" notes and "good right sidestep tracking" notes, quoted directly. No numeric Left/Right Tracking data has been published for this character yet, and the SSL default rests on the absence of any documented left-tracking move rather than on a tally of left whiffs.
+  First edition of this guide — no prior lab-tested tracking data exists to carry forward.<br>
+  <strong>Corrected 3 October 2026:</strong> df+1,1,2, df+1,1,1+2, d+1+2, MOR.2 and BAO.2 were previously labelled "Special Mid". Wavu writes them as a capital <strong>M</strong> — a mid that also hits grounded opponents — so they're ordinary mids and <strong>can't be blocked crouching</strong>. Re-checked against the Wavu movelist (unchanged since 12 September 2026).
+</div>
+
+
+
+
+
+</body></html>
