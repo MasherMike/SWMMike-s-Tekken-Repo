@@ -1,0 +1,46 @@
+# Pulls Mike's latest battles from ewgf.gg every 6 hours into data/battles.jsonl.
+# Stores only: date, mode, my character, opponent character, opponent rank,
+# result + round score, stage. Never names, IDs, regions or Tekken Power.
+# Can also be started by hand: Actions tab -> "Collect battles" -> Run workflow.
+
+name: Collect battles
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"     # 00:17, 06:17, 12:17, 18:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-battles      # never two runs writing the file at once
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull new battles
+        env:
+          EWGF_API_KEY: ${{ secrets.EWGF_API_KEY }}
+        run: python scripts/collect_battles.py
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/battles.jsonl
+          if git diff --cached --quiet; then
+            echo "No new battles."
+          else
+            git commit -m "data: collect battles"
+            git pull --rebase
+            git push
+          fi

@@ -1,0 +1,26 @@
+{
+  "_about": "Tekken 8 stage_id -> stage name, spelled exactly as in the stage tracker (index.html). Source for confirmed IDs: ewgf.gg's open-source backend (github.com/ewgf-gg/ewgfgg-backend, tekken_enums.json). Unknown IDs stay unmapped until confirmed - see 'unconfirmed'.",
+  "confirmed": {
+    "100": "Arena",
+    "101": "Arena Underground",
+    "200": "Urban Square",
+    "201": "Urban Square Evening",
+    "300": "Yakushima",
+    "400": "Coliseum of Fate",
+    "500": "Rebel Hangar",
+    "700": "Fallen Destiny",
+    "900": "Descent into Subconscious",
+    "1000": "Sanctum",
+    "1100": "Into the Stratosphere",
+    "1200": "Ortiz Farm",
+    "1300": "Celebration on the Seine",
+    "1400": "Secluded Training Ground",
+    "1500": "Elegant Palace",
+    "1600": "Midnight Siege"
+  },
+  "unconfirmed": {
+    "600": "unknown - one of: Seaside Resort, Genmaji Temple, Phoenix Gate, Pac-Pixels, Baobab Horizon",
+    "1801": "probably Genmaji Temple Daytime (variants sit one number apart, e.g. 100/101, 200/201) - needs one confirmation",
+    "2200": "unknown - one of: Seaside Resort, Genmaji Temple, Phoenix Gate, Pac-Pixels, Baobab Horizon"
+  }
+}
