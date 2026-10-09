@@ -1,0 +1,258 @@
+{
+  "endpoint": "/external/battles/{tekkenId}",
+  "top_level_keys": [
+    "_metadata",
+    "data"
+  ],
+  "metadata": {
+    "rate_limit_remaining": 99,
+    "rate_limit_reset": "2026-10-09T20:52:22Z",
+    "tier": "free"
+  },
+  "battle_count": 50,
+  "fields": {
+    "battle_at": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 50,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "battle_type": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 2,
+      "values": [
+        "QUICK_BATTLE",
+        "RANKED_BATTLE"
+      ]
+    },
+    "game_version": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 1,
+      "values": [
+        30202
+      ]
+    },
+    "p1_char": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 2,
+      "values": [
+        "King",
+        "Victor"
+      ]
+    },
+    "p1_dan_rank": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 2,
+      "values": [
+        "God of Destruction I",
+        "God of Destruction III"
+      ]
+    },
+    "p1_name": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 1,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p1_region": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 1,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p1_rounds_won": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 4,
+      "values": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "p1_tekken_id": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 1,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p1_tekken_power": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 21,
+      "values": [
+        384041,
+        384279,
+        384280,
+        384398,
+        384402,
+        384404,
+        384523,
+        384528,
+        384645,
+        384647,
+        384649,
+        384757,
+        384770,
+        384875,
+        384886,
+        384894,
+        385114,
+        385131,
+        385133,
+        385252,
+        385356
+      ]
+    },
+    "p2_char": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 11,
+      "values": [
+        "Armor King",
+        "Asuka",
+        "Heihachi",
+        "Hwoarang",
+        "Jack-8",
+        "Kazuya",
+        "Kuma",
+        "Law",
+        "Lili",
+        "Reina",
+        "Zafina"
+      ]
+    },
+    "p2_dan_rank": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 6,
+      "values": [
+        "God of Destruction I",
+        "God of Destruction II",
+        "God of Destruction III",
+        "God of Destruction IV",
+        "God of Destruction V",
+        "Tekken God Supreme"
+      ]
+    },
+    "p2_name": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 18,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p2_region": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 2,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p2_rounds_won": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 4,
+      "values": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "p2_tekken_id": {
+      "type": [
+        "str"
+      ],
+      "distinct_values": 18,
+      "values": "hidden (identifier or high-variety field)"
+    },
+    "p2_tekken_power": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 30,
+      "values": [
+        247502,
+        247503,
+        354648,
+        354769,
+        354838,
+        358143,
+        363467,
+        366363,
+        368117,
+        370666,
+        370905,
+        371300,
+        372541,
+        373045,
+        373164,
+        373166,
+        374223,
+        378540,
+        378779,
+        378901,
+        383462,
+        383583,
+        384535,
+        387315,
+        399439,
+        399440,
+        399441,
+        401477,
+        402199,
+        402318
+      ]
+    },
+    "stage_id": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 13,
+      "values": [
+        101,
+        300,
+        400,
+        500,
+        600,
+        900,
+        1000,
+        1100,
+        1400,
+        1500,
+        1600,
+        1801,
+        2200
+      ]
+    },
+    "winner": {
+      "type": [
+        "int"
+      ],
+      "distinct_values": 2,
+      "values": [
+        1,
+        2
+      ]
+    }
+  }
+}
