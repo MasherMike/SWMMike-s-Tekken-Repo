@@ -371,7 +371,48 @@
     .guides-note { font-size: 12px; color: #555; line-height: 1.6; }
     .guides-note code { color: #888; }
 
+    /* ── Live battle data (from data/battles.js) ── */
+    .live-filters {
+      display: flex;
+      align-items: center;
+      gap: 6px 14px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .live-filters .group { display: flex; align-items: center; gap: 6px; }
+    .live-filters .filter-btn { text-transform: none; letter-spacing: 0; }
+    .live-meta { font-size: 12px; color: #555; }
+    .live-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 16px 20px 10px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .live-panel-head h3 { font-size: 14px; color: #eee; font-weight: 600; }
+    .live-panel .live-filters { padding: 12px 20px 2px; }
+    .live-panel .stage-row { grid-template-columns: 200px 1fr 52px 64px; }
+    .stage-row.thin .stage-name,
+    .stage-row.thin .win-rate { color: #666; }
+    .stage-row.thin .bar-fill { opacity: 0.35; }
+    .sample { font-size: 12px; color: #888; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .thin .sample { color: #555; }
+    .live-empty { padding: 20px; color: #555; font-size: 13px; text-align: center; }
+    .live-foot { padding: 6px 20px 12px; font-size: 11px; color: #555; }
+
+    .guide-live { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #888; border-top: 1px solid #262626; padding-top: 8px; }
+    .guide-live .row { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+    .guide-live .row span:last-child { color: #ccc; }
+    .guide-live .row.thin span:last-child { color: #666; }
+    .guide-live .label { color: #666; }
+
     @media (max-width: 560px) {
+      .live-panel .stage-row { grid-template-columns: 1fr 70px 44px 56px; }
       .view-switch { width: 100%; }
       .view-btn { flex: 1; padding: 8px 10px; }
       .guide-search { width: 100%; }
@@ -389,6 +430,7 @@
 
     <!-- ═══ Matchup Guides view ═══ -->
     <section data-view="guides" hidden>
+      <div class="live-filters" data-live-filters style="margin-bottom:14px"></div>
       <div class="guides-toolbar">
         <div class="filters" id="guide-sort" style="padding:0"></div>
         <input type="search" class="guide-search" id="guide-search" placeholder="Find a character…" aria-label="Find a character" />
@@ -423,6 +465,17 @@
       <div class="stage-list" id="stage-list"></div>
     </div>
 
+    <!-- Live stage results, computed from data/battles.js -->
+    <div class="chart-panel live-panel">
+      <div class="live-panel-head">
+        <h3>Live from your battles</h3>
+        <span class="live-meta" id="live-meta"></span>
+      </div>
+      <div class="live-filters" data-live-filters></div>
+      <div class="stage-list" id="live-stage-list"></div>
+      <div class="live-foot">Collected automatically every 6 hours. Faded rows have fewer than 10 games — too few to trust yet.</div>
+    </div>
+
     <!-- Entry form -->
     <div class="entry-panel" id="entry-panel">
       <h3>Add / update data</h3>
@@ -440,6 +493,8 @@
 
   <!-- Guide index; the weekly task appends entries to this file -->
   <script src="guides/manifest.js"></script>
+  <!-- Battle log; the collect-battles workflow regenerates this every 6 hours -->
+  <script src="data/battles.js"></script>
   <script>
     // ── XSS guard ───────────────────────────────────────────────────────────────
     // Use escapeHtml() on any string from localStorage before inserting into innerHTML.
@@ -1020,6 +1075,119 @@
       populateStageDropdown(e.target.value)
     })
 
+    // ── Live battle data ─────────────────────────────────────────────────────────
+    // window.BATTLES comes from data/battles.js (written by the collector).
+    // Each row: battle_at, mode, my_char, opp_char, opp_rank, result, rounds, stage_id, stage
+    const BATTLE_LIST = Array.isArray(window.BATTLES) ? window.BATTLES : []
+    const MIN_SAMPLE = 10          // below this, numbers are shown faded
+    const LIVE_PREF_KEY = 'tk-live-filters'
+
+    const liveState = (() => {
+      const fallback = { mode: 'ranked', char: 'all' }
+      try {
+        const saved = JSON.parse(localStorage.getItem(LIVE_PREF_KEY) || 'null')
+        return saved && saved.mode && saved.char ? saved : fallback
+      } catch { return fallback }
+    })()
+
+    function saveLiveState() {
+      try { localStorage.setItem(LIVE_PREF_KEY, JSON.stringify(liveState)) } catch {}
+    }
+
+    function myCharacters() {
+      const counts = {}
+      BATTLE_LIST.forEach(b => { counts[b.my_char] = (counts[b.my_char] || 0) + 1 })
+      return Object.keys(counts).sort((a, b) => counts[b] - counts[a])
+    }
+
+    function liveBattles() {
+      return BATTLE_LIST.filter(b =>
+        (liveState.mode === 'all' || b.mode === liveState.mode) &&
+        (liveState.char === 'all' || b.my_char === liveState.char))
+    }
+
+    function tally(list) {
+      const w = list.filter(b => b.result === 'W').length
+      const n = list.length
+      return { w, l: n - w, n, pct: n ? Math.round(100 * w / n) : null }
+    }
+
+    function shortDate(iso) {
+      const d = new Date(iso)
+      return isNaN(d) ? '' : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+    }
+
+    function renderLiveFilters() {
+      const chars = myCharacters()
+      if (liveState.char !== 'all' && !chars.includes(liveState.char)) liveState.char = 'all'
+      const btn = (attr, value, label, active) =>
+        `<button class="filter-btn${active ? ' active' : ''}" ${attr}="${escapeHtml(value)}">${escapeHtml(label)}</button>`
+      const html = BATTLE_LIST.length ? `
+        <div class="group">Mode
+          ${btn('data-lmode', 'ranked', 'Ranked', liveState.mode === 'ranked')}
+          ${btn('data-lmode', 'all', 'All modes', liveState.mode === 'all')}
+        </div>
+        <div class="group">Playing as
+          ${btn('data-lchar', 'all', 'Anyone', liveState.char === 'all')}
+          ${chars.map(c => btn('data-lchar', c, c, liveState.char === c)).join('')}
+        </div>` : ''
+      document.querySelectorAll('[data-live-filters]').forEach(el => { el.innerHTML = html })
+    }
+
+    function renderLiveStages() {
+      const list = liveBattles()
+      const meta = document.getElementById('live-meta')
+      const target = document.getElementById('live-stage-list')
+      if (!BATTLE_LIST.length) {
+        meta.textContent = ''
+        target.innerHTML = '<div class="live-empty">No battle data yet — the collector adds it every 6 hours.</div>'
+        return
+      }
+      const first = BATTLE_LIST[0].battle_at, last = BATTLE_LIST[BATTLE_LIST.length - 1].battle_at
+      meta.textContent = `${list.length} of ${BATTLE_LIST.length} battles · ${shortDate(first)} – ${shortDate(last)}`
+      if (!list.length) {
+        target.innerHTML = '<div class="live-empty">No battles match these filters yet.</div>'
+        return
+      }
+      const byStage = {}
+      list.forEach(b => {
+        const name = b.stage || `Unknown stage (ID ${b.stage_id})`
+        ;(byStage[name] = byStage[name] || []).push(b)
+      })
+      const rows = Object.entries(byStage)
+        .map(([name, games]) => ({ name, ...tally(games) }))
+        .sort((a, b) => b.pct - a.pct || b.n - a.n)
+      target.innerHTML = rows.map(r => `
+        <div class="stage-row${r.n < MIN_SAMPLE ? ' thin' : ''}">
+          <span class="stage-name" title="${escapeHtml(r.name)}">${escapeHtml(r.name)}</span>
+          <div class="bar-track"><div class="bar-fill ${guideBarColor(r.pct)}" style="width:${r.pct}%"></div></div>
+          <span class="win-rate">${r.pct}%</span>
+          <span class="sample">${r.w}–${r.l}</span>
+        </div>`).join('')
+    }
+
+    // Live record vs one character, plus the split since its guide was added
+    function renderGuideLive(g) {
+      if (!BATTLE_LIST.length) return ''
+      const vs = liveBattles().filter(b => b.opp_char === g.character)
+      if (!vs.length) {
+        return `<div class="guide-live"><div class="row thin"><span class="label">Live record</span><span>no games yet</span></div></div>`
+      }
+      const all = tally(vs)
+      const since = g.added ? tally(vs.filter(b => String(b.battle_at).slice(0, 10) >= g.added)) : null
+      const line = (label, t) => `
+        <div class="row${t.n < MIN_SAMPLE ? ' thin' : ''}">
+          <span class="label">${label}</span>
+          <span>${t.n ? `${t.w}–${t.l} · ${t.pct}%` : 'no games yet'}</span>
+        </div>`
+      return `<div class="guide-live">${line('Live record', all)}${since ? line(`Since guide (${shortDate(g.added + 'T12:00:00Z')})`, since) : ''}</div>`
+    }
+
+    function renderLive() {
+      renderLiveFilters()
+      renderLiveStages()
+    }
+
     // ── Matchup Guides ───────────────────────────────────────────────────────────
     // Data comes from guides/manifest.js (window.GUIDES). Missing file = empty list.
     const GUIDE_LIST = Array.isArray(window.GUIDES) ? window.GUIDES : []
@@ -1090,6 +1258,7 @@
           </div>
           ${tags ? `<div class="guide-tags">${tags}</div>` : ''}
           ${recordHtml}
+          ${renderGuideLive(g)}
           <div class="guide-links">
             <a class="guide-link" href="${escapeHtml(g.file)}" target="_blank" rel="noopener">Open guide</a>
             ${artifact}
@@ -1127,6 +1296,15 @@
         showView(view)
         return
       }
+      const liveBtn = e.target.closest('[data-lmode], [data-lchar]')
+      if (liveBtn) {
+        if (liveBtn.dataset.lmode) liveState.mode = liveBtn.dataset.lmode
+        if (liveBtn.dataset.lchar) liveState.char = liveBtn.dataset.lchar
+        saveLiveState()
+        renderLive()
+        renderGuides()
+        return
+      }
       const sortBtn = e.target.closest('[data-gsort]')
       if (sortBtn) {
         guideState.sort = sortBtn.dataset.gsort
@@ -1143,6 +1321,7 @@
 
     // ── Initial render ────────────────────────────────────────────────────────────
     render()
+    renderLive()
     showView(location.hash.slice(1))
   </script>
 </body>
