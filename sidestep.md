@@ -6,54 +6,56 @@ https://tekkendocs.com/t8/sidestep-chart.webp
 The chart is an image, so the weekly task can't read it. This file is how its
 data reaches each guide's Movement section (evidence Tier 2).
 
-Format: `Character: DIRECTION` — one per line. Use SSL, SSR, or the chart's
-own code (e.g. SSC*) with a short note. Write "not on chart" if they're absent.
-Leave a line blank after the colon if you haven't filled it in yet.
+Format: `Character: DIRECTION (chart codes) — note`, one per line.
+The codes in parentheses are copied from the chart exactly as written.
+Transcribed by Mike, 2026-10-09.
 
-## Filled from existing guides
+**Totals:** 23 SSR · 17 SSL · 1 SSC · Bob not on chart
 
-- Victor: SSR
+## Already have a guide
+
+- Victor: SSR (1+2)
 - Bob: not on chart
-- Jin: SSR
-- Lili: SSL  (Wavu per-move data says SSR; the guide goes with Wavu)
-- Dragunov: SSR
-- Miary Zo: SSL
-- Hwoarang: SSC*  (step away from his chest position)
-- Heihachi: SSL
+- Jin: SSR (1, 2, 1+2)
+- Lili: SSL (1+2) — Wavu per-move data says SSR 6–0; the guide goes with Wavu
+- Dragunov: SSR (1, 2, 1+2)
+- Miary Zo: SSL (1+2) — Season 2
+- Hwoarang: SSC (1, 2, 1+2) — step away from his chest position
+- Heihachi: SSL (1+2) — Season 1
 
-## Queue — fill these in from the chart
+## Queue
 
-- Zafina:
-- Alisa:
-- Leo:
-- Kuma:
-- Shaheen:
-- Anna:
-- Claudio:
-- Armor King:
-- Lars:
-- Nina:
-- Asuka:
-- Kazuya:
-- Panda:
-- Kunimitsu:
-- King:
-- Raven:
-- Lidia:
-- Eddy:
-- Xiaoyu:
-- Steve:
-- Clive:
-- Bryan:
-- Feng:
-- Paul:
-- Azucena:
-- Jun:
-- Reina:
-- Jack-8:
-- Leroy:
-- Lee:
-- Law:
-- Yoshimitsu:
-- Devil Jin:
-- Fahkumram:
+- Zafina: SSL (1+2)
+- Alisa: SSR (1+2)
+- Leo: SSR (1+2)
+- Kuma: SSR (1+2)
+- Shaheen: SSR (1+2)
+- Anna: SSR (1+2) — Season 2
+- Claudio: SSL (1+2)
+- Armor King: SSR (1, 2, 1+2) — Season 2
+- Lars: SSR (1+2)
+- Nina: SSR (1, 2, 1+2)
+- Asuka: SSR (2, 1+2)
+- Kazuya: SSL (1+2)
+- Panda: SSR (1+2)
+- Kunimitsu: SSR (1, 1+2) — Season 3
+- King: SSR (1, 2, 1+2)
+- Raven: SSL (1, 1+2)
+- Lidia: SSR (1+2) — Season 1
+- Eddy: SSR (1+2) — Season 1
+- Xiaoyu: SSL (2, 1+2)
+- Steve: SSL (2, 1+2)
+- Clive: SSR (1+2) — Season 1
+- Bryan: SSR (1+2)
+- Feng: SSL (1+2)
+- Paul: SSR (1, 2, 1+2)
+- Azucena: SSL (1+2)
+- Jun: SSR (2, 1+2)
+- Reina: SSL (2, 1+2)
+- Jack-8: SSL (1, 2, 1+2)
+- Leroy: SSL (1+2)
+- Lee: SSL (1+2)
+- Law: SSR (1, 1+2)
+- Yoshimitsu: SSL (1+2)
+- Devil Jin: SSL (1, 2, 1+2)
+- Fahkumram: SSR (1+2) — Season 2
