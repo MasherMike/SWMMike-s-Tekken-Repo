@@ -1,0 +1,42 @@
+# Measures how fast ewgf.gg picks up a battle after it's played (needs EWGF Pro).
+# Start it right before a ranked session: Actions tab -> "ewgf lag test" -> Run workflow.
+# Saves only timestamps to data/lag-test-<date>.json.
+
+name: ewgf lag test
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: "How long to watch, in minutes (max 330)"
+        default: "120"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Watch for new battles
+        env:
+          EWGF_API_KEY: ${{ secrets.EWGF_API_KEY }}
+          TEST_MINUTES: ${{ inputs.minutes }}
+        run: python scripts/lag_test.py
+
+      - name: Save the result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/lag-test-*.json
+          git diff --cached --quiet || git commit -m "data: ewgf lag test result"
+          git pull --rebase
+          git push
