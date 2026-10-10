@@ -1,0 +1,51 @@
+battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
+2026-10-03T16:41:04Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 0,1500,Elegant Palace
+2026-10-03T16:44:49Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 2,1500,Elegant Palace
+2026-10-03T16:48:57Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1500,Elegant Palace
+2026-10-03T16:53:02Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1500,Elegant Palace
+2026-10-03T16:55:59Z,quick,Victor,Asuka,God of Destruction III,L,0 to 3,600,Pac-Pixels
+2026-10-03T16:59:13Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 1,1500,Elegant Palace
+2026-10-03T17:02:35Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1500,Elegant Palace
+2026-10-03T17:06:32Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 2,1500,Elegant Palace
+2026-10-03T17:09:33Z,quick,Victor,Hwoarang,God of Destruction IV,L,0 to 3,1000,Sanctum
+2026-10-03T17:13:37Z,quick,Victor,Hwoarang,God of Destruction IV,L,2 to 3,1000,Sanctum
+2026-10-03T17:15:45Z,quick,Victor,Hwoarang,God of Destruction IV,L,0 to 3,1000,Sanctum
+2026-10-03T17:19:00Z,quick,Victor,Hwoarang,God of Destruction IV,L,2 to 3,1100,Into the Stratosphere
+2026-10-03T17:22:23Z,quick,Victor,Hwoarang,God of Destruction IV,L,2 to 3,1100,Into the Stratosphere
+2026-10-03T17:25:00Z,quick,Victor,Zafina,God of Destruction V,L,0 to 3,500,Rebel Hangar
+2026-10-03T17:27:21Z,quick,Victor,Zafina,God of Destruction V,L,1 to 3,500,Rebel Hangar
+2026-10-03T17:30:39Z,quick,Victor,Heihachi,God of Destruction II,L,1 to 3,1000,Sanctum
+2026-10-03T17:34:31Z,quick,Victor,Heihachi,God of Destruction II,L,2 to 3,1000,Sanctum
+2026-10-03T17:36:55Z,quick,Victor,Asuka,God of Destruction II,L,0 to 3,1000,Sanctum
+2026-10-03T17:40:08Z,quick,King,Law,God of Destruction II,L,0 to 3,101,Arena Underground
+2026-10-03T17:42:53Z,quick,King,Law,God of Destruction II,L,0 to 3,101,Arena Underground
+2026-10-03T17:45:58Z,quick,King,Law,God of Destruction II,L,1 to 3,101,Arena Underground
+2026-10-03T17:48:45Z,quick,King,Law,God of Destruction II,L,0 to 3,101,Arena Underground
+2026-10-03T17:51:59Z,quick,King,Law,God of Destruction II,L,2 to 3,2200,Baobab Horizon
+2026-10-03T17:56:03Z,quick,King,Jack-8,God of Destruction II,W,3 to 2,900,Descent into Subconscious
+2026-10-03T17:59:11Z,quick,King,Jack-8,God of Destruction II,W,3 to 1,1801,Genmaji Temple Daytime
+2026-10-03T18:01:56Z,quick,King,Jack-8,God of Destruction II,L,1 to 3,1801,Genmaji Temple Daytime
+2026-10-03T18:05:16Z,quick,King,Jack-8,God of Destruction II,L,2 to 3,1801,Genmaji Temple Daytime
+2026-10-03T18:08:12Z,quick,King,Jack-8,God of Destruction II,L,1 to 3,1801,Genmaji Temple Daytime
+2026-10-03T18:11:38Z,quick,King,Jack-8,God of Destruction II,W,3 to 2,300,Yakushima
+2026-10-04T01:56:35Z,ranked,King,Reina,God of Destruction II,L,1 to 3,1600,Midnight Siege
+2026-10-04T02:00:23Z,ranked,King,Reina,God of Destruction II,W,3 to 1,300,Yakushima
+2026-10-04T02:03:21Z,ranked,King,Reina,God of Destruction II,L,1 to 3,300,Yakushima
+2026-10-04T02:06:07Z,ranked,King,Lili,God of Destruction II,L,0 to 3,1000,Sanctum
+2026-10-04T02:08:15Z,ranked,King,Lili,God of Destruction II,L,0 to 3,1000,Sanctum
+2026-10-04T02:10:44Z,ranked,King,Hwoarang,God of Destruction III,W,3 to 0,900,Descent into Subconscious
+2026-10-04T02:15:04Z,ranked,King,Armor King,God of Destruction I,L,0 to 3,400,Coliseum of Fate
+2026-10-04T02:18:41Z,ranked,King,Armor King,God of Destruction I,L,1 to 3,400,Coliseum of Fate
+2026-10-04T02:23:06Z,ranked,King,Heihachi,God of Destruction III,L,2 to 3,300,Yakushima
+2026-10-04T02:26:20Z,ranked,King,Heihachi,God of Destruction III,W,3 to 1,300,Yakushima
+2026-10-04T02:30:25Z,ranked,King,Heihachi,God of Destruction III,L,2 to 3,300,Yakushima
+2026-10-04T02:35:14Z,ranked,King,Hwoarang,Tekken God Supreme,W,3 to 2,500,Rebel Hangar
+2026-10-04T02:37:38Z,ranked,King,Hwoarang,Tekken God Supreme,W,3 to 0,500,Rebel Hangar
+2026-10-04T02:42:08Z,ranked,King,Kuma,God of Destruction II,W,3 to 0,400,Coliseum of Fate
+2026-10-04T02:45:09Z,ranked,King,Kuma,God of Destruction II,L,1 to 3,400,Coliseum of Fate
+2026-10-04T02:47:57Z,ranked,King,Kuma,God of Destruction II,L,1 to 3,400,Coliseum of Fate
+2026-10-04T02:51:58Z,ranked,King,Kazuya,God of Destruction I,W,3 to 2,1500,Elegant Palace
+2026-10-04T02:56:27Z,ranked,King,Kazuya,God of Destruction I,W,3 to 2,1500,Elegant Palace
+2026-10-04T02:59:44Z,ranked,King,Heihachi,God of Destruction II,W,3 to 0,1400,Secluded Training Ground
+2026-10-04T03:04:17Z,ranked,King,Heihachi,God of Destruction II,L,2 to 3,1400,Secluded Training Ground
+2026-10-04T03:07:24Z,ranked,King,Heihachi,God of Destruction II,L,1 to 3,1400,Secluded Training Ground

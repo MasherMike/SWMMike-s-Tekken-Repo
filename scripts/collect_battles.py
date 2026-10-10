@@ -10,6 +10,7 @@ Tekken Power, for Mike or for opponents:
   battle_at, mode, my_char, opp_char, opp_rank, result (+ round score), stage
 """
 
+import csv
 import gzip
 import json
 import os
@@ -22,6 +23,9 @@ URL = f"https://api.ewgf.gg/external/battles/{TEKKEN_ID}"
 BATTLES = "data/battles.jsonl"
 STAGES = "data/stages.json"
 PAGE_COPY = "data/battles.js"
+CSV_COPY = "data/battles.csv"
+CSV_FIELDS = ["battle_at", "mode", "my_char", "opp_char", "opp_rank", "result",
+              "rounds", "stage_id", "stage"]
 
 MODES = {"RANKED_BATTLE": "ranked", "QUICK_BATTLE": "quick",
          "PLAYER_BATTLE": "player", "GROUP_BATTLE": "group"}
@@ -86,6 +90,16 @@ def write_page_copy(rows):
         fh.write(";\n")
 
 
+def write_csv_copy(rows):
+    """data/battles.csv - same rows as a CSV, for Google Sheets' IMPORTDATA.
+    Rounds are written as "3 to 1" so spreadsheets don't read "3-1" as a date."""
+    with open(CSV_COPY, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=CSV_FIELDS, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            w.writerow({**r, "rounds": str(r.get("rounds", "")).replace("-", " to ")})
+
+
 def main():
     with open(STAGES) as fh:
         stage_names = json.load(fh)["confirmed"]
@@ -117,6 +131,7 @@ def main():
             fh.write(json.dumps(r, ensure_ascii=False) + "\n")
 
     write_page_copy(rows)
+    write_csv_copy(rows)
 
     unknown = sorted({r["stage_id"] for r in rows if r["stage"] is None})
     print(f"Pulled {len(raw)} battles, {len(new)} new, {len(rows)} total. "
