@@ -1,4 +1,8 @@
 battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
+2026-10-03T16:30:22Z,quick,Victor,Kunimitsu,God of Destruction V,L,1 to 3,1100,Into the Stratosphere
+2026-10-03T16:32:33Z,quick,Victor,Kunimitsu,God of Destruction V,L,1 to 3,1100,Into the Stratosphere
+2026-10-03T16:36:05Z,quick,Victor,Kunimitsu,God of Destruction V,L,2 to 3,1100,Into the Stratosphere
+2026-10-03T16:38:05Z,quick,Victor,Kunimitsu,God of Destruction V,L,0 to 3,1800,Genmaji Temple
 2026-10-03T16:41:04Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 0,1500,Elegant Palace
 2026-10-03T16:44:49Z,quick,Victor,Hwoarang,God of Destruction I,W,3 to 2,1500,Elegant Palace
 2026-10-03T16:48:57Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1500,Elegant Palace
@@ -49,3 +53,49 @@ battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
 2026-10-04T02:59:44Z,ranked,King,Heihachi,God of Destruction II,W,3 to 0,1400,Secluded Training Ground
 2026-10-04T03:04:17Z,ranked,King,Heihachi,God of Destruction II,L,2 to 3,1400,Secluded Training Ground
 2026-10-04T03:07:24Z,ranked,King,Heihachi,God of Destruction II,L,1 to 3,1400,Secluded Training Ground
+2026-10-10T14:59:08Z,ranked,Victor,Kazuya,God of Destruction II,W,3 to 1,1300,Celebration on the Seine
+2026-10-10T15:02:34Z,ranked,Victor,Armor King,God of Destruction II,L,0 to 3,1100,Into the Stratosphere
+2026-10-10T15:05:15Z,ranked,Victor,Armor King,God of Destruction II,W,3 to 0,1100,Into the Stratosphere
+2026-10-10T15:07:42Z,ranked,Victor,Armor King,God of Destruction II,L,0 to 3,1100,Into the Stratosphere
+2026-10-10T15:12:16Z,ranked,Victor,Leo,God of Destruction V,L,2 to 3,200,Urban Square Evening
+2026-10-10T15:16:05Z,ranked,Victor,Leo,God of Destruction V,W,3 to 1,200,Urban Square Evening
+2026-10-10T15:18:14Z,ranked,Victor,Leo,God of Destruction V,L,0 to 3,200,Urban Square Evening
+2026-10-10T15:21:51Z,ranked,Victor,Armor King,God of Destruction II,L,1 to 3,1100,Into the Stratosphere
+2026-10-10T15:25:25Z,ranked,Victor,Armor King,God of Destruction II,W,3 to 1,1100,Into the Stratosphere
+2026-10-10T15:27:35Z,ranked,Victor,Armor King,God of Destruction II,W,3 to 1,1100,Into the Stratosphere
+2026-10-10T15:32:07Z,ranked,Victor,Armor King,God of Destruction III,W,3 to 1,900,Descent into Subconscious
+2026-10-10T15:35:31Z,ranked,Victor,Armor King,God of Destruction III,L,1 to 3,900,Descent into Subconscious
+2026-10-10T15:38:51Z,ranked,Victor,Armor King,God of Destruction III,L,1 to 3,1700,Seaside Resort
+2026-10-10T15:42:22Z,ranked,Victor,Law,God of Destruction II,W,3 to 1,400,Coliseum of Fate
+2026-10-10T15:48:24Z,ranked,Victor,Shaheen,God of Destruction IV,L,2 to 3,500,Rebel Hangar
+2026-10-10T15:50:42Z,ranked,Victor,Shaheen,God of Destruction IV,W,3 to 1,500,Rebel Hangar
+2026-10-10T15:53:50Z,ranked,Victor,Shaheen,God of Destruction IV,W,3 to 2,500,Rebel Hangar
+2026-10-10T15:57:48Z,ranked,Victor,Raven,God of Destruction III,L,0 to 3,1400,Secluded Training Ground
+2026-10-10T16:01:04Z,ranked,Victor,Raven,God of Destruction III,W,3 to 1,1400,Secluded Training Ground
+2026-10-10T16:03:54Z,ranked,Victor,Raven,God of Destruction III,W,3 to 1,1400,Secluded Training Ground
+2026-10-10T18:47:06Z,quick,Paul,Jun,God of Destruction III,L,1 to 3,1801,Genmaji Temple Daytime
+2026-10-10T18:49:19Z,quick,Paul,Jun,God of Destruction III,L,0 to 3,1801,Genmaji Temple Daytime
+2026-10-10T18:52:21Z,quick,Paul,Jun,God of Destruction III,L,1 to 3,1801,Genmaji Temple Daytime
+2026-10-10T18:55:40Z,quick,Paul,Asuka,Tekken God Supreme,L,1 to 3,300,Yakushima
+2026-10-10T18:58:34Z,quick,Paul,Asuka,Tekken God Supreme,L,0 to 3,300,Yakushima
+2026-10-10T19:02:18Z,quick,Paul,Asuka,God of Destruction,W,3 to 0,400,Coliseum of Fate
+2026-10-10T19:04:53Z,quick,Paul,Victor,God of Destruction II,W,3 to 0,700,Fallen Destiny
+2026-10-10T19:07:50Z,quick,Paul,Bryan,God of Destruction III,L,0 to 3,500,Rebel Hangar
+2026-10-10T19:10:03Z,quick,Paul,Bryan,God of Destruction III,L,0 to 3,500,Rebel Hangar
+2026-10-10T19:13:57Z,quick,Paul,Bryan,God of Destruction III,L,2 to 3,500,Rebel Hangar
+2026-10-10T19:16:31Z,quick,Paul,Bryan,God of Destruction III,L,0 to 3,500,Rebel Hangar
+2026-10-10T19:19:58Z,quick,Paul,Bryan,God of Destruction III,L,1 to 3,500,Rebel Hangar
+2026-10-10T19:22:18Z,quick,Paul,Bryan,God of Destruction III,L,0 to 3,500,Rebel Hangar
+2026-10-10T19:25:01Z,quick,Paul,Bryan,God of Destruction III,L,1 to 3,1700,Seaside Resort
+2026-10-10T19:28:02Z,quick,Paul,Bryan,God of Destruction III,L,1 to 3,1700,Seaside Resort
+2026-10-10T19:30:30Z,quick,Paul,Bryan,God of Destruction III,L,0 to 3,1700,Seaside Resort
+2026-10-10T19:33:36Z,quick,Paul,Bryan,God of Destruction III,L,1 to 3,1700,Seaside Resort
+2026-10-10T19:36:31Z,quick,Paul,Dragunov,God of Destruction,L,0 to 3,1000,Sanctum
+2026-10-10T19:39:29Z,quick,Paul,Dragunov,God of Destruction,L,1 to 3,1000,Sanctum
+2026-10-10T19:43:07Z,quick,Victor,Claudio,God of Destruction I,L,1 to 3,300,Yakushima
+2026-10-10T19:46:07Z,quick,Victor,Claudio,God of Destruction I,W,3 to 1,300,Yakushima
+2026-10-10T19:50:42Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1801,Genmaji Temple Daytime
+2026-10-10T19:54:25Z,quick,Victor,Hwoarang,God of Destruction I,L,2 to 3,1801,Genmaji Temple Daytime
+2026-10-10T19:58:10Z,quick,Victor,Jin,God of Destruction II,W,3 to 1,1700,Seaside Resort
+2026-10-10T20:03:39Z,quick,Victor,Armor King,God of Destruction II,W,3 to 2,200,Urban Square Evening
+2026-10-10T20:06:57Z,quick,Victor,Armor King,God of Destruction II,W,3 to 2,200,Urban Square Evening
