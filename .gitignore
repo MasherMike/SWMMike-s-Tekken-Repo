@@ -1,3 +1,8 @@
 # Python cache files
 __pycache__/
 *.pyc
+
+# Stream overlay: your API key and live data stay on your PC
+overlay/ewgf-key.txt
+overlay/overlay-data.js
+overlay/overlay-data.tmp
