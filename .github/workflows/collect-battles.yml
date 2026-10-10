@@ -1,4 +1,4 @@
-# Pulls Mike's latest battles from ewgf.gg every 6 hours into data/battles.jsonl.
+# Pulls Mike's latest battles from ewgf.gg every hour into data/battles.jsonl.
 # Stores only: date, mode, my character, opponent character, opponent rank,
 # result + round score, stage. Never names, IDs, regions or Tekken Power.
 # Can also be started by hand: Actions tab -> "Collect battles" -> Run workflow.
@@ -7,14 +7,14 @@ name: Collect battles
 
 on:
   schedule:
-    - cron: "17 */6 * * *"     # 00:17, 06:17, 12:17, 18:17 UTC
+    - cron: "17 * * * *"       # hourly at :17 (EWGF Pro has no delay; GitHub sometimes skips a run)
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: collect-battles      # never two runs writing the file at once
+  group: battle-data          # shared with End session so they never write at once
   cancel-in-progress: false
 
 jobs:
@@ -37,10 +37,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/battles.jsonl data/battles.js data/battles.csv
-          if git diff --cached --quiet; then
-            echo "No new battles."
-          else
-            git commit -m "data: collect battles"
-            git pull --rebase
-            git push
-          fi
+          if git diff --cached --quiet; then echo "No new battles."; exit 0; fi
+          git commit -m "data: collect battles"
+          for attempt in 1 2 3; do
+            git push && exit 0
+            echo "Push rejected, rebasing on the newest commit and retrying ($attempt)"
+            git pull --rebase origin main
+          done
+          exit 1
