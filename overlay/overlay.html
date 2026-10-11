@@ -81,7 +81,7 @@
   const OPPS = parseInt(params.get('opps'), 10) || 4
   const DOTS = parseInt(params.get('dots'), 10) || 10
   const GAP_MIN = parseInt(params.get('gap'), 10) || 45
-  const STALE_SEC = 180          // poller writes every 30s; 3 minutes means it stopped
+  const STALE_SEC = 900          // poller writes every 40s or more; 15 minutes means it stopped
 
   document.getElementById('panel').style.transform = `scale(${SCALE})`
 
@@ -170,7 +170,11 @@
     // footer: freshness
     const age = (Date.now() - new Date(data.updated).getTime()) / 1000
     let foot = `<div class="foot">Updated ${ago(age)}</div>`
-    if (data.error) foot = `<div class="foot warn">ewgf.gg not responding, retrying · last data ${ago(age)}</div>`
+    const paused = data.paused_until ? new Date(data.paused_until) : null
+    if (data.error === 'rate_limited' && paused && paused > Date.now())
+      foot = `<div class="foot warn">Hourly ewgf.gg limit reached · back at ${paused.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>`
+    else if (data.error === 'rate_limited') foot = `<div class="foot">Resuming…</div>`
+    else if (data.error) foot = `<div class="foot warn">ewgf.gg not responding, retrying · last data ${ago(age)}</div>`
     else if (age > STALE_SEC) foot = `<div class="foot warn">Not updating · is start-overlay.bat running?</div>`
 
     const modeLabel = MODES.length ? MODES.join(' + ') : 'all modes'

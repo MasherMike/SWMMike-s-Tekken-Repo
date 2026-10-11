@@ -2,7 +2,7 @@
 
 A small panel for OBS that shows your current session live: record on the
 character you're playing, recent results, current streak, and who you've
-played. It updates about 30 seconds after each game ends.
+played. It updates within about a minute of each game ending.
 
 ## One-time setup (about 10 minutes, on your streaming PC)
 
@@ -15,7 +15,8 @@ played. It updates about 30 seconds after each game ends.
    `ewgf-key.txt.txt` and the poller won't find it.
    This file stays on your PC; it is never uploaded.
 3. **Test the poller.** Double-click `start-overlay.bat`. A window opens and,
-   within a few seconds, prints a line like `[7:27:06 PM] 100 battles, newest ...`.
+   within a few seconds, prints a line like
+   `[7:27:06 PM] 100 battles, newest ... | pro tier, 97 requests left this hour, next check in 40s`.
    If Windows shows a blue "Windows protected your PC" box, click
    **More info → Run anyway** (it's a local script you can read in Notepad).
 4. **Add it to OBS.** In your scene: **Sources → + → Browser**.
@@ -51,6 +52,15 @@ file:///C:/Users/YOU/Documents/TekkenOverlay/overlay.html?modes=ranked&scale=1.2
 | Updated 20s ago | Working normally |
 | Not updating · is start-overlay.bat running? | The poller window was closed or the PC slept |
 | ewgf.gg not responding, retrying | ewgf.gg is down or slow; the last data stays on screen |
+| Hourly ewgf.gg limit reached · back at 10:10 PM | The hourly request allowance ran out; the poller waits until it resets |
+
+## Request limit
+
+ewgf.gg allows a set number of requests per hour and reports how many are
+left with every reply. The poller checks every 40 seconds at most and slows
+down automatically so it never runs out, keeping a few spare for the hourly
+GitHub collector. If it does hit the limit, it waits for the reset instead
+of retrying.
 
 ## Privacy
 

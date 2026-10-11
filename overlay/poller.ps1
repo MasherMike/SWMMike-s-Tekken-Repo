@@ -10,9 +10,12 @@
 # Works with Windows PowerShell 5.1 (built into Windows) and PowerShell 7.
 
 $TekkenId = "4bN6AEeddYT6"               # your Tekken ID
-$IntervalSeconds = 30                     # 120 requests/hour; EWGF Pro allows 1,000
+$IntervalSeconds = 40                     # fastest check: 90 requests/hour
+$Reserve = 3                              # requests/hour left for the hourly GitHub collector
 $BaseUrl = "https://api.ewgf.gg"
+$MinWait = 60                             # shortest pause after a "too many requests" reply
 if ($env:EWGF_BASE_URL) { $BaseUrl = $env:EWGF_BASE_URL }   # for testing only
+if ($env:EWGF_TEST_FAST) { $IntervalSeconds = 2; $MinWait = 2 } # for testing only
 
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $KeyFile = Join-Path $Here "ewgf-key.txt"
@@ -38,12 +41,51 @@ function ConvertTo-IsoUtc($value) {
     return [string]$value
 }
 
-function Write-OverlayData($battles, $tier, $errorText) {
+function ConvertTo-UtcDate($value) {
+    if ($null -eq $value -or "$value" -eq "") { return $null }
+    if ($value -is [datetime]) { return $value.ToUniversalTime() }
+    try { return ([DateTimeOffset]::Parse([string]$value)).UtcDateTime } catch { return $null }
+}
+
+# How long to wait before the next check. ewgf.gg tells us how many requests
+# are left this hour and when the hour resets, so we spread what's left
+# evenly over the rest of the hour and never run dry.
+function Get-PollDelay($remaining, $resetUtc) {
+    if ($null -eq $remaining -or $null -eq $resetUtc) { return $IntervalSeconds }
+    $secondsLeft = ($resetUtc - (Get-Date).ToUniversalTime()).TotalSeconds
+    if ($secondsLeft -le 0) { return $IntervalSeconds }
+    $usable = [int]$remaining - $Reserve
+    if ($usable -le 0) { return [int][Math]::Ceiling($secondsLeft) + 5 }   # wait for the reset
+    $even = [int][Math]::Ceiling($secondsLeft / $usable)
+    return [Math]::Max($IntervalSeconds, $even)
+}
+
+# Status code and Retry-After from a failed request (PowerShell 5.1 and 7).
+function Get-HttpStatus($err) {
+    try { $r = $err.Exception.Response; if ($r) { return [int]$r.StatusCode } } catch {}
+    return $null
+}
+function Get-RetryAfterSeconds($err) {
+    $r = $err.Exception.Response
+    if (-not $r) { return $null }
+    try {
+        $ra = $r.Headers.RetryAfter                          # PowerShell 7
+        if ($ra -and $ra.Delta) { return [int]$ra.Delta.Value.TotalSeconds }
+        if ($ra -and $ra.Date) { return [int]($ra.Date.Value.UtcDateTime - (Get-Date).ToUniversalTime()).TotalSeconds }
+    } catch {}
+    try { $v = $r.Headers["Retry-After"]; if ($v) { return [int]$v } } catch {}   # PowerShell 5.1
+    return $null
+}
+
+function Write-OverlayData($battles, $tier, $errorText, $pausedUntil) {
+    $paused = $null
+    if ($pausedUntil) { $paused = $pausedUntil.ToString("yyyy-MM-ddTHH:mm:ssZ") }
     $payload = [pscustomobject]@{
-        updated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
-        tier    = $tier
-        error   = $errorText
-        battles = @($battles)
+        updated      = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+        tier         = $tier
+        error        = $errorText
+        paused_until = $paused
+        battles      = @($battles)
     }
     $json = $payload | ConvertTo-Json -Depth 4 -Compress
     # Write to a temp file, then swap it in, so the overlay never reads half a file.
@@ -52,11 +94,15 @@ function Write-OverlayData($battles, $tier, $errorText) {
 }
 
 Write-Host "Tekken overlay poller running. Leave this window open while you stream." -ForegroundColor Green
-Write-Host "Checking ewgf.gg every $IntervalSeconds seconds. Close this window to stop."
+Write-Host "Checks ewgf.gg every $IntervalSeconds seconds or more, pacing itself to stay under the hourly limit."
+Write-Host "Close this window to stop."
 Write-Host ""
 
 $lastGood = @()
+$lastTier = $null
+$lastReset = $null
 while ($true) {
+    $sleep = $IntervalSeconds
     try {
         $resp = Invoke-RestMethod -Uri "$BaseUrl/external/battles/$TekkenId" `
             -Headers @{ Authorization = "Bearer $Key" } -TimeoutSec 30
@@ -81,15 +127,36 @@ while ($true) {
             }
         }
         $lastGood = $rows
-        Write-OverlayData $rows $resp._metadata.tier $null
+        $meta = $resp._metadata
+        $lastTier = $meta.tier
+        $remaining = $meta.rate_limit_remaining
+        $lastReset = ConvertTo-UtcDate $meta.rate_limit_reset
+        Write-OverlayData $rows $lastTier $null $null
+        $sleep = Get-PollDelay $remaining $lastReset
         $newest = "none"; if ($rows.Count -gt 0) { $newest = ($rows | Sort-Object battle_at | Select-Object -Last 1).battle_at }
-        Write-Host ("[{0:h:mm:ss tt}] {1} battles, newest {2}" -f (Get-Date), $rows.Count, $newest)
+        Write-Host ("[{0:h:mm:ss tt}] {1} battles, newest {2} | {3} tier, {4} requests left this hour, next check in {5}s" -f `
+            (Get-Date), $rows.Count, $newest, $lastTier, $remaining, $sleep)
     }
     catch {
         $msg = $_.Exception.Message
-        Write-Host ("[{0:h:mm:ss tt}] Could not reach ewgf.gg: {1}" -f (Get-Date), $msg) -ForegroundColor Yellow
-        # Keep showing the last good data, flagged with the error.
-        Write-OverlayData $lastGood $null $msg
+        if ((Get-HttpStatus $_) -eq 429) {
+            # Hourly limit used up. Wait it out instead of knocking every few seconds.
+            $wait = Get-RetryAfterSeconds $_
+            if (-not $wait -and $lastReset) { $wait = [int](($lastReset - (Get-Date).ToUniversalTime()).TotalSeconds) + 5 }
+            if (-not $wait -or $wait -lt $MinWait) { $wait = [Math]::Max($MinWait, 300) }
+            if ($env:EWGF_TEST_FAST -and $wait -gt 5) { $wait = 3 }
+            $wait = [Math]::Min($wait, 3600)
+            $resume = (Get-Date).ToUniversalTime().AddSeconds($wait)
+            Write-Host ("[{0:h:mm:ss tt}] ewgf.gg hourly limit reached. Pausing until {1:h:mm tt}." -f `
+                (Get-Date), $resume.ToLocalTime()) -ForegroundColor Yellow
+            Write-OverlayData $lastGood $lastTier "rate_limited" $resume
+            $sleep = $wait
+        }
+        else {
+            Write-Host ("[{0:h:mm:ss tt}] Could not reach ewgf.gg: {1}" -f (Get-Date), $msg) -ForegroundColor Yellow
+            # Keep showing the last good data, flagged with the error.
+            Write-OverlayData $lastGood $lastTier $msg $null
+        }
     }
-    Start-Sleep -Seconds $IntervalSeconds
+    Start-Sleep -Seconds $sleep
 }
