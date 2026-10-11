@@ -65,4 +65,4 @@ Round margin is the opponent's rounds minus yours, averaged: a number moving tow
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
 ---
-Generated Oct 10, 2026 10:56 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Oct 10, 2026 10:59 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
