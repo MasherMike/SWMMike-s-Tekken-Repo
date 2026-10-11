@@ -33,6 +33,34 @@ if (-not (Test-Path $KeyFile)) {
 }
 $Key = (Get-Content $KeyFile -Raw).Trim()
 
+# Only one poller at a time: two copies would use the hourly limit twice as fast.
+$script:Lock = New-Object System.Threading.Mutex($false, "Local\TekkenOverlayPoller")
+$haveLock = $false
+try { $haveLock = $script:Lock.WaitOne(0) }
+catch [System.Threading.AbandonedMutexException] { $haveLock = $true }   # last copy crashed; take over
+if (-not $haveLock) {
+    Write-Host ""
+    Write-Host "  The overlay poller is already running in another window." -ForegroundColor Yellow
+    Write-Host "  Check your taskbar for 'Tekken overlay poller'. One copy is all you need."
+    Write-Host ""
+    Read-Host "Press Enter to close"
+    exit 1
+}
+
+# Only one poller at a time: two copies would use the hourly limit twice as fast.
+$script:Lock = New-Object System.Threading.Mutex($false, "Local\TekkenOverlayPoller")
+$haveLock = $false
+try { $haveLock = $script:Lock.WaitOne(0) }
+catch [System.Threading.AbandonedMutexException] { $haveLock = $true }   # last copy crashed; take over
+if (-not $haveLock) {
+    Write-Host ""
+    Write-Host "  The overlay poller is already running in another window." -ForegroundColor Yellow
+    Write-Host "  Check your taskbar for 'Tekken overlay poller'. One copy is all you need."
+    Write-Host ""
+    Read-Host "Press Enter to close"
+    exit 1
+}
+
 $Modes = @{ RANKED_BATTLE = "ranked"; QUICK_BATTLE = "quick"; PLAYER_BATTLE = "player"; GROUP_BATTLE = "group" }
 
 function ConvertTo-IsoUtc($value) {
