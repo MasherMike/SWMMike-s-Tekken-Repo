@@ -9,6 +9,10 @@ and prints the same report so the workflow can show it on the run page.
 A "session" is a run of games with no break of SESSION_GAP_MIN or longer.
 Set SCOPE=today to review every game played today instead.
 
+MODE picks which games count. It defaults to "ranked": Mike plays quick match
+loosely to feed the data collector, so coaching reads ranked games only.
+Set MODE=all to review every mode. Games left out are named in one line.
+
 Run by .github/workflows/end-session.yml.
 """
 
@@ -152,19 +156,26 @@ def table(rows, headers):
 
 
 # ── report ───────────────────────────────────────────────────────────────────
-def build(games, label, all_games):
+def build(games, label, all_games, mode="all", skipped=()):
     guides, queue = load_guides(), load_queue()
     start, end = games[0]["t"], games[-1]["t"]
     lines = [f"# Session review: {start:%a %b %-d, %Y}",
              f"{label} · {hm(start)} – {hm(end)} · {len(games)} games", ""]
+    if mode != "all":
+        note = f"Reviewing **{mode} games only**."
+        if skipped:
+            modes = ", ".join(sorted({g["mode"] for g in skipped}))
+            note += (f" Left out {len(skipped)} {modes} game(s) played in the same window "
+                     f"({fmt_record(skipped)}); set the mode to \"all\" to include them.")
+        lines += [note, ""]
 
     # Results by mode and by character
     lines += ["## Results", ""]
     rows = []
-    for mode in ("ranked", "quick", "player", "group"):
-        sub = [g for g in games if g["mode"] == mode]
+    for m in ("ranked", "quick", "player", "group"):
+        sub = [g for g in games if g["mode"] == m]
         if sub:
-            rows.append([mode.capitalize(), len(sub), fmt_record(sub)])
+            rows.append([m.capitalize(), len(sub), fmt_record(sub)])
     rows.append(["**All**", len(games), f"**{fmt_record(games)}**"])
     lines += [table(rows, ["Mode", "Games", "Record"]), ""]
 
@@ -195,9 +206,11 @@ def build(games, label, all_games):
     # Rematch sets
     sets = rematch_sets(games)
     if sets:
+        why = ("In ranked these are where you adapt: the last column shows whether you did."
+               if mode == "ranked" else
+               "These are fights you chose, so read them as practice, not results.")
         lines += ["## Rematch sets", "",
-                  "Back-to-back games against the same character at the same rank. "
-                  "These are fights you chose, so read them as practice, not results.", ""]
+                  "Back-to-back games against the same character at the same rank. " + why, ""]
         rows = []
         for s in sets:
             half = len(s) // 2
@@ -298,11 +311,17 @@ def main():
         g["t"] = local(g["battle_at"])
     games.sort(key=lambda g: g["t"])
 
-    picked, label = pick_games(games, scope)
+    mode = os.environ.get("MODE", "ranked").strip().lower() or "ranked"
+    pool = games if mode == "all" else [g for g in games if g["mode"] == mode]
+    picked, label = pick_games(pool, scope)
     if not picked:
-        print(f"No games found for '{scope}'.")
+        print(f"No {mode} games found for '{scope}'.")
         return
-    report = build(picked, label, games)
+    if mode != "all":
+        label = f"{label} ({mode})"
+    start, end = picked[0]["t"], picked[-1]["t"]
+    skipped = [g for g in games if g["mode"] != mode and start <= g["t"] <= end] if mode != "all" else []
+    report = build(picked, label, games, mode, skipped)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     name = f"{OUT_DIR}/{picked[0]['t']:%Y-%m-%d-%H%M}.md"

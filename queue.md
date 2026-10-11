@@ -9,9 +9,13 @@ worst matchup first. Order uses a sample-adjusted win rate, so a 0-4 record
 doesn't automatically outrank an 11-20 one: (wins + 5) / (games + 10).
 Raw record in the comment after each name, for reference only.
 
+**Ranked records only (rule set 2026-10-10).** Quick match is played loosely to
+feed the battle collector, so all-modes records are not used to order this
+queue. When reordering, go by ranked results.
+
 ## Queue
 
-- Eddy          <!-- moved to front by Mike, 2026-10-09: 7-5 ranked, but 16-89 across all modes this season -->
+- Eddy          <!-- 7-5 ranked, 58%. Was moved to front 2026-10-09 on the all-modes record; guide built before the ranked-only rule -->
 - Zafina        <!-- 0-4,   0% -->
 - Alisa         <!-- 1-5,  17% -->
 - Leo           <!-- 2-6,  25% -->
@@ -48,5 +52,5 @@ Raw record in the comment after each name, for reference only.
 
 ## Done
 
-Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi
+Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi, Eddy, Zafina
 (the task checks `guides/` directly; this list is just for reading)

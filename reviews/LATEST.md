@@ -1,77 +1,68 @@
 # Session review: Sat Oct 10, 2026
-Last session · 2:47 PM – 4:06 PM · 26 games
+Last session (ranked) · 10:59 AM – 12:03 PM · 20 games
+
+Reviewing **ranked games only**.
 
 ## Results
 
 | Mode | Games | Record |
 |---|---|---|
-| Quick | 26 | 6–20 (23%) |
-| **All** | 26 | **6–20 (23%)** |
+| Ranked | 20 | 11–9 (55%) |
+| **All** | 20 | **11–9 (55%)** |
 
-| Playing as | Games | Record |
-|---|---|---|
-| Paul | 19 | 2–17 (11%) |
-| Victor | 7 | 4–3 (57%) |
+Ranked this session: **55%** vs **43%** across your 21 earlier stored ranked games.
 
 ## How the losses went
 
 |  | Games |
 |---|---|
-| Close (lost by 1 round) | 3 |
-| Lost by 2 rounds | 9 |
-| Blowouts (lost by 3+ rounds) | 8 |
-| Close wins (won by 1 round) | 2 |
+| Close (lost by 1 round) | 2 |
+| Lost by 2 rounds | 3 |
+| Blowouts (lost by 3+ rounds) | 4 |
+| Close wins (won by 1 round) | 1 |
 
 Close losses are matchups you're nearly solving. Blowouts are the ones to lab.
 
 ## Rematch sets
 
-Back-to-back games against the same character at the same rank. These are fights you chose, so read them as practice, not results.
+Back-to-back games against the same character at the same rank. In ranked these are where you adapt: the last column shows whether you did.
 
 | Set | Mode | When | Record | Round margin, early → late |
 |---|---|---|---|---|
-| Paul vs Jun (God of Destruction III) | quick | 2:47 PM – 2:52 PM | 0–3 (0%) | widening (+2.0 → +2.5) |
-| Paul vs Bryan (God of Destruction III) | quick | 3:07 PM – 3:33 PM | 0–10 (0%) | steady (+2.4 → +2.4) |
+| Victor vs Armor King (God of Destruction II) | ranked | 11:02 AM – 11:07 AM | 1–2 (33%) | tightening (+3.0 → +0.0) |
+| Victor vs Leo (God of Destruction V) | ranked | 11:12 AM – 11:18 AM | 1–2 (33%) | tightening (+1.0 → +0.5) |
+| Victor vs Armor King (God of Destruction II) | ranked | 11:21 AM – 11:27 AM | 2–1 (67%) | tightening (+2.0 → -2.0) |
+| Victor vs Armor King (God of Destruction III) | ranked | 11:32 AM – 11:38 AM | 1–2 (33%) | widening (-2.0 → +2.0) |
+| Victor vs Shaheen (God of Destruction IV) | ranked | 11:48 AM – 11:53 AM | 2–1 (67%) | tightening (+1.0 → -1.5) |
+| Victor vs Raven (God of Destruction III) | ranked | 11:57 AM – 12:03 PM | 2–1 (67%) | tightening (+3.0 → -2.0) |
 
 Round margin is the opponent's rounds minus yours, averaged: a number moving toward zero or below means the set was getting closer.
-
-## Streaks
-
-- Longest losing streak: **13** (3:07 PM – 3:43 PM), 10 of the 13 were rematch-set games (mostly vs Bryan), so this is mainly the set, not tilt.
-- Longest winning streak: **3** (3:58 PM – 4:06 PM)
 
 ## Opponents
 
 | Character | Games | Record | Guide |
 |---|---|---|---|
-| Bryan | 10 | 0–10 (0%) | queue #22 |
-| Asuka | 3 | 1–2 (33%) | queue #12 |
-| Jun | 3 | 0–3 (0%) | queue #26 |
-| Armor King | 2 | 2–0 (100%) | queue #9 |
-| Claudio | 2 | 1–1 (50%) | queue #8 |
-| Dragunov | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/1gmUFPVEz5QFA1usycxZyQ) |
-| Hwoarang | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/ER1nkNzao69aH8qdtMV4zE) |
-| Jin | 1 | 1–0 (100%) | [guide](https://claude.ai/artifact/BNi1BSSZkcwtqFYDBPaE7d) |
-| Victor | 1 | 1–0 (100%) | [guide](https://claude.ai/artifact/Ca1pDa973nyEWx5aSGu5yb) |
+| Armor King | 9 | 4–5 (44%) | queue #9 |
+| Leo | 3 | 1–2 (33%) | queue #4 |
+| Raven | 3 | 2–1 (67%) | queue #17 |
+| Shaheen | 3 | 2–1 (67%) | queue #6 |
+| Kazuya | 1 | 1–0 (100%) | queue #13 |
+| Law | 1 | 1–0 (100%) | queue #31 |
 
 ## Stages
 
 | Stage | Games | Record |
 |---|---|---|
-| Rebel Hangar | 6 | 0–6 (0%) |
-| Genmaji Temple Daytime | 5 | 0–5 (0%) |
-| Seaside Resort | 5 | 1–4 (20%) |
-| Yakushima | 4 | 1–3 (25%) |
-| Sanctum | 2 | 0–2 (0%) |
-| Urban Square Evening | 2 | 2–0 (100%) |
+| Into the Stratosphere | 6 | 3–3 (50%) |
+| Rebel Hangar | 3 | 2–1 (67%) |
+| Secluded Training Ground | 3 | 2–1 (67%) |
+| Urban Square Evening | 3 | 1–2 (33%) |
+| Descent into Subconscious | 2 | 1–1 (50%) |
+| Celebration on the Seine | 1 | 1–0 (100%) |
 | Coliseum of Fate | 1 | 1–0 (100%) |
-| Fallen Destiny | 1 | 1–0 (100%) |
+| Seaside Resort | 1 | 0–1 (0%) |
 
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
-## Worth a look
-
-Outside rematch sets, your roughest matchup was **Asuka**: 1–2 (33%). Only 3 games, so treat it as a hint, not a verdict. No guide yet; it's #12 in the queue. Move it up in queue.md if it keeps happening.
-
 ---
-Generated Oct 10, 2026 4:59 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Oct 10, 2026 10:56 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.

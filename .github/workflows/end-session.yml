@@ -15,6 +15,13 @@ on:
           - last session
           - today
         default: last session
+      mode:
+        description: "Which games count (ranked = coaching default; quick match is for feeding data)"
+        type: choice
+        options:
+          - ranked
+          - all
+        default: ranked
 
 permissions:
   contents: write
@@ -41,6 +48,7 @@ jobs:
       - name: Write the review
         env:
           SCOPE: ${{ inputs.scope }}
+          MODE: ${{ inputs.mode }}
         run: python scripts/session_review.py
 
       - name: Save
@@ -49,7 +57,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/battles.jsonl data/battles.js data/battles.csv reviews
           if git diff --cached --quiet; then echo "Nothing new to save."; exit 0; fi
-          git commit -m "review: ${{ inputs.scope }}"
+          git commit -m "review: ${{ inputs.scope }} (${{ inputs.mode }})"
           for attempt in 1 2 3; do
             git push && exit 0
             echo "Push rejected, rebasing on the newest commit and retrying ($attempt)"
