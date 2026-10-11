@@ -10,7 +10,7 @@
 # Works with Windows PowerShell 5.1 (built into Windows) and PowerShell 7.
 
 $TekkenId = "4bN6AEeddYT6"               # your Tekken ID
-$IntervalSeconds = 40                     # fastest check: 90 requests/hour
+$IntervalSeconds = 30                     # fastest check: 120 requests/hour
 $Reserve = 3                              # requests/hour left for the hourly GitHub collector
 $BaseUrl = "https://api.ewgf.gg"
 $MinWait = 60                             # shortest pause after a "too many requests" reply
