@@ -91,6 +91,51 @@ def pick_month(arg):
     return f"{target:%Y-%m}"
 
 
+# ── ratings (Wavu Wank, rating before each game) ─────────────────────────────
+RATING_GAP = 100       # opponents this much above/below Mike's rating count as stronger/weaker
+
+
+def expected(g):
+    """Chance of winning implied by the two ratings (Elo-style approximation of Glicko)."""
+    return 1 / (1 + 10 ** ((g["opp_rating"] - g["my_rating"]) / 400))
+
+
+def ratings_section(games):
+    rated = [g for g in games if g.get("my_rating") is not None and g.get("opp_rating") is not None]
+    if not rated:
+        return ["## Ratings", "", "No rating data for this month.", ""]
+    L = ["## Ratings", "",
+         "From Wavu Wank: each player's rating going into the game (separate rating per character).", ""]
+
+    rows = []
+    for c in sorted({g["my_char"] for g in rated}, key=lambda c: -sum(g["my_char"] == c for g in rated)):
+        gs = [g for g in rated if g["my_char"] == c]
+        first, last = gs[0]["my_rating"], gs[-1]["my_rating"]
+        rows.append([c, len(gs), first, last, f"{last - first:+d}", max(g["my_rating"] for g in gs)])
+    L += [table(rows, ["Playing as", "Games", "Start of month", "Latest", "Change", "Peak"]), "",
+          "Latest is the rating going into the month's last game.", ""]
+
+    gap = lambda g: g["opp_rating"] - g["my_rating"]
+    stronger = [g for g in rated if gap(g) >= RATING_GAP]
+    even = [g for g in rated if -RATING_GAP < gap(g) < RATING_GAP]
+    weaker = [g for g in rated if gap(g) <= -RATING_GAP]
+    def vs_expected(gs):
+        if not gs:
+            return "–"
+        exp = sum(expected(g) for g in gs)
+        w = sum(g["result"] == "W" for g in gs)
+        return f"{w} won vs {exp:.1f} expected ({w - exp:+.1f})"
+    L += [table([
+        row(f"Stronger opponent ({RATING_GAP}+ above you)", stronger) + [vs_expected(stronger)],
+        row(f"Even (within {RATING_GAP})", even) + [vs_expected(even)],
+        row(f"Weaker opponent ({RATING_GAP}+ below you)", weaker) + [vs_expected(weaker)],
+        row("**All rated games**", rated) + [vs_expected(rated)],
+    ], ["Opponent strength", "Games", "Record", "Wins vs what the ratings predicted"]), "",
+        "Expected wins come from the rating gap (an Elo-style estimate). Beating the prediction means "
+        "you played above your rating against that group; falling short means below it.", ""]
+    return L
+
+
 # ── report ───────────────────────────────────────────────────────────────────
 def build(month, games, all_ranked):
     guides, queue, guide_dates = load_guides(), load_queue(), load_guide_dates()
@@ -161,6 +206,8 @@ def build(month, games, all_ranked):
     if UNKNOWN_RANK in by_rank:
         L += [f"{UNKNOWN_RANK}: games imported from Wavu Wank, which doesn't record rank tiers. "
               "For those games, game 1 vs game 2+ is judged by opponent character alone.", ""]
+
+    L += ratings_section(games)
 
     # Opponent characters
     by_opp = defaultdict(list)
