@@ -473,7 +473,7 @@
       </div>
       <div class="live-filters" data-live-filters></div>
       <div class="stage-list" id="live-stage-list"></div>
-      <div class="live-foot">Collected automatically every 6 hours. Faded rows have fewer than 10 games — too few to trust yet.</div>
+      <div class="live-foot">Collected automatically every hour (ratings from Wavu Wank 3× a day). Stages are known for games since Oct 3. Faded rows have fewer than 10 games — too few to trust yet.</div>
     </div>
 
     <!-- Entry form -->
@@ -493,7 +493,7 @@
 
   <!-- Guide index; the weekly task appends entries to this file -->
   <script src="guides/manifest.js"></script>
-  <!-- Battle log; the collect-battles workflow regenerates this every 6 hours -->
+  <!-- Battle log; the collect-battles workflow regenerates this every hour -->
   <script src="data/battles.js"></script>
   <script>
     // ── XSS guard ───────────────────────────────────────────────────────────────
@@ -1140,7 +1140,7 @@
       const target = document.getElementById('live-stage-list')
       if (!BATTLE_LIST.length) {
         meta.textContent = ''
-        target.innerHTML = '<div class="live-empty">No battle data yet — the collector adds it every 6 hours.</div>'
+        target.innerHTML = '<div class="live-empty">No battle data yet — the collector adds it every hour.</div>'
         return
       }
       const first = BATTLE_LIST[0].battle_at, last = BATTLE_LIST[BATTLE_LIST.length - 1].battle_at

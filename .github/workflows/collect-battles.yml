@@ -1,6 +1,6 @@
 # Pulls Mike's latest battles from ewgf.gg every hour into data/battles.jsonl.
-# Stores only: date, mode, my character, opponent character, opponent rank,
-# result + round score, stage. Never names, IDs, regions or Tekken Power.
+# Stores only the approved fields (see ALLOWED_FIELDS in scripts/collect_battles.py).
+# Never names, IDs, regions or Tekken Power.
 # Can also be started by hand: Actions tab -> "Collect battles" -> Run workflow.
 
 name: Collect battles

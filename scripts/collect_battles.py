@@ -1,9 +1,9 @@
 """
 Collect Mike's Tekken 8 battles from the ewgf.gg API into data/battles.jsonl.
 
-Runs every 6 hours from .github/workflows/collect-battles.yml.
-The free API tier returns the last 50 battles (24h delayed); polling every
-6 hours keeps every window well under 50 games, so nothing is missed.
+Runs every hour from .github/workflows/collect-battles.yml.
+The Pro API tier returns the last 100 battles with no delay; polling hourly
+keeps every window well under 100 games, so nothing is missed.
 
 PRIVACY: only the fields in ALLOWED_FIELDS are ever written - no names, IDs,
 regions or Tekken Power, for Mike or for opponents. Every script that writes
