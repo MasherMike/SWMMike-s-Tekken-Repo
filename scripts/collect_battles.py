@@ -5,13 +5,17 @@ Runs every 6 hours from .github/workflows/collect-battles.yml.
 The free API tier returns the last 50 battles (24h delayed); polling every
 6 hours keeps every window well under 50 games, so nothing is missed.
 
-PRIVACY: only these 7 fields are ever written - no names, IDs, regions or
-Tekken Power, for Mike or for opponents:
-  battle_at, mode, my_char, opp_char, opp_rank, result (+ round score), stage
+PRIVACY: only the fields in ALLOWED_FIELDS are ever written - no names, IDs,
+regions or Tekken Power, for Mike or for opponents. Every script that writes
+battle data goes through save_rows(), which drops anything not on the list and
+refuses to write a value that looks like a player ID.
+  battle_at, mode, my_char, opp_char, opp_rank, result, rounds, stage_id, stage
+  my_rating, opp_rating   (Wavu Wank skill ratings before the game, approved 2026-10-13)
 """
 
 import csv
 import gzip
+import re
 import json
 import os
 import sys
@@ -26,6 +30,10 @@ PAGE_COPY = "data/battles.js"
 CSV_COPY = "data/battles.csv"
 CSV_FIELDS = ["battle_at", "mode", "my_char", "opp_char", "opp_rank", "result",
               "rounds", "stage_id", "stage"]
+
+ALLOWED_FIELDS = ["battle_at", "mode", "my_char", "opp_char", "opp_rank", "result",
+                  "rounds", "stage_id", "stage", "my_rating", "opp_rating"]
+ID_LIKE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]{12}$")   # Tekken/Polaris ID shape, e.g. 4bN6AEeddYT6
 
 MODES = {"RANKED_BATTLE": "ranked", "QUICK_BATTLE": "quick",
          "PLAYER_BATTLE": "player", "GROUP_BATTLE": "group"}
@@ -79,6 +87,35 @@ def key(r):
     return (r["battle_at"], r["my_char"], r["opp_char"], r["rounds"], r["stage_id"])
 
 
+def clean(r):
+    """Keep only approved fields. A text value shaped like a player ID is a bug
+    somewhere upstream, so stop rather than write it."""
+    out = {k: r.get(k) for k in ALLOWED_FIELDS if r.get(k) is not None or k in r}
+    for k, v in out.items():
+        if isinstance(v, str) and k not in ("battle_at",) and ID_LIKE.match(v):
+            sys.exit(f"Refusing to save: field {k!r} looks like a player ID.")
+    return out
+
+
+def save_rows(rows):
+    """The only way battle data reaches disk: jsonl + page copy + CSV."""
+    rows = sorted((clean(r) for r in rows), key=lambda r: str(r["battle_at"]))
+    os.makedirs("data", exist_ok=True)
+    with open(BATTLES, "w") as fh:
+        for r in rows:
+            fh.write(json.dumps(r, ensure_ascii=False) + "\n")
+    write_page_copy(rows)
+    write_csv_copy(rows)
+    return rows
+
+
+def load_rows():
+    if not os.path.exists(BATTLES):
+        return []
+    with open(BATTLES) as fh:
+        return [json.loads(line) for line in fh if line.strip()]
+
+
 def write_page_copy(rows):
     """data/battles.js - the same rows as a script index.html can load.
     A plain <script src> works on GitHub Pages AND when the page is opened as a
@@ -104,10 +141,7 @@ def main():
     with open(STAGES) as fh:
         stage_names = json.load(fh)["confirmed"]
 
-    existing = []
-    if os.path.exists(BATTLES):
-        with open(BATTLES) as fh:
-            existing = [json.loads(line) for line in fh if line.strip()]
+    existing = load_rows()
     seen = {key(r) for r in existing}
 
     payload = fetch()
@@ -124,14 +158,7 @@ def main():
         if r.get("stage") is None:
             r["stage"] = stage_names.get(str(r.get("stage_id")))
 
-    rows = sorted(existing + new, key=lambda r: str(r["battle_at"]))
-    os.makedirs("data", exist_ok=True)
-    with open(BATTLES, "w") as fh:
-        for r in rows:
-            fh.write(json.dumps(r, ensure_ascii=False) + "\n")
-
-    write_page_copy(rows)
-    write_csv_copy(rows)
+    rows = save_rows(existing + new)
 
     unknown = sorted({r["stage_id"] for r in rows if r["stage"] is None})
     print(f"Pulled {len(raw)} battles, {len(new)} new, {len(rows)} total. "
