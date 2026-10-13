@@ -30,6 +30,7 @@ REMATCH_GAP_MIN = 6                  # back-to-back games closer than this can b
 REMATCH_MIN_GAMES = 3
 MIN_SAMPLE = 3                       # rows with fewer games are shown but not called out
 
+UNKNOWN_RANK = "Rank unknown"     # backlog games imported from Wavu Wank have no rank tier or stage
 BATTLES = "data/battles.jsonl"
 MANIFEST = "guides/manifest.js"
 QUEUE = "queue.md"
@@ -278,6 +279,8 @@ def build(games, label, all_games, mode="all", skipped=()):
     # Stages
     by_stage = defaultdict(list)
     for g in games:
+        if g.get("stage_id") is None:
+            continue                     # backlog game: no stage recorded
         by_stage[g.get("stage") or f"Stage {g['stage_id']}"].append(g)
     rows = [[s, len(gs), fmt_record(gs)] for s, gs in sorted(by_stage.items(), key=lambda kv: (-len(kv[1]), kv[0]))]
     lines += ["## Stages", "", table(rows, ["Stage", "Games", "Record"]),
@@ -313,6 +316,7 @@ def main():
         games = [json.loads(line) for line in fh if line.strip()]
     for g in games:
         g["t"] = local(g["battle_at"])
+        g["opp_rank"] = g.get("opp_rank") or UNKNOWN_RANK
     games.sort(key=lambda g: g["t"])
 
     mode = os.environ.get("MODE", "ranked").strip().lower() or "ranked"

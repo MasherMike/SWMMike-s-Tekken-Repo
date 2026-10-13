@@ -1150,7 +1150,8 @@
         return
       }
       const byStage = {}
-      list.forEach(b => {
+      // Backlog games imported from Wavu Wank have no stage (stage_id null): skip them here
+      list.filter(b => b.stage_id != null).forEach(b => {
         const name = b.stage || `Unknown stage (ID ${b.stage_id})`
         ;(byStage[name] = byStage[name] || []).push(b)
       })

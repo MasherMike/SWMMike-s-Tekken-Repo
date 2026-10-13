@@ -20,7 +20,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 
 from session_review import (TZ, local, margin, record, pct, fmt_record, table,
-                            load_guides, load_queue, split_sessions)
+                            load_guides, load_queue, split_sessions, UNKNOWN_RANK)
 
 BATTLES = "data/battles.jsonl"
 MANIFEST = "guides/manifest.js"
@@ -34,6 +34,8 @@ ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 
 # ── helpers ──────────────────────────────────────────────────────────────────
 def rank_order(rank):
     """Sort key: below God of Destruction < God of Destruction < GoD I < GoD II ..."""
+    if rank == UNKNOWN_RANK:
+        return (9, 0)                    # always last
     m = re.match(r"God of Destruction(?: (\w+))?$", rank)
     if not m:
         return (0, rank)
@@ -156,6 +158,9 @@ def build(month, games, all_ranked):
     L += ["## By opponent rank", "", table(
         [row(r, by_rank[r]) for r in sorted(by_rank, key=rank_order)],
         ["Opponent rank", "Games", "Record"]), ""]
+    if UNKNOWN_RANK in by_rank:
+        L += [f"{UNKNOWN_RANK}: games imported from Wavu Wank, which doesn't record rank tiers. "
+              "For those games, game 1 vs game 2+ is judged by opponent character alone.", ""]
 
     # Opponent characters
     by_opp = defaultdict(list)
@@ -189,7 +194,11 @@ def build(month, games, all_ranked):
 
     # Stages (only those with enough games)
     by_stage = defaultdict(list)
+    no_stage = 0
     for g in games:
+        if g.get("stage_id") is None:
+            no_stage += 1                # backlog game: no stage recorded
+            continue
         by_stage[g.get("stage") or f"Stage {g['stage_id']}"].append(g)
     st = [(s, gs) for s, gs in by_stage.items() if len(gs) >= MIN_GAMES]
     L += ["## Stages", ""]
@@ -199,6 +208,8 @@ def build(month, games, all_ranked):
               f"Only stages with {MIN_GAMES}+ games are listed.", ""]
     else:
         L += [f"No stage reached {MIN_GAMES} games this month.", ""]
+    if no_stage:
+        L += [f"{no_stage} imported game(s) have no stage recorded and are left out here.", ""]
 
     L += ["---", f"Generated {datetime.now(TZ):%b %-d, %Y %-I:%M %p} from data/battles.jsonl, ranked games only. "
           "A session is a run of games with no break of 45+ minutes."]
@@ -212,6 +223,7 @@ def main():
     ranked = [g for g in games if g["mode"] == "ranked"]
     for g in ranked:
         g["t"] = local(g["battle_at"])
+        g["opp_rank"] = g.get("opp_rank") or UNKNOWN_RANK
     ranked.sort(key=lambda g: g["t"])
     picked = [g for g in ranked if f"{g['t']:%Y-%m}" == month]
     if not picked:
