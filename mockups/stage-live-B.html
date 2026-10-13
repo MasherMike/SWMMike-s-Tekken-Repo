@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekken 8 Stage Tracker</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #141414;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    button:focus-visible, select:focus-visible, input:focus-visible {
+      outline: 2px solid #888;
+      outline-offset: 2px;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    /* ── Season bar ── */
+    .season-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .season-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .season-btn {
+      background: transparent;
+      border: 1px solid #444;
+      color: #bbb;
+      border-radius: 20px;
+      padding: 6px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .season-btn:hover { border-color: #888; color: #eee; }
+    .season-btn.active { background: #2e2e2e; border-color: #888; color: #fff; }
+    .add-data-btn {
+      background: transparent;
+      border: 1px solid #444;
+      color: #bbb;
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .add-data-btn:hover { border-color: #888; color: #eee; }
+
+    /* ── Snapshot row ── */
+    .snapshot-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding-left: 2px;
+    }
+    .snapshot-row[hidden] { display: none; }
+    .snapshot-row-label {
+      text-transform: uppercase;
+      font-size: 11px;
+      color: #666;
+      letter-spacing: 0.05em;
+      margin-right: 4px;
+    }
+    .snapshot-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .snapshot-btn {
+      background: transparent;
+      border: 1px solid #333;
+      color: #888;
+      border-radius: 14px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .snapshot-btn:hover { border-color: #666; color: #ccc; }
+    .snapshot-btn.active { background: #2a2a2a; border-color: #777; color: #eee; }
+    .snapshot-btn .tag { color: #888; margin-left: 4px; font-size: 11px; }
+    .snapshot-btn.active .tag { color: #aaa; }
+
+    .delta-toggle:disabled, .delta-toggle[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+    .delta-toggle:disabled:hover { color: #666; }
+
+    .entry-panel[hidden], .add-data-btn[hidden] { display: none !important; }
+
+
+    /* ── Live-first layout ── */
+    .section-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin: 4px 0 12px; }
+    .section-head h2 { font-size: 13px; color:#888; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+    .section-head .sub { font-size: 12px; color:#555; }
+    .card-value.dim { color:#777; font-size: 18px; }
+    details.season-fold { margin-top: 8px; }
+    details.season-fold > summary { cursor:pointer; list-style:none; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:10px; padding:14px 20px; color:#aaa; font-size:13px; margin-bottom:16px; }
+    details.season-fold > summary::-webkit-details-marker { display:none; }
+    details.season-fold > summary::before { content:'▸ '; color:#666; }
+    details.season-fold[open] > summary::before { content:'▾ '; }
+    .stage-subtabs { display:flex; gap:6px; margin-bottom:18px; }
+    .stage-subtabs button { background:transparent; border:1px solid #333; color:#999; border-radius:8px; padding:7px 14px; font-size:13px; cursor:pointer; }
+    .stage-subtabs button.active { background:#2e2e2e; border-color:#777; color:#fff; }
+    .live-panel .combo-row { display:grid; grid-template-columns: 200px 1fr 52px 64px 86px; align-items:center; gap:12px; padding:5px 0; font-size:13px; }
+    .combo-row .ingame { font-size:12px; color:#8a8a8a; text-align:right; }
+    .combo-row .ingame b { color:#bbb; font-weight:500; }
+    .combo-row.nolive .stage-name, .combo-row.nolive .sample { color:#555; }
+    .combo-row.thin .stage-name, .combo-row.thin .win-rate { color:#666; }
+    .combo-row.thin .bar-fill { opacity:.35; }
+    .combo-head { display:grid; grid-template-columns: 200px 1fr 52px 64px 86px; gap:12px; padding:10px 20px 4px; font-size:11px; color:#555; text-transform:uppercase; letter-spacing:.05em; }
+    .combo-head span:nth-child(n+3) { text-align:right; }
+    @media (max-width: 640px) {
+      #live-cards { grid-template-columns: 1fr; }
+      .live-panel .combo-row, .combo-head { grid-template-columns: 1fr 44px 44px 52px; gap:8px; }
+      .combo-head { padding: 10px 20px 4px; }
+      .live-panel .combo-row .bar-track, .combo-head span:nth-child(2) { display:none; }
+    }
+
+    /* ── Summary cards ── */
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .card-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .card-label { font-size: 12px; color: #777; }
+    .card-value.green { color: #4caf50; }
+    .card-value.red   { color: #e05a5a; }
+    .card-value.white { color: #fff; }
+
+    /* ── Chart panel ── */
+    .chart-panel {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 0 0 8px;
+      margin-bottom: 24px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 0 20px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #777;
+      padding: 14px 14px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s;
+    }
+    .tab-btn:hover { color: #ccc; }
+    .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+
+    /* Filters */
+    .filters { display: flex; gap: 8px; padding: 12px 20px 0; }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid #333;
+      color: #888;
+      border-radius: 6px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .filter-btn:hover { border-color: #666; color: #ccc; }
+    .filter-btn.active { background: #2e2e2e; border-color: #888; color: #fff; }
+
+    /* Column header */
+    .chart-header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px 6px;
+      font-size: 11px;
+      color: #555;
+      gap: 4px;
+    }
+    .delta-toggle {
+      background: transparent;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 0 2px;
+      text-decoration: underline;
+      transition: color 0.15s;
+    }
+    .delta-toggle:hover { color: #aaa; }
+    .delta-toggle.active { color: #ccc; }
+
+    /* Stage rows */
+    .stage-list { padding: 4px 20px 8px; }
+    .stage-row {
+      display: grid;
+      grid-template-columns: 200px 1fr 52px 52px;
+      align-items: center;
+      gap: 12px;
+      padding: 5px 0;
+    }
+    .stage-name { font-size: 13px; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { background: #2a2a2a; border-radius: 3px; height: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s ease; }
+    .bar-fill.green { background: #4caf50; }
+    .bar-fill.amber { background: #c8960c; }
+    .bar-fill.red   { background: #e05a5a; }
+    .win-rate { font-size: 13px; color: #ccc; text-align: right; }
+    .delta { font-size: 12px; text-align: right; white-space: nowrap; }
+    .delta.pos  { color: #4caf50; }
+    .delta.neg  { color: #e05a5a; }
+    .delta.none { color: #444; }
+    .no-stages  { padding: 20px; color: #555; text-align: center; font-size: 13px; }
+
+    /* ── Entry form ── */
+    .entry-panel {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .entry-panel h3 { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
+    .entry-form { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+    .entry-form select,
+    .entry-form input[type="number"] {
+      background: #141414;
+      border: 1px solid #333;
+      color: #ccc;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 13px;
+      transition: border-color 0.15s;
+    }
+    .entry-form select:focus,
+    .entry-form input[type="number"]:focus { border-color: #666; }
+    #form-season  { width: 80px; }
+    #form-stage   { flex: 1; min-width: 180px; }
+    #form-winrate { width: 80px; }
+    .save-btn {
+      background: #2e2e2e;
+      border: 1px solid #555;
+      color: #ddd;
+      border-radius: 6px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .save-btn:hover { background: #3a3a3a; border-color: #888; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #333;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── View switch (Stage Data / Matchup Guides) ── */
+    .view-switch {
+      display: flex;
+      gap: 4px;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+      width: fit-content;
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: #888;
+      border-radius: 7px;
+      padding: 8px 18px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+    }
+    .view-btn:hover { color: #ddd; }
+    .view-btn.active { background: #2e2e2e; color: #fff; }
+    .view-btn .count { color: #666; margin-left: 6px; font-size: 12px; }
+    .view-btn.active .count { color: #999; }
+    [data-view][hidden] { display: none !important; }
+
+    /* ── Matchup Guides ── */
+    .guides-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .guides-summary { font-size: 13px; color: #888; }
+    .guides-summary strong { color: #ddd; font-weight: 600; }
+    .guide-search {
+      background: #141414;
+      border: 1px solid #333;
+      color: #ccc;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+      width: 180px;
+    }
+    .guide-search:focus { border-color: #666; outline: none; }
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .guide-card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 16px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.15s;
+    }
+    .guide-card:hover { border-color: #444; }
+    .guide-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .guide-name { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 0.01em; }
+    .step-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      border-radius: 5px;
+      padding: 2px 7px;
+      white-space: nowrap;
+    }
+    .step-badge.ssr { background: rgba(76,175,80,0.14); color: #6fcf73; }
+    .step-badge.ssl { background: rgba(200,150,12,0.16); color: #e0b23a; }
+    .step-badge.other { background: #2a2a2a; color: #aaa; }
+    .guide-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .guide-tag {
+      font-size: 11px;
+      color: #aaa;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+    .guide-record { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #888; }
+    .guide-record .bar-track { flex: 1; }
+    .guide-record .rate { color: #ccc; font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+    .guide-links { display: flex; gap: 8px; margin-top: 2px; }
+    .guide-link {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      border-radius: 6px;
+      padding: 7px 0;
+      border: 1px solid #444;
+      color: #ddd;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .guide-link:hover { background: #2a2a2a; border-color: #777; }
+    .guide-link.secondary { border-color: #2e2e2e; color: #888; }
+    .guide-link.secondary:hover { color: #ccc; }
+    .guides-empty { padding: 40px 20px; text-align: center; color: #555; font-size: 13px; }
+    .guides-note { font-size: 12px; color: #555; line-height: 1.6; }
+    .guides-note code { color: #888; }
+
+    /* ── Live battle data (from data/battles.js) ── */
+    .live-filters {
+      display: flex;
+      align-items: center;
+      gap: 6px 14px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .live-filters .group { display: flex; align-items: center; gap: 6px; }
+    .live-filters .filter-btn { text-transform: none; letter-spacing: 0; }
+    .live-meta { font-size: 12px; color: #555; }
+    .live-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 16px 20px 10px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .live-panel-head h3 { font-size: 14px; color: #eee; font-weight: 600; }
+    .live-panel .live-filters { padding: 12px 20px 2px; }
+    .live-panel .stage-row { grid-template-columns: 200px 1fr 52px 64px; }
+    .stage-row.thin .stage-name,
+    .stage-row.thin .win-rate { color: #666; }
+    .stage-row.thin .bar-fill { opacity: 0.35; }
+    .sample { font-size: 12px; color: #888; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .thin .sample { color: #555; }
+    .live-empty { padding: 20px; color: #555; font-size: 13px; text-align: center; }
+    .live-foot { padding: 6px 20px 12px; font-size: 11px; color: #555; }
+
+    .guide-live { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #888; border-top: 1px solid #262626; padding-top: 8px; }
+    .guide-live .row { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+    .guide-live .row span:last-child { color: #ccc; }
+    .guide-live .row.thin span:last-child { color: #666; }
+    .guide-live .label { color: #666; }
+
+    @media (max-width: 560px) {
+      .live-panel .stage-row { grid-template-columns: 1fr 70px 44px 56px; }
+      .view-switch { width: 100%; }
+      .view-btn { flex: 1; padding: 8px 10px; }
+      .guide-search { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- View switch -->
+    <nav class="view-switch" aria-label="Sections">
+      <button class="view-btn active" data-view-btn="stages">Stage Data</button>
+      <button class="view-btn" data-view-btn="guides">Matchup Guides<span class="count" id="guide-count"></span></button>
+    </nav>
+
+    <!-- ═══ Matchup Guides view ═══ -->
+    <section data-view="guides" hidden>
+      <div class="live-filters" data-live-filters style="margin-bottom:14px"></div>
+      <div class="guides-toolbar">
+        <div class="filters" id="guide-sort" style="padding:0"></div>
+        <input type="search" class="guide-search" id="guide-search" placeholder="Find a character…" aria-label="Find a character" />
+      </div>
+      <div class="guides-grid" id="guides-grid"></div>
+      <p class="guides-note">Records are your ranked Victor record vs that character when the guide was built (ewgf.gg). New guides are added weekly from <code>queue.md</code>; step directions come from each guide's Movement section.</p>
+    </section>
+
+    <!-- ═══ Stage Data view ═══ -->
+    <section data-view="stages">
+
+    <div class="stage-subtabs"><button class="active" data-stagesub-btn="live">Live from battles</button><button data-stagesub-btn="season">Season snapshots</button></div>
+    <div data-stagesub="live">
+    <div class="summary-cards" id="live-cards"></div>
+    <!-- Live stage results, computed from data/battles.js -->
+    <div class="chart-panel live-panel">
+      <div class="live-panel-head">
+        <h3>Live from your battles</h3>
+        <span class="live-meta" id="live-meta"></span>
+      </div>
+      <div class="live-filters" data-live-filters></div>
+      <div class="stage-list" id="live-stage-list"></div>
+      <div class="live-foot">Collected automatically every hour (ratings from Wavu Wank 3× a day). Stages are known for games since Oct 3. Faded rows have fewer than 10 games — too few to trust yet.</div>
+    </div>
+
+    </div>
+    <div data-stagesub="season" hidden>
+    <!-- Season bar -->
+    <div class="season-bar">
+      <div class="season-pills" id="season-pills"></div>
+      <button class="add-data-btn" id="add-data-btn">+ Add Stage Data</button>
+    </div>
+
+    <!-- Snapshot row -->
+    <div class="snapshot-row" id="snapshot-row" hidden>
+      <span class="snapshot-row-label">Snapshots</span>
+      <div class="snapshot-pills" id="snapshot-pills"></div>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="summary-cards" id="summary-cards"></div>
+
+    <!-- Chart panel -->
+    <div class="chart-panel">
+      <div class="tabs" id="tabs"></div>
+      <div class="filters" id="filters"></div>
+      <div class="chart-header" id="chart-header"></div>
+      <div class="stage-list" id="stage-list"></div>
+    </div>
+
+    <!-- Entry form -->
+    <div class="entry-panel" id="entry-panel">
+      <h3>Add / update data</h3>
+      <div class="entry-form">
+        <select id="form-season" aria-label="Season"></select>
+        <select id="form-stage" aria-label="Stage"></select>
+        <input type="number" id="form-winrate" min="0" max="100" step="1" placeholder="Win %" aria-label="Win rate percentage" />
+        <button class="save-btn" id="save-btn">Save</button>
+      </div>
+    </div>
+
+    </div>
+    </section>
+  </div>
+  <div class="toast" id="toast">Saved!</div>
+
+  <!-- Guide index; the weekly task appends entries to this file -->
+  <script src="../guides/manifest.js"></script>
+  <!-- Battle log; the collect-battles workflow regenerates this every hour -->
+  <script src="../data/battles.js"></script>
+  <script>
+    // ── XSS guard ───────────────────────────────────────────────────────────────
+    // Use escapeHtml() on any string from localStorage before inserting into innerHTML.
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+    }
+
+    // ── Seed data ────────────────────────────────────────────────────────────────
+    // Each season holds one or more dated snapshots. Newest is current baseline.
+    // Add new snapshots by inserting another date key under the same season.
+    const SEED_DATA = {
+      S1: {
+        "2026-04-11": {
+          "Arena": 48, "Arena Underground": 41, "Urban Square Evening": 45, "Urban Square": 41,
+          "Yakushima": 49, "Coliseum of Fate": 45, "Rebel Hangar": 46, "Fallen Destiny": 41,
+          "Descent into Subconscious": 43, "Sanctum": 48, "Into the Stratosphere": 47,
+          "Ortiz Farm": 40, "Celebration on the Seine": 44, "Secluded Training Ground": 49,
+          "Elegant Palace": 47, "Midnight Siege": 44, "Seaside Resort": 57,
+          "Genmaji Temple": 50, "Genmaji Temple Daytime": 60, "Phoenix Gate": 50
+        }
+      },
+      S2: {
+        "2026-04-11": {
+          "Arena": 50, "Arena Underground": 40, "Urban Square Evening": 68, "Urban Square": 47,
+          "Yakushima": 50, "Coliseum of Fate": 58, "Rebel Hangar": 49, "Fallen Destiny": 52,
+          "Descent into Subconscious": 55, "Sanctum": 48, "Into the Stratosphere": 52,
+          "Ortiz Farm": 53, "Celebration on the Seine": 51, "Secluded Training Ground": 51,
+          "Elegant Palace": 47, "Midnight Siege": 52, "Seaside Resort": 49,
+          "Genmaji Temple": 43, "Genmaji Temple Daytime": 53, "Phoenix Gate": 52,
+          "Pac-Pixels": 43, "Baobab Horizon": 46
+        }
+      },
+      S3: {
+        "2026-04-11": {
+          "Arena": 100, "Baobab Horizon": 100, "Secluded Training Ground": 71,
+          "Seaside Resort": 71, "Phoenix Gate": 71, "Descent into Subconscious": 66,
+          "Coliseum of Fate": 60, "Yakushima": 58, "Midnight Siege": 56,
+          "Arena Underground": 56, "Pac-Pixels": 55, "Fallen Destiny": 50,
+          "Ortiz Farm": 50, "Elegant Palace": 50, "Genmaji Temple Daytime": 50,
+          "Into the Stratosphere": 44, "Celebration on the Seine": 44,
+          "Sanctum": 42, "Urban Square Evening": 40, "Urban Square": 40,
+          "Rebel Hangar": 37, "Genmaji Temple": 33
+        },
+        "2026-05-01": {
+          "Arena": 58, "Arena Underground": 62, "Baobab Horizon": 66,
+          "Celebration on the Seine": 66, "Coliseum of Fate": 63,
+          "Descent into Subconscious": 35, "Elegant Palace": 66,
+          "Fallen Destiny": 43, "Genmaji Temple": 33, "Genmaji Temple Daytime": 61,
+          "Into the Stratosphere": 52, "Midnight Siege": 53, "Ortiz Farm": 57,
+          "Pac-Pixels": 50, "Phoenix Gate": 62, "Rebel Hangar": 30,
+          "Sanctum": 61, "Seaside Resort": 62, "Secluded Training Ground": 81,
+          "Urban Square": 47, "Urban Square Evening": 58, "Yakushima": 58
+        }
+      }
+    }
+
+    // ── localStorage helpers ─────────────────────────────────────────────────────
+    const LS_KEY = 'tekken_entries'
+    // Test stub — when non-null, getEntries() returns this array directly. Used by runDataTests
+    // to inject deterministic localStorage state. Always restored to null in a finally block.
+    let _entriesStub = null
+
+    function getEntries() {
+      if (_entriesStub !== null) return _entriesStub
+      try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]') }
+      catch { return [] }
+    }
+
+    function saveEntry(season, stage, winRate) {
+      const entries = getEntries()
+      entries.push({ season, stage, winRate, date: getToday() })
+      localStorage.setItem(LS_KEY, JSON.stringify(entries))
+    }
+
+    function getToday() {
+      return new Date().toISOString().slice(0, 10) // "YYYY-MM-DD"
+    }
+
+    // ── Data computations ────────────────────────────────────────────────────────
+
+    /** Returns sorted ascending array of ISO date strings for a season, or [] if missing. */
+    function getSnapshotDates(season) {
+      return Object.keys(SEED_DATA[season] || {}).sort()
+    }
+
+    /** Returns the newest snapshot date for a season, or null if none. */
+    function getNewestSnapshotDate(season) {
+      const dates = getSnapshotDates(season)
+      return dates.length ? dates[dates.length - 1] : null
+    }
+
+    /** Returns the raw stage-map for a specific snapshot, or {} if not present. */
+    function getSnapshot(season, date) {
+      return (SEED_DATA[season] && SEED_DATA[season][date]) || {}
+    }
+
+    /**
+     * Builds the current state for a season at the given snapshot.
+     *
+     * Stale-entry rule: localStorage entries with `entry.date < newestSnapshotDate`
+     * are dropped (strict less-than). Same-day entries DO layer on top.
+     *
+     * Historical view (snapshotDate non-null) ignores localStorage entirely — read-only.
+     *
+     * Returns { stageName: winRate, ... }
+     */
+    function buildCurrentState(season, snapshotDate = null) {
+      if (snapshotDate !== null) {
+        return { ...getSnapshot(season, snapshotDate) }
+      }
+      const newestDate = getNewestSnapshotDate(season)
+      if (newestDate === null) return {}
+      const base = { ...getSnapshot(season, newestDate) }
+      const all = getEntries()
+      const entries = all
+        .map((e, i) => ({ ...e, _idx: i }))
+        .filter(e => e.season === season && e.date >= newestDate)
+        .sort((a, b) => {
+          const d = b.date.localeCompare(a.date)
+          return d !== 0 ? d : b._idx - a._idx // newer date first; same date → later save wins
+        })
+      const seen = new Set()
+      for (const entry of entries) {
+        if (!seen.has(entry.stage)) {
+          base[entry.stage] = entry.winRate
+          seen.add(entry.stage)
+        }
+      }
+      return base
+    }
+
+    /** Returns the season key immediately before the given one (by sort order), or null. */
+    function getPreviousSeasonKey(season) {
+      // Only seasons present in SEED_DATA are considered. Returns null if no prior season exists.
+      const keys = Object.keys(SEED_DATA).sort()
+      const idx = keys.indexOf(season)
+      return idx > 0 ? keys[idx - 1] : null
+    }
+
+    /**
+     * Computes per-stage deltas for the given season and mode.
+     * mode: "last-season"       — current vs previous season's newest snapshot (always newest, even when viewing historical).
+     * mode: "previous-snapshot" — viewed snapshot vs the snapshot immediately preceding it within the same season.
+     * Returns { stageName: number | null }  (null → render as "—")
+     */
+    function computeDeltas(season, mode, snapshotDate = null) {
+      const current = buildCurrentState(season, snapshotDate)
+      let reference = {}
+
+      if (mode === 'last-season') {
+        const prevKey = getPreviousSeasonKey(season)
+        if (prevKey) {
+          reference = getSnapshot(prevKey, getNewestSnapshotDate(prevKey))
+        }
+      } else if (mode === 'previous-snapshot') {
+        const dates = getSnapshotDates(season)
+        const viewedDate = snapshotDate !== null ? snapshotDate : getNewestSnapshotDate(season)
+        const idx = dates.indexOf(viewedDate)
+        if (idx > 0) {
+          reference = getSnapshot(season, dates[idx - 1])
+        }
+      }
+
+      const deltas = {}
+      for (const stage of Object.keys(current)) {
+        deltas[stage] = stage in reference ? current[stage] - reference[stage] : null
+      }
+      return deltas
+    }
+
+    /** Mean win rate (rounded) across all stages in the given state object. */
+    function getOverallWinRate(stateData) {
+      const values = Object.values(stateData)
+      if (!values.length) return 0
+      return Math.round(values.reduce((a, b) => a + b, 0) / values.length)
+    }
+
+    /** Returns { name, winRate } for the highest win rate stage. */
+    function getBestStage(stateData) {
+      return Object.entries(stateData).reduce(
+        (best, [name, rate]) => rate > best.winRate ? { name, winRate: rate } : best,
+        { name: '—', winRate: -Infinity }
+      )
+    }
+
+    /** Returns { name, winRate } for the lowest win rate stage. */
+    function getWorstStage(stateData) {
+      return Object.entries(stateData).reduce(
+        (worst, [name, rate]) => rate < worst.winRate ? { name, winRate: rate } : worst,
+        { name: '—', winRate: Infinity }
+      )
+    }
+
+    /** Returns the CSS color class for a win rate value. */
+    function barColor(rate) {
+      if (rate >= 70) return 'green'
+      if (rate >= 45) return 'amber'
+      return 'red'
+    }
+
+    // ── Data layer tests (verify in console on load) ─────────────────────────────
+    // getEntries stubbing: tests set _entriesStub (top-level let) to inject deterministic
+    // localStorage state. Each stubbed sub-test is wrapped in try/finally to guarantee the
+    // stub is cleared even if an assertion throws — prevents leakage into the live render.
+    function runDataTests() {
+      // 1. Snapshot navigation
+      console.assert(getSnapshotDates('S3').length === 2, 'S3 has 2 snapshots')
+      console.assert(getSnapshotDates('S3')[0] === '2026-04-11', 'S3 snapshot[0] = 2026-04-11')
+      console.assert(getSnapshotDates('S3')[1] === '2026-05-01', 'S3 snapshot[1] = 2026-05-01')
+      console.assert(getSnapshotDates('S1').length === 1, 'S1 has 1 snapshot')
+      console.assert(getNewestSnapshotDate('S3') === '2026-05-01', 'S3 newest = 2026-05-01')
+      console.assert(getNewestSnapshotDate('S1') === '2026-04-11', 'S1 newest = 2026-04-11')
+
+      // 2. buildCurrentState newest (no localStorage)
+      try {
+        _entriesStub = []
+        const s3 = buildCurrentState('S3')
+        console.assert(s3.Arena === 58, 'S3 newest Arena = 58')
+        console.assert(s3['Genmaji Temple'] === 33, 'S3 newest Genmaji Temple = 33')
+        console.assert(s3['Secluded Training Ground'] === 81, 'S3 newest Secluded Training Ground = 81')
+        console.assert(Object.keys(s3).length === 22, 'S3 newest has 22 stages')
+      } finally { _entriesStub = null }
+
+      // 3. buildCurrentState historical
+      console.assert(buildCurrentState('S3', '2026-04-11').Arena === 100, 'S3 historical Arena = 100')
+      console.assert(buildCurrentState('S3', '2026-04-11')['Secluded Training Ground'] === 71, 'S3 historical Secluded = 71')
+
+      // 4. Summary helpers (newest with empty localStorage)
+      try {
+        _entriesStub = []
+        console.assert(getBestStage(buildCurrentState('S3')).name === 'Secluded Training Ground', 'Best = Secluded Training Ground')
+        console.assert(getWorstStage(buildCurrentState('S3')).name === 'Rebel Hangar', 'Worst = Rebel Hangar')
+        console.assert(getBestStage(buildCurrentState('S3', '2026-04-11')).name === 'Arena', 'Historical best = Arena')
+      } finally { _entriesStub = null }
+
+      // 5. Previous-season helpers
+      console.assert(getPreviousSeasonKey('S3') === 'S2', 'prev(S3) = S2')
+      console.assert(getPreviousSeasonKey('S2') === 'S1', 'prev(S2) = S1')
+      console.assert(getPreviousSeasonKey('S1') === null, 'prev(S1) = null')
+
+      // 6. Delta: previous-snapshot
+      try {
+        _entriesStub = []
+        console.assert(computeDeltas('S3', 'previous-snapshot').Arena === -42, 'S3 prev-snap Arena = -42')
+        console.assert(computeDeltas('S3', 'previous-snapshot')['Secluded Training Ground'] === 10, 'S3 prev-snap Secluded = +10')
+        console.assert(computeDeltas('S3', 'previous-snapshot', '2026-04-11').Arena === null, 'S3 historical prev-snap Arena = null')
+        console.assert(computeDeltas('S1', 'previous-snapshot').Arena === null, 'S1 prev-snap Arena = null (single snapshot)')
+      } finally { _entriesStub = null }
+
+      // 7. Delta: last-season
+      try {
+        _entriesStub = []
+        console.assert(computeDeltas('S3', 'last-season').Arena === 8, 'S3 last-season Arena = 8 (58-50)')
+        console.assert(computeDeltas('S3', 'last-season', '2026-04-11').Arena === 50, 'S3 historical last-season Arena = 50 (100-50)')
+        console.assert(computeDeltas('S1', 'last-season').Arena === null, 'S1 last-season Arena = null')
+      } finally { _entriesStub = null }
+
+      // 8. barColor & escapeHtml unchanged
+      console.assert(barColor(70) === 'green', 'barColor 70 = green')
+      console.assert(barColor(45) === 'amber', 'barColor 45 = amber')
+      console.assert(barColor(44) === 'red',   'barColor 44 = red')
+      const escaped = escapeHtml('<scr' + 'ipt>alert(1)</scr' + 'ipt>')
+      console.assert(!escaped.includes('<script>'), 'escapeHtml strips script tags')
+
+      // 9. Stale-entry rule (strict <)
+      try {
+        _entriesStub = [{ season: 'S3', stage: 'Arena', winRate: 99, date: '2026-04-15' }]
+        console.assert(buildCurrentState('S3').Arena === 58, 'Stale entry (2026-04-15) dropped, Arena = 58')
+      } finally { _entriesStub = null }
+
+      try {
+        _entriesStub = [{ season: 'S3', stage: 'Arena', winRate: 99, date: '2026-05-01' }]
+        console.assert(buildCurrentState('S3').Arena === 99, 'Same-day entry layers, Arena = 99')
+      } finally { _entriesStub = null }
+
+      try {
+        _entriesStub = [
+          { season: 'S3', stage: 'Arena', winRate: 99, date: '2026-05-01' },
+          { season: 'S3', stage: 'Arena', winRate: 77, date: '2026-05-01' }
+        ]
+        console.assert(buildCurrentState('S3').Arena === 77, 'Latest same-day save wins, Arena = 77')
+      } finally { _entriesStub = null }
+
+      try {
+        _entriesStub = [{ season: 'S3', stage: 'Arena', winRate: 99, date: '2026-05-01' }]
+        console.assert(buildCurrentState('S3', '2026-04-11').Arena === 100, 'Historical view ignores localStorage, Arena = 100')
+      } finally { _entriesStub = null }
+
+      console.log('[DataTests] All assertions passed')
+    }
+    runDataTests()
+
+    // ── State ────────────────────────────────────────────────────────────────────
+    const state = {
+      activeSeason: Object.keys(SEED_DATA).sort().at(-1), // default to last season
+      activeSnapshot: null,  // null = newest snapshot of activeSeason; otherwise ISO date string
+      activeTab: 'all',      // 'all' | 'trending-up' | 'trending-down'
+      activeFilter: 'all',   // 'all' | 'strong' | 'weak'
+      deltaMode: 'last-season', // 'last-season' | 'previous-snapshot'
+    }
+
+    // ── Render: Season bar ───────────────────────────────────────────────────────
+    function renderSeasonBar() {
+      document.getElementById('season-pills').innerHTML =
+        Object.keys(SEED_DATA).sort().map(key => {
+          const active = key === state.activeSeason ? ' active' : ''
+          return `<button class="season-btn${active}" data-season="${escapeHtml(key)}">${escapeHtml(key)}</button>`
+        }).join('')
+    }
+
+    // ── Render: Snapshot pills ───────────────────────────────────────────────────
+    function renderSnapshotPills() {
+      const row = document.getElementById('snapshot-row')
+      const pills = document.getElementById('snapshot-pills')
+      const dates = getSnapshotDates(state.activeSeason)
+      if (dates.length <= 1) {
+        row.hidden = true
+        pills.innerHTML = ''
+        return
+      }
+      row.hidden = false
+      const newest = dates[dates.length - 1]
+      pills.innerHTML = dates.map(date => {
+        const isActive = (state.activeSnapshot === null && date === newest) || state.activeSnapshot === date
+        const activeClass = isActive ? ' active' : ''
+        const tag = date === newest ? '<span class="tag">current</span>' : ''
+        return `<button class="snapshot-btn${activeClass}" data-snapshot="${escapeHtml(date)}">${escapeHtml(date)}${tag}</button>`
+      }).join('')
+    }
+
+    // ── Render: Summary cards ────────────────────────────────────────────────────
+    function renderSummaryCards() {
+      const current = buildCurrentState(state.activeSeason, state.activeSnapshot)
+      const overall = getOverallWinRate(current)
+      const best    = getBestStage(current)
+      const worst   = getWorstStage(current)
+
+      document.getElementById('summary-cards').innerHTML = `
+        <div class="card">
+          <div class="card-value white">${overall}%</div>
+          <div class="card-label">Overall win rate</div>
+        </div>
+        <div class="card">
+          <div class="card-value green">${escapeHtml(best.name)}</div>
+          <div class="card-label">Best stage (${best.winRate}%)</div>
+        </div>
+        <div class="card">
+          <div class="card-value red">${escapeHtml(worst.name)}</div>
+          <div class="card-label">Worst stage (${worst.winRate}%)</div>
+        </div>
+      `
+    }
+
+    // ── Render: Chart section ────────────────────────────────────────────────────
+    function renderChart() {
+      renderTabs()
+      renderFilters()
+      renderChartHeader()
+      renderStageList()
+    }
+
+    function renderTabs() {
+      const tabs = [
+        { id: 'all',           label: 'All stages' },
+        { id: 'trending-up',   label: 'Trending up' },
+        { id: 'trending-down', label: 'Trending down' },
+      ]
+      document.getElementById('tabs').innerHTML = tabs.map(t => {
+        const active = t.id === state.activeTab ? ' active' : ''
+        return `<button class="tab-btn${active}" data-tab="${t.id}">${t.label}</button>`
+      }).join('')
+    }
+
+    function renderFilters() {
+      const filters = [
+        { id: 'all',    label: 'All' },
+        { id: 'strong', label: 'Strong (70%+)' },
+        { id: 'weak',   label: 'Weak (sub 45%)' },
+      ]
+      document.getElementById('filters').innerHTML = filters.map(f => {
+        const active = f.id === state.activeFilter ? ' active' : ''
+        return `<button class="filter-btn${active}" data-filter="${f.id}">${f.label}</button>`
+      }).join('')
+    }
+
+    function renderChartHeader() {
+      const seasonActive = state.deltaMode === 'last-season' ? ' active' : ''
+      const snapActive   = state.deltaMode === 'previous-snapshot' ? ' active' : ''
+      const hasMultiSnapshot = getSnapshotDates(state.activeSeason).length > 1
+      const disabledAttr = hasMultiSnapshot ? '' : ' disabled'
+      const dateLabel = state.activeSnapshot !== null
+        ? state.activeSnapshot
+        : (getNewestSnapshotDate(state.activeSeason) || '—')
+      const seasonToggle = `<button class="delta-toggle${seasonActive}" data-delta="last-season">last season</button>`
+      const snapToggle   = `<button class="delta-toggle${snapActive}" data-delta="previous-snapshot"${disabledAttr}>previous snapshot</button>`
+      document.getElementById('chart-header').innerHTML =
+        `Stage &mdash; ${escapeHtml(state.activeSeason)} (${escapeHtml(dateLabel)}) win rate &mdash; vs ${seasonToggle} / ${snapToggle}`
+    }
+
+    function renderStageList() {
+      const current = buildCurrentState(state.activeSeason, state.activeSnapshot)
+      const deltas  = computeDeltas(state.activeSeason, state.deltaMode, state.activeSnapshot)
+
+      // Sort by win rate descending
+      let rows = Object.entries(current).sort((a, b) => b[1] - a[1])
+
+      // Tab filter (trending requires a non-null delta)
+      if (state.activeTab === 'trending-up') {
+        rows = rows.filter(([name]) => deltas[name] !== null && deltas[name] > 0)
+      } else if (state.activeTab === 'trending-down') {
+        rows = rows.filter(([name]) => deltas[name] !== null && deltas[name] < 0)
+      }
+
+      // Strength filter
+      if (state.activeFilter === 'strong') {
+        rows = rows.filter(([, rate]) => rate >= 70)
+      } else if (state.activeFilter === 'weak') {
+        rows = rows.filter(([, rate]) => rate < 45)
+      }
+
+      if (!rows.length) {
+        document.getElementById('stage-list').innerHTML =
+          '<div class="no-stages">No stages match the current filters.</div>'
+        return
+      }
+
+      document.getElementById('stage-list').innerHTML = rows.map(([name, rate]) => {
+        const color = barColor(rate)
+        const delta = deltas[name]
+        let deltaHtml
+        if (delta === null || delta === 0) {
+          deltaHtml = `<span class="delta none">&mdash;</span>`
+        } else if (delta > 0) {
+          deltaHtml = `<span class="delta pos">+${delta}%</span>`
+        } else {
+          deltaHtml = `<span class="delta neg">${delta}%</span>`
+        }
+        return `
+          <div class="stage-row">
+            <span class="stage-name">${escapeHtml(name)}</span>
+            <div class="bar-track"><div class="bar-fill ${color}" style="width:${rate}%"></div></div>
+            <span class="win-rate">${rate}%</span>
+            ${deltaHtml}
+          </div>`
+      }).join('')
+    }
+
+    // ── Render: Entry form ───────────────────────────────────────────────────────
+    function renderEntryForm() {
+      const seasonSelect = document.getElementById('form-season')
+
+      // Only rebuild season options if the set of seasons changed (avoid resetting user selection)
+      const seasonKeys = Object.keys(SEED_DATA).sort()
+      if (seasonSelect.options.length !== seasonKeys.length) {
+        seasonSelect.innerHTML = seasonKeys.map(key =>
+          `<option value="${escapeHtml(key)}">${escapeHtml(key)}</option>`
+        ).join('')
+      }
+      seasonSelect.value = state.activeSeason
+      populateStageDropdown(seasonSelect.value)
+    }
+
+    function populateStageDropdown(season) {
+      const stages = Object.keys(getSnapshot(season, getNewestSnapshotDate(season))).sort()
+      document.getElementById('form-stage').innerHTML = stages.map(s =>
+        `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`
+      ).join('')
+    }
+
+    // ── Toast ────────────────────────────────────────────────────────────────────
+    let toastTimer = null
+    function showToast(msg = 'Saved!') {
+      const toast = document.getElementById('toast')
+      toast.textContent = msg
+      toast.classList.add('show')
+      clearTimeout(toastTimer)
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2000)
+    }
+
+    // ── Save handler ─────────────────────────────────────────────────────────────
+    function handleSave() {
+      const season  = document.getElementById('form-season').value
+      const stage   = document.getElementById('form-stage').value
+      const raw     = document.getElementById('form-winrate').value
+      const winRate = parseInt(raw, 10)
+
+      if (!season || !stage || raw === '' || isNaN(winRate) || winRate < 0 || winRate > 100) {
+        showToast('Enter a win % between 0 and 100')
+        return
+      }
+
+      saveEntry(season, stage, winRate)
+      document.getElementById('form-winrate').value = ''
+      showToast()
+      render()
+    }
+
+    // Historical snapshots are read-only — hide entry form and Add button.
+    function renderEntryPanelVisibility() {
+      const hide = state.activeSnapshot !== null
+      document.getElementById('entry-panel').hidden = hide
+      document.getElementById('add-data-btn').hidden = hide
+    }
+
+    // ── Render orchestrator ──────────────────────────────────────────────────────
+    function render() {
+      renderSeasonBar()
+      renderSnapshotPills()
+      renderSummaryCards()
+      renderChart()
+      renderEntryForm()
+      renderEntryPanelVisibility()
+    }
+
+    // ── Event delegation ─────────────────────────────────────────────────────────
+    document.addEventListener('click', e => {
+      const seasonBtn = e.target.closest('[data-season]')
+      if (seasonBtn) {
+        state.activeSeason = seasonBtn.dataset.season
+        state.activeSnapshot = null
+        if (state.deltaMode === 'previous-snapshot' && getSnapshotDates(state.activeSeason).length <= 1) {
+          state.deltaMode = 'last-season'
+        }
+        render()
+        return
+      }
+
+      const snapshotBtn = e.target.closest('[data-snapshot]')
+      if (snapshotBtn) {
+        const date = snapshotBtn.dataset.snapshot
+        const newest = getNewestSnapshotDate(state.activeSeason)
+        state.activeSnapshot = (date === newest) ? null : date
+        render()
+        return
+      }
+
+      const tabBtn = e.target.closest('[data-tab]')
+      if (tabBtn) {
+        state.activeTab = tabBtn.dataset.tab
+        renderChart()
+        return
+      }
+
+      const filterBtn = e.target.closest('[data-filter]')
+      if (filterBtn) {
+        state.activeFilter = filterBtn.dataset.filter
+        renderChart()
+        return
+      }
+
+      const deltaBtn = e.target.closest('[data-delta]')
+      if (deltaBtn) {
+        if (deltaBtn.disabled) return
+        state.deltaMode = deltaBtn.dataset.delta
+        renderChart()
+        return
+      }
+
+      if (e.target.closest('#add-data-btn')) {
+        document.getElementById('entry-panel').scrollIntoView({ behavior: 'smooth' })
+        document.getElementById('form-winrate').focus()
+        return
+      }
+
+      if (e.target.closest('#save-btn')) {
+        handleSave()
+        return
+      }
+    })
+
+    // Re-populate stage dropdown when season changes in the form
+    document.getElementById('form-season').addEventListener('change', e => {
+      populateStageDropdown(e.target.value)
+    })
+
+    // ── Live battle data ─────────────────────────────────────────────────────────
+    // window.BATTLES comes from data/battles.js (written by the collector).
+    // Each row: battle_at, mode, my_char, opp_char, opp_rank, result, rounds, stage_id, stage
+    const BATTLE_LIST = Array.isArray(window.BATTLES) ? window.BATTLES : []
+    const MIN_SAMPLE = 10          // below this, numbers are shown faded
+    const LIVE_PREF_KEY = 'tk-live-filters'
+
+    const liveState = (() => {
+      const fallback = { mode: 'ranked', char: 'all' }
+      try {
+        const saved = JSON.parse(localStorage.getItem(LIVE_PREF_KEY) || 'null')
+        return saved && saved.mode && saved.char ? saved : fallback
+      } catch { return fallback }
+    })()
+
+    function saveLiveState() {
+      try { localStorage.setItem(LIVE_PREF_KEY, JSON.stringify(liveState)) } catch {}
+    }
+
+    function myCharacters() {
+      const counts = {}
+      BATTLE_LIST.forEach(b => { counts[b.my_char] = (counts[b.my_char] || 0) + 1 })
+      return Object.keys(counts).sort((a, b) => counts[b] - counts[a])
+    }
+
+    function liveBattles() {
+      return BATTLE_LIST.filter(b =>
+        (liveState.mode === 'all' || b.mode === liveState.mode) &&
+        (liveState.char === 'all' || b.my_char === liveState.char))
+    }
+
+    function tally(list) {
+      const w = list.filter(b => b.result === 'W').length
+      const n = list.length
+      return { w, l: n - w, n, pct: n ? Math.round(100 * w / n) : null }
+    }
+
+    function shortDate(iso) {
+      const d = new Date(iso)
+      return isNaN(d) ? '' : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+    }
+
+    function renderLiveFilters() {
+      const chars = myCharacters()
+      if (liveState.char !== 'all' && !chars.includes(liveState.char)) liveState.char = 'all'
+      const btn = (attr, value, label, active) =>
+        `<button class="filter-btn${active ? ' active' : ''}" ${attr}="${escapeHtml(value)}">${escapeHtml(label)}</button>`
+      const html = BATTLE_LIST.length ? `
+        <div class="group">Mode
+          ${btn('data-lmode', 'ranked', 'Ranked', liveState.mode === 'ranked')}
+          ${btn('data-lmode', 'all', 'All modes', liveState.mode === 'all')}
+        </div>
+        <div class="group">Playing as
+          ${btn('data-lchar', 'all', 'Anyone', liveState.char === 'all')}
+          ${chars.map(c => btn('data-lchar', c, c, liveState.char === c)).join('')}
+        </div>` : ''
+      document.querySelectorAll('[data-live-filters]').forEach(el => { el.innerHTML = html })
+    }
+
+    function renderLiveStages() {
+      const list = liveBattles()
+      const meta = document.getElementById('live-meta')
+      const target = document.getElementById('live-stage-list')
+      if (!BATTLE_LIST.length) {
+        meta.textContent = ''
+        target.innerHTML = '<div class="live-empty">No battle data yet — the collector adds it every hour.</div>'
+        return
+      }
+      const first = BATTLE_LIST[0].battle_at, last = BATTLE_LIST[BATTLE_LIST.length - 1].battle_at
+      meta.textContent = `${list.length} of ${BATTLE_LIST.length} battles · ${shortDate(first)} – ${shortDate(last)}`
+      if (!list.length) {
+        target.innerHTML = '<div class="live-empty">No battles match these filters yet.</div>'
+        return
+      }
+      const byStage = {}
+      // Backlog games imported from Wavu Wank have no stage (stage_id null): skip them here
+      list.filter(b => b.stage_id != null).forEach(b => {
+        const name = b.stage || `Unknown stage (ID ${b.stage_id})`
+        ;(byStage[name] = byStage[name] || []).push(b)
+      })
+      const rows = Object.entries(byStage)
+        .map(([name, games]) => ({ name, ...tally(games) }))
+        .sort((a, b) => b.pct - a.pct || b.n - a.n)
+      target.innerHTML = rows.map(r => `
+        <div class="stage-row${r.n < MIN_SAMPLE ? ' thin' : ''}">
+          <span class="stage-name" title="${escapeHtml(r.name)}">${escapeHtml(r.name)}</span>
+          <div class="bar-track"><div class="bar-fill ${guideBarColor(r.pct)}" style="width:${r.pct}%"></div></div>
+          <span class="win-rate">${r.pct}%</span>
+          <span class="sample">${r.w}–${r.l}</span>
+        </div>`).join('')
+    }
+
+    // Live record vs one character, plus the split since its guide was added
+    function renderGuideLive(g) {
+      if (!BATTLE_LIST.length) return ''
+      const vs = liveBattles().filter(b => b.opp_char === g.character)
+      if (!vs.length) {
+        return `<div class="guide-live"><div class="row thin"><span class="label">Live record</span><span>no games yet</span></div></div>`
+      }
+      const all = tally(vs)
+      const since = g.added ? tally(vs.filter(b => String(b.battle_at).slice(0, 10) >= g.added)) : null
+      const line = (label, t) => `
+        <div class="row${t.n < MIN_SAMPLE ? ' thin' : ''}">
+          <span class="label">${label}</span>
+          <span>${t.n ? `${t.w}–${t.l} · ${t.pct}%` : 'no games yet'}</span>
+        </div>`
+      return `<div class="guide-live">${line('Live record', all)}${since ? line(`Since guide (${shortDate(g.added + 'T12:00:00Z')})`, since) : ''}</div>`
+    }
+
+
+    // ── Live-first: cards + honest count ──────────────────────────────────────
+    const CARD_MIN = 5   // a stage needs this many games to be called best/worst
+    function stagedBattles() { return liveBattles().filter(b => b.stage_id != null) }
+    function liveStageRows() {
+      const by = {}
+      stagedBattles().forEach(b => { const n = b.stage || `Stage ${b.stage_id}`; (by[n] = by[n] || []).push(b) })
+      return Object.entries(by).map(([name, g]) => ({ name, ...tally(g) }))
+    }
+    function renderLiveCards() {
+      const el = document.getElementById('live-cards'); if (!el) return
+      const list = stagedBattles(), t = tally(list)
+      const ok = liveStageRows().filter(r => r.n >= CARD_MIN)
+      const best = ok.slice().sort((a, b) => b.pct - a.pct || b.n - a.n)[0]
+      const worst = ok.slice().sort((a, b) => a.pct - b.pct || b.n - a.n)[0]
+      const card = (cls, v, label) => `<div class="card"><div class="card-value ${cls}">${v}</div><div class="card-label">${label}</div></div>`
+      el.innerHTML =
+        card('white', t.n ? `${t.pct}%` : '–', `${t.w}–${t.l} across ${t.n} games with a stage`) +
+        (best ? card('green', escapeHtml(best.name), `Best stage (${best.w}–${best.l}, ${best.pct}%)`) : card('dim', 'Not enough games yet', `Best stage needs ${CARD_MIN}+ games on a stage`)) +
+        (worst && worst !== best ? card('red', escapeHtml(worst.name), `Worst stage (${worst.w}–${worst.l}, ${worst.pct}%)`) : card('dim', 'Not enough games yet', `Worst stage needs ${CARD_MIN}+ games on a stage`))
+      const meta = document.getElementById('live-meta')
+      if (meta && list.length) meta.textContent = `${list.length} games with a stage · since ${shortDate(list[0].battle_at)}`
+    }
+
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-stagesub-btn]'); if (!b) return
+      document.querySelectorAll('[data-stagesub]').forEach(el => { el.hidden = el.dataset.stagesub !== b.dataset.stagesubBtn })
+      document.querySelectorAll('[data-stagesub-btn]').forEach(x => x.classList.toggle('active', x === b))
+    })
+
+    function renderLive() {
+      renderLiveFilters()
+      renderLiveStages()
+      renderLiveCards()
+    }
+
+    // ── Matchup Guides ───────────────────────────────────────────────────────────
+    // Data comes from guides/manifest.js (window.GUIDES). Missing file = empty list.
+    const GUIDE_LIST = Array.isArray(window.GUIDES) ? window.GUIDES : []
+    const GUIDE_SORTS = [
+      { id: 'worst',  label: 'Worst record first' },
+      { id: 'alpha',  label: 'A–Z' },
+      { id: 'newest', label: 'Newest' },
+    ]
+    const guideState = { sort: 'worst', query: '' }
+
+    function guideRate(g) {
+      if (!g.record) return null
+      const games = g.record.w + g.record.l
+      return games ? g.record.w / games : null
+    }
+
+    // Matchup bands follow ewgf.gg's legend, not the stage thresholds
+    function guideBarColor(pct) {
+      if (pct > 52) return 'green'
+      if (pct >= 48) return 'amber'
+      return 'red'
+    }
+
+    function stepClass(step) {
+      const s = String(step || '').toUpperCase()
+      if (s.startsWith('SSR') || s.startsWith('SWR')) return 'ssr'
+      if (s.startsWith('SSL') || s.startsWith('SWL')) return 'ssl'
+      return 'other'
+    }
+
+    function sortedGuides() {
+      const q = guideState.query.trim().toLowerCase()
+      const list = GUIDE_LIST.filter(g => !q || String(g.character).toLowerCase().includes(q))
+      const byName = (a, b) => String(a.character).localeCompare(String(b.character))
+      if (guideState.sort === 'alpha') return list.sort(byName)
+      if (guideState.sort === 'newest') {
+        return list.sort((a, b) => String(b.added || '').localeCompare(String(a.added || '')) || byName(a, b))
+      }
+      // worst first; guides with no record go last
+      return list.sort((a, b) => {
+        const ra = guideRate(a), rb = guideRate(b)
+        if (ra === null && rb === null) return byName(a, b)
+        if (ra === null) return 1
+        if (rb === null) return -1
+        return ra - rb || byName(a, b)
+      })
+    }
+
+    function renderGuideCard(g) {
+      const rate = guideRate(g)
+      const pct = rate === null ? null : Math.round(rate * 100)
+      const recordHtml = rate === null ? '' : `
+        <div class="guide-record">
+          <span>${escapeHtml(g.record.w)}–${escapeHtml(g.record.l)}</span>
+          <div class="bar-track"><div class="bar-fill ${guideBarColor(pct)}" style="width:${pct}%"></div></div>
+          <span class="rate">${pct}%</span>
+        </div>`
+      const tags = (g.tags || []).map(t => `<span class="guide-tag">${escapeHtml(t)}</span>`).join('')
+      const step = g.step ? `<span class="step-badge ${stepClass(g.step)}">${escapeHtml(g.step)}</span>` : ''
+      const artifact = g.artifact
+        ? `<a class="guide-link secondary" href="${escapeHtml(g.artifact)}" target="_blank" rel="noopener">On Claude</a>`
+        : ''
+      return `
+        <article class="guide-card">
+          <div class="guide-head">
+            <span class="guide-name">${escapeHtml(g.character)}</span>
+            ${step}
+          </div>
+          ${tags ? `<div class="guide-tags">${tags}</div>` : ''}
+          ${recordHtml}
+          ${renderGuideLive(g)}
+          <div class="guide-links">
+            <a class="guide-link" href="../${escapeHtml(g.file)}" target="_blank" rel="noopener">Open guide</a>
+            ${artifact}
+          </div>
+        </article>`
+    }
+
+    function renderGuides() {
+      document.getElementById('guide-count').textContent = GUIDE_LIST.length || ''
+      document.getElementById('guide-sort').innerHTML = GUIDE_SORTS.map(s => {
+        const active = s.id === guideState.sort ? ' active' : ''
+        return `<button class="filter-btn${active}" data-gsort="${s.id}">${s.label}</button>`
+      }).join('')
+      const list = sortedGuides()
+      document.getElementById('guides-grid').innerHTML = list.length
+        ? list.map(renderGuideCard).join('')
+        : `<div class="guides-empty">${GUIDE_LIST.length ? 'No guide matches that name.' : 'No guides yet.'}</div>`
+    }
+
+    // ── View switching (remembered in the URL hash: #guides) ─────────────────────
+    function showView(view) {
+      if (view !== 'guides') view = 'stages'
+      document.querySelectorAll('[data-view]').forEach(el => { el.hidden = el.dataset.view !== view })
+      document.querySelectorAll('[data-view-btn]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.viewBtn === view)
+      })
+      if (view === 'guides') renderGuides()
+    }
+
+    document.addEventListener('click', e => {
+      const viewBtn = e.target.closest('[data-view-btn]')
+      if (viewBtn) {
+        const view = viewBtn.dataset.viewBtn
+        history.replaceState(null, '', view === 'guides' ? '#guides' : location.pathname + location.search)
+        showView(view)
+        return
+      }
+      const liveBtn = e.target.closest('[data-lmode], [data-lchar]')
+      if (liveBtn) {
+        if (liveBtn.dataset.lmode) liveState.mode = liveBtn.dataset.lmode
+        if (liveBtn.dataset.lchar) liveState.char = liveBtn.dataset.lchar
+        saveLiveState()
+        renderLive()
+        renderGuides()
+        return
+      }
+      const sortBtn = e.target.closest('[data-gsort]')
+      if (sortBtn) {
+        guideState.sort = sortBtn.dataset.gsort
+        renderGuides()
+      }
+    })
+
+    document.getElementById('guide-search').addEventListener('input', e => {
+      guideState.query = e.target.value
+      renderGuides()
+    })
+
+    window.addEventListener('hashchange', () => showView(location.hash.slice(1)))
+
+    // ── Initial render ────────────────────────────────────────────────────────────
+    render()
+    renderLive()
+    showView(location.hash.slice(1))
+  </script>
+</body>
+</html>
