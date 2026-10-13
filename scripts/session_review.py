@@ -248,7 +248,11 @@ def build(games, label, all_games, mode="all", skipped=()):
             note = (f"against {len(outside_opps)} different opponents outside any rematch set. "
                     "That spread is what tilt usually looks like: worth a break next time.")
         else:
-            note = f"against {len(outside_opps) or 1} opponent(s)."
+            opps = sorted({g["opp_char"] for g in streak})
+            who = opps[0] if len(opps) == 1 else ", ".join(opps[:-1]) + " and " + opps[-1]
+            ranks = sorted({g["opp_rank"] for g in streak})
+            rank_note = f", all {ranks[0]}" if len(ranks) == 1 else ""
+            note = f"against {who}{rank_note}."
         lines += ["## Streaks", "",
                   f"- Longest losing streak: **{n}** ({hm(first['t'])} – {hm(last['t'])}), {note}"]
         wn, wf, wl = st["W"]

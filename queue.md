@@ -15,6 +15,7 @@ queue. When reordering, go by ranked results.
 
 ## Queue
 
+- Armor King    <!-- moved to front by Mike, 2026-10-12: 8-10 at seeding; 5-7 ranked Oct 10-12 incl. two 0-3s to a GoD V -->
 - Eddy          <!-- 7-5 ranked, 58%. Was moved to front 2026-10-09 on the all-modes record; guide built before the ranked-only rule -->
 - Zafina        <!-- 0-4,   0% -->
 - Alisa         <!-- 1-5,  17% -->
@@ -23,7 +24,6 @@ queue. When reordering, go by ranked results.
 - Shaheen       <!-- 6-10, 38% -->
 - Anna          <!-- 1-3,  25% -->
 - Claudio       <!-- 4-6,  40% -->
-- Armor King    <!-- 8-10, 44% -->
 - Lars          <!-- 4-5,  44% -->
 - Nina          <!-- 4-5,  44% -->
 - Asuka         <!-- 7-7,  50% -->

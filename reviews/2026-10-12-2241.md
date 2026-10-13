@@ -1,5 +1,5 @@
 # Session review: Mon Oct 12, 2026
-Today (ranked) · 10:41 PM – 11:35 PM · 17 games
+Last session (ranked) · 10:41 PM – 11:35 PM · 17 games
 
 Reviewing **ranked games only**.
 
@@ -37,17 +37,17 @@ Round margin is the opponent's rounds minus yours, averaged: a number moving tow
 
 ## Streaks
 
-- Longest losing streak: **3** (11:19 PM – 11:28 PM), against 1 opponent(s).
+- Longest losing streak: **3** (11:19 PM – 11:28 PM), against Armor King and King, all God of Destruction V.
 - Longest winning streak: **3** (10:47 PM – 10:53 PM)
 
 ## Opponents
 
 | Character | Games | Record | Guide |
 |---|---|---|---|
-| Anna | 3 | 2–1 (67%) | queue #7 |
-| Armor King | 3 | 1–2 (33%) | queue #9 |
+| Anna | 3 | 2–1 (67%) | queue #8 |
+| Armor King | 3 | 1–2 (33%) | queue #1 |
 | Reina | 3 | 2–1 (67%) | queue #27 |
-| Alisa | 2 | 2–0 (100%) | queue #3 |
+| Alisa | 2 | 2–0 (100%) | queue #4 |
 | Bryan | 2 | 2–0 (100%) | queue #22 |
 | King | 2 | 0–2 (0%) | queue #16 |
 | Steve | 2 | 0–2 (0%) | queue #20 |
@@ -71,4 +71,4 @@ Round margin is the opponent's rounds minus yours, averaged: a number moving tow
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
 ---
-Generated Oct 12, 2026 11:39 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Oct 12, 2026 11:56 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
