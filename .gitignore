@@ -6,3 +6,6 @@ __pycache__/
 overlay/ewgf-key.txt
 overlay/overlay-data.js
 overlay/overlay-data.tmp
+
+# Guide source downloads (scripts/fetch_sources.py) - re-downloadable, not committed
+build/

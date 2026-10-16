@@ -27,6 +27,10 @@ A single failed ratings run (Wavu Wank didn't answer) is caught up by the next o
   lands in `reviews/LATEST.md` and on the run's summary page.
 - **Stream overlay:** see `overlay/README.md`. Runs on your PC with your own
   ewgf key, which never leaves it.
+- **Guide sources for any character:** `python scripts/fetch_sources.py "Armor King"`
+  downloads and parses the Wavu movelist + counterplay and TekkenDocs frame data +
+  anti-strat into `build/sources/<Character>/sources.json` (not committed), with a
+  Wavu-vs-TekkenDocs block-frame cross-check. The weekly guide task uses it.
 - **Backlog import from saved Wavu Wank pages** (one-time, e.g. Jin or Armor King):
   `python scripts/import_wank.py --since 2026-01-01 page1.html page2.html`.
   Never commit the saved pages; they contain names and IDs.
@@ -70,7 +74,7 @@ ID. Adding a field means changing that list on purpose.
 | `queue.md` | Order the weekly guide task follows; edit freely |
 | `sidestep.md` | Community sidestep chart, used as secondary evidence in guides |
 | `reviews/` | Session reviews (`LATEST.md` = newest) and `monthly/` reviews |
-| `scripts/` | Collectors, reviews, Wank parser and importer |
+| `scripts/` | Collectors, reviews, Wank parser and importer, guide source fetcher |
 | `overlay/` | OBS stream overlay and its local poller |
 | `data/ewgf-schema.json` | Field list of the ewgf API (no personal values) |
 | `data/lag-test-2026-10-10.json` | Result of the Pro lag test: median 0.7 min from game to API (worst 9.7) over 26 games |
