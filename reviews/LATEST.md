@@ -1,5 +1,5 @@
-# Session review: Fri Oct 16, 2026
-Today (ranked) · 12:02 AM – 12:21 AM · 7 games
+# Session review: Thu Oct 15, 2026
+Last session (ranked) · 11:53 PM – 12:21 AM · 10 games
 
 Reviewing **ranked games only**.
 
@@ -7,10 +7,10 @@ Reviewing **ranked games only**.
 
 | Mode | Games | Record |
 |---|---|---|
-| Ranked | 7 | 6–1 (86%) |
-| **All** | 7 | **6–1 (86%)** |
+| Ranked | 10 | 8–2 (80%) |
+| **All** | 10 | **8–2 (80%)** |
 
-Ranked this session: **86%** vs **54%** across your 1445 earlier stored ranked games.
+Ranked this session: **80%** vs **54%** across your 1442 earlier stored ranked games.
 
 ## How the losses went
 
@@ -18,8 +18,8 @@ Ranked this session: **86%** vs **54%** across your 1445 earlier stored ranked g
 |---|---|
 | Close (lost by 1 round) | 1 |
 | Lost by 2 rounds | 0 |
-| Blowouts (lost by 3+ rounds) | 0 |
-| Close wins (won by 1 round) | 0 |
+| Blowouts (lost by 3+ rounds) | 1 |
+| Close wins (won by 1 round) | 1 |
 
 Close losses are matchups you're nearly solving. Blowouts are the ones to lab.
 
@@ -28,18 +28,20 @@ Close losses are matchups you're nearly solving. Blowouts are the ones to lab.
 | Character | Games | Record | Guide |
 |---|---|---|---|
 | Armor King | 2 | 2–0 (100%) | queue #1 |
+| Hwoarang | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/ER1nkNzao69aH8qdtMV4zE) |
 | Kunimitsu | 2 | 2–0 (100%) | queue #15 |
 | Law | 2 | 2–0 (100%) | queue #31 |
-| Hwoarang | 1 | 0–1 (0%) | [guide](https://claude.ai/artifact/ER1nkNzao69aH8qdtMV4zE) |
+| Steve | 2 | 2–0 (100%) | queue #20 |
 
 ## Stages
 
 | Stage | Games | Record |
 |---|---|---|
-| Elegant Palace | 3 | 3–0 (100%) |
+| Elegant Palace | 4 | 4–0 (100%) |
 | Rebel Hangar | 2 | 2–0 (100%) |
+| Yakushima | 2 | 0–2 (0%) |
 | Arena Underground | 1 | 1–0 (100%) |
-| Yakushima | 1 | 0–1 (0%) |
+| Baobab Horizon | 1 | 1–0 (100%) |
 
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
