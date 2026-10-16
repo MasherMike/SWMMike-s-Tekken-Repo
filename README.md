@@ -9,10 +9,16 @@ after every session and every month, and turned into anti-character guides.
 
 | What | When | Where |
 |---|---|---|
-| Collect battles from ewgf.gg (Pro API) | Every hour | `.github/workflows/collect-battles.yml` → `scripts/collect_battles.py` |
-| Add ratings from Wavu Wank | Midnight, 8 AM, 4 PM Eastern | `.github/workflows/collect-wank.yml` → `scripts/collect_wank.py` |
+| Collect battles from ewgf.gg (Pro API) | Scheduled hourly; GitHub actually runs it every 3–5 hours | `.github/workflows/collect-battles.yml` → `scripts/collect_battles.py` |
+| Add ratings from Wavu Wank | Scheduled midnight, 8 AM, 4 PM Eastern; runs often start hours late | `.github/workflows/collect-wank.yml` → `scripts/collect_wank.py` |
 | Build one anti-character guide | Fridays, 9:47 AM | Claude scheduled task, reads `queue.md` |
 | Monthly ranked review with coach's notes | 1st of the month, 9:55 AM | Claude scheduled task → `reviews/monthly/` |
+
+GitHub delays scheduled jobs when it's busy, so run times drift. No games are
+missed: each ewgf pull covers your last 100 battles and each Wavu Wank pull
+your last ~200 games. **End session** always fetches fresh data first, so
+reviews are complete no matter when the scheduled runs last happened.
+A single failed ratings run (Wavu Wank didn't answer) is caught up by the next one.
 
 ## What you run
 

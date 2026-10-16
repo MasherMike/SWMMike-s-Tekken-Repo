@@ -1,4 +1,5 @@
-# Pulls Mike's latest battles from ewgf.gg every hour into data/battles.jsonl.
+# Pulls Mike's latest battles from ewgf.gg into data/battles.jsonl (scheduled hourly;
+# GitHub often runs it every 3-5 hours, which is fine: each pull covers 100 battles).
 # Stores only the approved fields (see ALLOWED_FIELDS in scripts/collect_battles.py).
 # Never names, IDs, regions or Tekken Power.
 # Can also be started by hand: Actions tab -> "Collect battles" -> Run workflow.
