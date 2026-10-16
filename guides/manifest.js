@@ -100,5 +100,14 @@ window.GUIDES = [
     step: 'SSR',
     record: { w: 0, l: 4 },
     added: '2026-10-09'
+  },
+  {
+    character: 'Armor King',
+    file: 'guides/Anti-Armor-King.html',
+    artifact: 'https://claude.ai/artifact/MN71CqcFqU262aVBG9XS3v',
+    tags: ['SSR Default', 'Duck Neck Hunter', 'Heat Smash +9'],
+    step: 'SSR',
+    record: { w: 5, l: 7 },
+    added: '2026-10-16'
   }
 ];
