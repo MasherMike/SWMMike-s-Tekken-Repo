@@ -205,6 +205,9 @@ function move(notation) {
   if (notation.toLowerCase().startsWith('qcb')) {
     return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
   }
+  if (notation.toLowerCase().startsWith('ufn')) {   // uf,n — tap up-forward, return to neutral
+    return html + arrow('uf',false) + neutral() + buttons(notation.slice(3));
+  }
   for (const tt of ['fff','bbb']) {
     if (notation.toLowerCase().startsWith(tt)) {
       const d = tt[0];
@@ -368,9 +371,14 @@ function icons(...notations) {
   <span class="frame-data">i17~21 | -13 | Mid | Jump frames 9~27</span>
 </div>
 <div class="entry">
-  <script>document.write(icons('uf4'))</script>
+  <script>document.write(icons('ufn4'))</script>
   <span class="frame-data">i23~25 | -13 | Mid | Delayed hopkick</span>
 </div>
+<div class="entry">
+  <script>document.write(icons('u4'))</script>
+  <span class="frame-data">i22~23 | -12~-13 | Mid | Slicing Sobat | Airborne frames 9~27</span>
+</div>
+<div class="note">The straight-up version; uf+4 is the same kick at only -9</div>
 <div class="entry">
   <script>document.write(icons('1','2','1'))</script>
   <span class="frame-data">i19~20 | -14 | High, Mid, Mid | Heat Engager | Jails from 1st block</span>
@@ -431,6 +439,20 @@ function icons(...notations) {
   <script>document.write(icons('f4','d4'))</script>
   <span class="frame-data">i25 | -12 | High, Low | Floor Break</span>
 </div>
+<div class="entry">
+  <script>document.write(icons('BT.d3'))</script>
+  <span class="frame-data">i16 | -11 | Low | From back-turned</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('OTG.db3'))</script>
+  <span class="frame-data">i24 | -11 | Low | Floor Break | Hits you on the ground</span>
+</div>
+<div class="note">His ground kick — if you get up and block it low, punish the -11</div>
+<div class="entry">
+  <script>document.write(icons('FDFT.3'))</script>
+  <span class="frame-data">i19 | -9 | Low | His wake-up low from face-down</span>
+</div>
+<div class="note">Not punishable, but it's a low: block it crouching when he's getting up face-down</div>
 <div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
 <div class="entry">
   <script>document.write(icons('d2'))</script>
@@ -719,6 +741,19 @@ function icons(...notations) {
 <div class="note">His f,f,F+4 Snap Knee Assault becomes an <strong>unbreakable</strong> attack-throw on front standing hit — block it, it's -7.</div>
 
 <!-- ── POWER CRUSH & RAGE ── -->
+<div class="entry">
+  <script>document.write(icons('b3+4'))</script>
+  <span class="frame-data"><strong>High</strong>, Throw | i28~29 | <strong>Unbreakable</strong> | Removes recoverable health</span>
+</div>
+<div class="note">If you <em>block</em> it from the front it turns into an unbreakable throw — so don't block it, duck it</div>
+<div class="entry">
+  <script>document.write(icons('db3','~1+2'))</script>
+  <span class="frame-data">Crouch throw | i19~20 | Side switch | Can cancel to crouch</span>
+</div>
+<div class="note">His crouch-level grab — it catches you ducking</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">FDFA.1+2,1+2</span><span class="frame-data">Wake-up tackle | i20~21 | Break 1+2 | <strong>Unbreakable in Heat</strong> | -5 on block</span></div>
+<div class="note">When he's lying face-down feet-away, he can stand up into a tackle — break it with 1+2 (out of Heat)</div>
+<div class="callout callout-warn"><strong>From the TekkenDocs anti-strat page:</strong> his string-cancel grabs give you an <strong>11-frame</strong> break window; in Heat the tackle itself becomes unbreakable, but the mix-up grab after it can still be broken; and tackle follow-ups leave a gap you can interrupt with an i15 move. <em>TekkenDocs-only claims; Wavu doesn't state them.</em></div>
 <h2>Power Crush &amp; Rage Art</h2>
 <div class="entry">
   <script>document.write(icons('1+2'))</script>
@@ -778,9 +813,22 @@ function icons(...notations) {
 </div>
 <div class="note">Walk in and take everything</div>
 
+<h3>String handling — from the TekkenDocs anti-strat page, checked on Wavu</h3>
+<div class="entry">
+  <script>document.write(icons('f3','1+2'))</script>
+  <span class="frame-data">Mid, Mid | -3 | Heat Engager | Spike</span>
+</div>
+<div class="note">TekkenDocs: interrupt it with i10, and don't try to step it. His other option off f+3, f+3,3, catches every escape — block that one</div>
+<div class="entry">
+  <script>document.write(icons('d3','2','1+2'))</script>
+  <span class="frame-data">Low, High, Mid | <strong>-2c</strong> | Spike | Interrupt with i14 from 2nd block</span>
+</div>
+<div class="note">If d+3 hits you, duck the ,2 high. But if you try to punish a blocked d+3, the ,2 hits you — watch the third hit and interrupt it instead</div>
+<div class="callout "><strong>4,4 vs 4,1:</strong> 4,4 has an i15 gap after the first hit (Wavu) and whiffs if you step; 4,1 jails mashing and stepping but is a high — duckable. TekkenDocs' option-select is to sidewalk toward the foreground, or use a fast df-input move. 4,3 (-12) is the one that covers everything — block it and punish.<br><strong>Duckable highs</strong> (TekkenDocs list): 1,1 · 2,1,3 · 3,1 · 4,1 · f+4,4,3 · f+4,3 · df+1,4 · d+3,2 · d+4,4 · b+2,1 · b+4,2,1 — plus b+4,3 and ws1,2 as fuzzy mixes.</div>
 <div class="sources">
   <strong>Sources</strong><br>
-  Frame data from <a href="https://wavu.wiki/t/Dragunov_movelist">Wavu Wiki — Dragunov movelist</a> (last edited 21 August 2026) and <a href="https://wavu.wiki/t/Dragunov_counterplay">Wavu Wiki — Dragunov counterplay</a>, including its prose on range, WR2, b1+2, SNK.4, b4,2,1, db3+4 and d2. Default step direction cross-checked against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls SSR.<br><strong>Movement section:</strong> every row is Tier 1 — quoted from Wavu's per-move "Whiffs vs …" notes or its counterplay prose. Nothing here is lab-derived.<br>Further reading: TheMainManSWE — <em>How To Beat Dragunov In TEKKEN 8</em> (linked from the Wavu counterplay page).
+  Frame data from <a href="https://wavu.wiki/t/Dragunov_movelist">Wavu Wiki — Dragunov movelist</a> (last edited 21 August 2026) and <a href="https://wavu.wiki/t/Dragunov_counterplay">Wavu Wiki — Dragunov counterplay</a>, including its prose on range, WR2, b1+2, SNK.4, b4,2,1, db3+4 and d2. Default step direction cross-checked against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls SSR.<br><strong>Movement section:</strong> every row is Tier 1 — quoted from Wavu's per-move "Whiffs vs …" notes or its counterplay prose. Nothing here is lab-derived.<br>Further reading: TheMainManSWE — <em>How To Beat Dragunov In TEKKEN 8</em> (linked from the Wavu counterplay page).<br>
+  <strong>Revision, 16 October 2026:</strong> read the <a href="https://tekkendocs.com/t8/dragunov/antistrat">TekkenDocs Dragunov anti-strat page</a> for the first time and added its string-handling and throw notes. Fixed the delayed hopkick's input icon (it showed uf+4, which is a different move; it's uf,n,4). Added u+4, BT.d+3, his OTG and wake-up lows, the b+3+4 block-into-throw, the crouch throw and the wake-up tackle. Every existing entry re-checked against the full Wavu movelist; no frame changes needed.
 </div>
 
 </body></html>

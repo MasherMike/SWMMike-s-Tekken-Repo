@@ -340,9 +340,23 @@ function icons(...notations) {
 </div>
 <div class="note">Can enter FUJ with D at frame 22 (-9) — and it's all high, so ducking beats it</div>
 <div class="entry">
+  <script>document.write(icons('1','2','2','~1'))</script>
+  <span class="frame-data">i13 | -11 | High, High, Mid | Interrupt with i8 from 1st block | Whiffs vs SSL/SWL</span>
+</div>
+<div class="note">The delayed mid ender — duck the first two highs and it's the only thing left; block it and punish</div>
+<div class="entry">
   <script>document.write(icons('df4','2'))</script>
   <span class="frame-data">i20 | -12 | Mid, Mid | +55a on CH | Balcony Break</span>
 </div>
+<div class="entry">
+  <script>document.write(icons('f2','~1'))</script>
+  <span class="frame-data">i13 | -11 | Mid | Can cancel to sidestep with D or U</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('4','~3'))</script>
+  <span class="frame-data">i35~37 | -11 | Mid | Spike | Airborne frames 10~37</span>
+</div>
+<div class="note">Slow hop that jumps your lows — block it and punish</div>
 <div class="entry">
   <script>document.write(icons('b3','3'))</script>
   <span class="frame-data">i22~26 | -12c | High, Mid | Spike</span>
@@ -407,6 +421,15 @@ function icons(...notations) {
   <span class="frame-data">i12 | -14 | HIGH | Chrome Dome | Spike</span>
 </div>
 <div class="note">It's high — a duck beats it as well as a block</div>
+<div class="entry">
+  <script>document.write(icons('f2','~1','1+2'))</script>
+  <span class="frame-data">i26 | -13 | Mid, Mid | Balcony Break | Combo from 1st hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1','b2','WAR.2'))</script>
+  <span class="frame-data">i25~26 | <strong>-13c</strong> | High, Mid, Mid | Reversal Break | Erases your recoverable health on hit</span>
+</div>
+<div class="note">Recovers crouching — punish with your WS punisher. Duck the jab and the string falls apart</div>
 <div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
 <div class="entry">
   <script>document.write(icons('cd1'))</script>
@@ -421,6 +444,11 @@ function icons(...notations) {
   <span class="frame-data">i14 | -15 | Mid, High, Mid, Mid | Jails from 1st</span>
 </div>
 <div class="note">df+3,1+2,1 is also -15</div>
+<div class="entry">
+  <script>document.write(icons('1','1','WAR.2'))</script>
+  <span class="frame-data">i18 | <strong>-17</strong> | High, High, Mid | Balcony Break | Combo from 1st hit (12F delay)</span>
+</div>
+<div class="note">Two jabs into a Warrior Instinct mid — launch it</div>
 <div class="entry">
   <script>document.write(icons('ws4','4'))</script>
   <span class="frame-data">i15 | -15 | Mid, Mid | Spike | Jails from 1st block</span>
@@ -455,6 +483,7 @@ function icons(...notations) {
   <span class="frame-data">i24 | -10 | Low, Low | Spinning Demon second low</span>
 </div>
 <div class="note">Only -10 — the first low is the one to punish (see Red tier)</div>
+<div class="note">After the third low he can also go ,n+4 (mid, -3) — and that can continue ,4 (mid spike, <strong>-15</strong>). Both are mids: once you've blocked the lows, stand up for the n+4 branch</div>
 <div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
 <div class="entry">
   <script>document.write(icons('db3'))</script>
@@ -474,6 +503,11 @@ function icons(...notations) {
   <span class="frame-data">i23~25 | -18 | Low | Spike | Recovers crouching</span>
 </div>
 <div class="note">WS launcher</div>
+<div class="entry">
+  <script>document.write(icons('OTG.d4'))</script>
+  <span class="frame-data">i19~20 | -14 | Low | Spike | Hits you on the ground</span>
+</div>
+<div class="note">His ground stomp — if you block it standing up, punish the -14</div>
 <div class="entry">
   <script>document.write(icons('cd4'))</script>
   <span class="frame-data">i16~17 | <strong>-23</strong> | Low | Spinning Demon (hellsweep)</span>
@@ -784,9 +818,28 @@ function icons(...notations) {
 </div>
 <div class="note">Walk in and take everything</div>
 
+<h3>More plus-on-block tools — the first pass missed these</h3>
+<div class="entry">
+  <script>document.write(icons('1','b2','4'))</script>
+  <span class="frame-data">High, Mid, Mid | i39 | <strong>+5</strong> | Interrupt with i10 from 2nd block | May whiff vs a late SWL</span>
+</div>
+<div class="note">1,b+2 alone is -2 — if he goes for the slow ,4 you have time to jab out of it</div>
+<div class="entry">
+  <script>document.write(icons('ub1+2*'))</script>
+  <span class="frame-data">Mid | i29 | <strong>+4</strong> | Floor Break | Uncharged ub+1+2 is i15, -8</span>
+</div>
+<div class="note">Charged version — plus on block, so the charge is your cue to stop pressing</div>
+<div class="entry">
+  <script>document.write(icons('WAR.ff1+2'))</script>
+  <span class="frame-data"><strong>High</strong> | i15~16 | <strong>+6</strong> | Spike | Removes recoverable health | Can go to RAI at +9</span>
+</div>
+<div class="note">The Warrior Instinct version of the running high — plus, but still a high. Duck it on read</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">b:2*</span><span class="frame-data">Mid | i29~30 | <strong>+6</strong> | Just-frame charged b+2 | Reversal Break</span></div>
+<div class="note">The just-frame version is one frame better than the regular b+2* (+5)</div>
 <div class="sources">
   <strong>Sources</strong><br>
-  Frame data from <a href="https://wavu.wiki/t/Heihachi_movelist">Wavu Wiki — Heihachi movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Heihachi_counterplay">Wavu Wiki — Heihachi counterplay</a> (punishment tables only; no prose). Default step direction from the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls SSL.<br><strong>Movement section:</strong> the SSL default is Tier 2 — the chart — because Wavu's only two tracking notes (f+3 tracks right, b+4 tracks left) cancel out. Every table row is quoted from Wavu's per-move notes; nothing is lab-derived. Stance blockability and the RAI.1+3 throw's hit level aren't stated on Wavu and are marked unconfirmed.
+  Frame data from <a href="https://wavu.wiki/t/Heihachi_movelist">Wavu Wiki — Heihachi movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Heihachi_counterplay">Wavu Wiki — Heihachi counterplay</a> (punishment tables only; no prose). Default step direction from the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which calls SSL.<br><strong>Movement section:</strong> the SSL default is Tier 2 — the chart — because Wavu's only two tracking notes (f+3 tracks right, b+4 tracks left) cancel out. Every table row is quoted from Wavu's per-move notes; nothing is lab-derived. Stance blockability and the RAI.1+3 throw's hit level aren't stated on Wavu and are marked unconfirmed.<br>
+  <strong>Revision, 16 October 2026:</strong> re-checked every entry against the full Wavu movelist — the frame data was already right (Wavu's own notation for the crouch-dash moves, DF+3 and #1, explains why an automated matcher flagged them). Added what the first pass missed: the 1,2,2~1 and f+2~1 mid enders, 4~3, the 1,1,WAR.2 and 1,b+2,WAR.2 enders, the OTG stomp, the Spinning Demon n+4 branch, and four plus-on-block tools. TekkenDocs still has no anti-strat page for Heihachi.
 </div>
 
 </body></html>

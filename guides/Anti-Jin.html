@@ -352,6 +352,9 @@ function move(notation) {
     html += arrow('d', false) + arrow('db', false) + arrow('b', false);
     return html + buttons(notation.slice(3));
   }
+  if (notation.toLowerCase().startsWith('ufn')) {   // uf,n — tap up-forward, return to neutral
+    return html + arrow('uf',false) + neutral() + buttons(notation.slice(3));
+  }
   const tripleTaps = ['fff','bbb'];
   for (const tt of tripleTaps) {
     if (notation.toLowerCase().startsWith(tt)) {
@@ -524,6 +527,16 @@ function icons(...notations) {
 </div>
 <div class="note">Also his punch parry — see General Counter Play</div>
 
+<div class="entry">
+  <script>document.write(icons('4','~3'))</script>
+  <span class="frame-data">i24~34 | -11~-2 | Mid | Spike | Airborne frames 12~31</span>
+</div>
+<div class="note">Hop kick that jumps your lows. Only punishable (-11) when he does it fast; the delayed version is -2</div>
+<div class="entry">
+  <script>document.write(icons('db1+2'))</script>
+  <span class="frame-data">i19~34 | -11~+4 | Mid | Chargeable | Balcony Break</span>
+</div>
+<div class="note">Uncharged it's -11 — punish. Fully charged it's +4 and his turn. Wavu: traditional parries can't parry it</div>
 <div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
 
 <div class="entry">
@@ -540,7 +553,7 @@ function icons(...notations) {
   <span class="frame-data">i15~17 | -13 | Mid</span>
 </div>
 <div class="entry">
-  <script>document.write(icons('uf','n','4'))</script>
+  <script>document.write(icons('ufn4'))</script>
   <span class="frame-data">i23~25 | -13 | Mid | "Delayed Hopkick"</span>
 </div>
 <div class="entry">
@@ -611,6 +624,11 @@ function icons(...notations) {
   <span class="frame-data">i16~17 | -12 | High, Low</span>
 </div>
 <div class="entry">
+  <script>document.write(icons('2','1','4','~4'))</script>
+  <span class="frame-data">i20~21 | -12 | High, Mid, Low | Interrupt with i16 from 2nd block</span>
+</div>
+<div class="note">The delayed low ender off 2,1,4 — if you see the delay, crouch-block it and punish</div>
+<div class="entry">
   <script>document.write(icons('2','1','4','n','4'))</script>
   <span class="frame-data">i20~21 | -12 | High, Mid, Low</span>
 </div>
@@ -654,6 +672,11 @@ function icons(...notations) {
   <span class="frame-data">i25~26 | -14 | Low, Mid | Spike | Heat-only (Devil Stance)</span>
 </div>
 
+<div class="entry">
+  <script>document.write(icons('OTG.d1+2'))</script>
+  <span class="frame-data">i19~20 | -13 | Low | Spike | Hits you on the ground</span>
+</div>
+<div class="note">His ground hit — if you get up and block it low, it's -13</div>
 <div class="tier-label"><span class="tier-red">🔴</span> -15+</div>
 
 <div class="entry">
@@ -1000,10 +1023,37 @@ Only enters via <script>document.write(icons('H.f','F1+2'))</script> or <script>
 </table>
 <div class="note">The i16 mid at hit 5 and the naked high finisher are the two moments most worth drilling reactions to — everything before it is already covered piecemeal in Standing/Low Block Punishment and Duck and Launch above</div>
 
+<h3>Plus-on-block tools — from the TekkenDocs anti-strat list, checked against Wavu</h3>
+<div class="entry">
+  <script>document.write(icons('ZEN.3+4'))</script>
+  <span class="frame-data"><strong>High</strong> | i21~27 | <strong>+9g~+15g</strong> | Balcony Break | 10 chip | Airborne 10~32</span>
+</div>
+<div class="note">His biggest plus-on-block move — and it's a high. Duck it on read out of Zenshin</div>
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i22~23 | <strong>+6</strong> | Running mid | Can go into ZEN (+6)</span>
+</div>
+<div class="note">His running approach — blocking it hands him the turn</div>
+<div class="entry">
+  <script>document.write(icons('df3','~3'))</script>
+  <span class="frame-data">Mid | i23~24 | <strong>+6c</strong> | Spike | Can enter Breaking Step</span>
+</div>
+<div class="note">df+3 alone is i12, -8. The delayed ~3 follow-up is slow (effective i32~33) — jab him out of the gap if you see it coming</div>
+<div class="entry">
+  <script>document.write(icons('ZEN.4'))</script>
+  <span class="frame-data">Mid | i27~33 | +2~+8 | Spike | Airborne 7~33</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CD.df2'))</script>
+  <span class="frame-data">High | i11~12 | <strong>+5~+6</strong> | EWHF (electric) | Duck on read</span>
+</div>
+<div class="note">Already covered above — listed here so the plus list is complete</div>
+<div class="callout "><strong>Jin's minus-but-safe pokes</strong> (TekkenDocs "low minus" list): 3,1 (-1) · 2,1 / 1,2 / df+1 / ws4 / ZEN.1 (-3) · 1,2,4 (-4). None of them is punishable — after these, it's your turn to start offense, not to punish.</div>
 <!-- ── SOURCES ── -->
 <div class="sources">
 <strong>Sources:</strong> Wavu Wiki <a href="https://wavu.wiki/t/Jin_movelist" target="_blank">Jin movelist</a> and <a href="https://wavu.wiki/t/Jin_counterplay" target="_blank">Jin counterplay</a> pages (primary frame data, hit levels, standing-block punish buckets). <a href="https://tekkendocs.com/t8/jin" target="_blank">TekkenDocs — Jin</a> and <a href="https://tekkendocs.com/t8/jin/antistrat" target="_blank">TekkenDocs — Jin anti-strat</a> (supplementary source added at Mike's request — used here for the Zenshin manual-transition frame table, the setup-specific tracking notes in Move Tracking, and the FC.df+4 homing flag, each called out inline where it diverges from or extends Wavu). Default sidestep direction (SSR) sourced from <a href="https://tekkendocs.com/t8/sidestep-chart.webp" target="_blank">TekkenDocs — Sidestep Chart</a> (community chart by @Mezerdie). <strong>Movement section:</strong> every SSR / SSL / SWR / SWL row is sourced from per-move "Whiffs vs …" and "good … sidestep tracking" notes in Wavu's and TekkenDocs' frame data — none of it is lab-derived. Wavu's numeric Left/Right Tracking columns are blank for almost every entry on Jin's page. The Stance-blockability callouts not sourced to either site are marked unconfirmed rather than asserted.<br>
-<strong>Updated 3 October 2026</strong> against Wavu's Jin movelist, edited 27 September 2026 — after this doc was first built. Changes: 2,4 (SSR) and ws1,3~3 (SSL/SW) now carry whiff notes, and b+1+2 no longer carries a tracking note; ZEN.2 is a <strong>high</strong> power crush at i18~19 (not a mid); Devil Stance, Zenshin, Heat Smash and Heat Engager startups corrected; and four moves previously labelled "Special Mid" (4~3, b,f+2,1,df+2, ws1,3,2,1,4,2, CD.DF+4,2) are written with a capital <strong>M</strong> on Wavu — a mid that hits grounded opponents — so they <strong>can't be blocked crouching</strong>. DVS.2 is the only true special mid here.
+<strong>Updated 3 October 2026</strong> against Wavu's Jin movelist, edited 27 September 2026 — after this doc was first built. Changes: 2,4 (SSR) and ws1,3~3 (SSL/SW) now carry whiff notes, and b+1+2 no longer carries a tracking note; ZEN.2 is a <strong>high</strong> power crush at i18~19 (not a mid); Devil Stance, Zenshin, Heat Smash and Heat Engager startups corrected; and four moves previously labelled "Special Mid" (4~3, b,f+2,1,df+2, ws1,3,2,1,4,2, CD.DF+4,2) are written with a capital <strong>M</strong> on Wavu — a mid that hits grounded opponents — so they <strong>can't be blocked crouching</strong>. DVS.2 is the only true special mid here.<br>
+<strong>Revision, 16 October 2026:</strong> re-checked every entry against the full Wavu movelist (no frame changes needed). Added from the full sources: the 2,1,4~4 low ender, 4~3, db+1+2 (charged and uncharged), his OTG ground hit, and a plus-on-block list built from the TekkenDocs anti-strat page, with every frame figure confirmed on Wavu.
 </div>
 
 

@@ -322,6 +322,9 @@ function move(notation) {
   if (notation.toLowerCase().startsWith('qcf')) {
     return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
   }
+  if (notation.toLowerCase().startsWith('ufn')) {   // uf,n — tap up-forward, return to neutral
+    return html + arrow('uf',false) + neutral() + buttons(notation.slice(3));
+  }
   for (const tt of ['fff','bbb']) {
     if (notation.toLowerCase().startsWith(tt)) {
       const d = tt[0];
@@ -425,6 +428,11 @@ function icons(...notations) {
   <script>document.write(icons('cd3'))</script>
   <span class="frame-data">i16~17 | -10 | Mid | Knee | Low crush 14~27</span>
 </div>
+<div class="entry">
+  <script>document.write(icons('cd3','4'))</script>
+  <span class="frame-data">i26 | <strong>-11c</strong> | Mid, Mid | Balcony Break | Interrupt with i1 — effectively none</span>
+</div>
+<div class="note">Recovers crouching — punish with your WS punisher, not a standing one</div>
 <div class="entry">
   <script>document.write(icons('2','1','4'))</script>
   <span class="frame-data">i27~28 | -10 | High, Mid, Mid | Spike | Whiffs vs SSR/SWR from 2nd block</span>
@@ -632,6 +640,11 @@ function icons(...notations) {
 <h2>Low Block Punishment</h2>
 
 <div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('1','d4'))</script>
+  <span class="frame-data">i22 | -12 | High, Low | Combo from 1st hit (3F delay) | Interrupt with i3 from 1st block</span>
+</div>
+<div class="note">Jab into a low — duck the jab and the low is the only thing left; block it low and punish the -12</div>
 
 <div class="entry">
   <script>document.write(icons('d4'))</script>
@@ -779,6 +792,11 @@ function icons(...notations) {
 </div>
 <div class="note">Plus on block if it completes, and it engages Heat — ducking the ,2 is the answer to BAL pressure | Delayable 8F, cannot be interrupted | Punish with character's FC or WS launcher</div>
 
+<div class="entry">
+  <script>document.write(icons('cd3','2'))</script>
+  <span class="frame-data">(MID, HIGH) | <strong>+3 oB</strong> | Spike | Jails attack inputs from 1st block</span>
+</div>
+<div class="note">You can't press out of it after blocking the knee — but the ,2 is duckable. Duck it and punish with your FC or WS launcher. Block it standing and it's his turn (+3)</div>
 <h3>Full-high strings — duck the opener</h3>
 
 <div class="entry">
@@ -1035,7 +1053,8 @@ function icons(...notations) {
   Where the two sources differed on a note, Wavu's wording was kept.<br>
   <strong>Movement section:</strong> every SSL / SSR / SWL / SWR entry is taken directly from the per-move "Whiffs vs …" and "Has good … sidestep tracking" notes in the Wavu and TekkenDocs frame data — all of it sourced, none of it lab-derived. The <em>SW Right</em> recommendation is the tally of those notes (5 moves whiff right, 3 whiff left, 4 whiff either way), weighted toward the moves he actually throws. Worth cross-checking against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which gives a whole-character default per matchup. Checked 3 October 2026: Bob doesn't appear on the chart, so there's no Tier 2 read to compare against.<br>
   No lab-tested tracking data has been added to this document.<br>
-  <strong>Corrected 3 October 2026:</strong> earlier versions labelled several of Bob's moves "Special Mid" (b+3, f+2,3, 3+4,4, f,n,d,df+2, BAL.3+4 and others). Wavu writes those as a capital <strong>M</strong>, which means a mid that also hits grounded opponents — not a special mid. They're ordinary mids: <strong>you cannot block them crouching</strong>. Bob has no special mids.
+  <strong>Corrected 3 October 2026:</strong> earlier versions labelled several of Bob's moves "Special Mid" (b+3, f+2,3, 3+4,4, f,n,d,df+2, BAL.3+4 and others). Wavu writes those as a capital <strong>M</strong>, which means a mid that also hits grounded opponents — not a special mid. They're ordinary mids: <strong>you cannot block them crouching</strong>. Bob has no special mids.<br>
+  <strong>Revision, 16 October 2026:</strong> re-checked every entry against the full Wavu movelist (no frame changes needed) and added the moves the first pass missed: the f,n,d,df+3 follow-ups (,4 recovers crouching at -11; ,2 is +3 but duckable) and the 1,d+4 jab-low, and fixed the delayed hopkick icon so it shows the neutral step (uf,n,4). TekkenDocs still has no anti-strat page for Bob.
 </div>
 
 

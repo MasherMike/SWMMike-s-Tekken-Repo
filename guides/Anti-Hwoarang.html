@@ -205,6 +205,9 @@ function move(notation) {
   if (notation.toLowerCase().startsWith('qcb')) {
     return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
   }
+  if (notation.toLowerCase().startsWith('ufn')) {   // uf,n — tap up-forward, return to neutral
+    return html + arrow('uf',false) + neutral() + buttons(notation.slice(3));
+  }
   for (const tt of ['fff','bbb']) {
     if (notation.toLowerCase().startsWith(tt)) {
       const d = tt[0];
@@ -358,7 +361,7 @@ function icons(...notations) {
   <span class="frame-data">i23~27 | -13 | Mid, Mid | Spike</span>
 </div>
 <div class="entry">
-  <script>document.write(icons('uf4'))</script>
+  <script>document.write(icons('ufn4'))</script>
   <span class="frame-data">i23~25 | -13 | Mid | Delayed hopkick</span>
 </div>
 <div class="entry">
@@ -843,6 +846,8 @@ function icons(...notations) {
 <div class="note">Pressing 4 after a successful parry gives Shotgun Shuffle</div>
 
 <!-- ── POWER CRUSH & RAGE ── -->
+<div class="entry"><span class="stance" style="margin-right:6px;">AIR.ub+3+4</span><span class="frame-data">Air throw | Mid-hitting | i15~16 | <strong>Unbreakable</strong> | Side switch</span></div>
+<div class="note">Catches you in the air (hopping or juggled) — no break, so don't jump around in front of him</div>
 <h2>Power Crush &amp; Rage Art</h2>
 <div class="entry">
   <script>document.write(icons('RFF.3~4'))</script>
@@ -886,6 +891,39 @@ function icons(...notations) {
 </div>
 <div class="note">Caught you right after you blocked his mid and were +3 — you pressed, his d+3 counter-hit you, and the ,4 combos from the 1st hit | Check what you pressed: if it was a high, his low went under it</div>
 <div class="note">Fix: the low is -13 on its own. Block it crouching and STAY crouched — the ,4 is a high that whiffs over you, then punish with character's FC or WS launcher | Standing up after the low is what gave him +8 in the replay</div>
+<h3>Plus-on-block tools — TekkenDocs anti-strat list, checked on Wavu</h3>
+<div class="callout callout-warn">This is why block-and-punish alone doesn't work against him: all of these leave <strong>him</strong> with the next turn. When you block one, either block again or check with your fastest move — don't start a slow string.</div>
+<div class="entry">
+  <script>document.write(icons('fff3'))</script>
+  <span class="frame-data">Mid | i22~24 | <strong>+6</strong> | Running kick | 9 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">Mid | i20~24 | <strong>+6</strong> | Goes to RFF</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">Mid | i26 | <strong>+5c</strong> | Airborne from frame 13</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CD.3'))</script>
+  <span class="frame-data">Mid | i18~19 | <strong>+4</strong> | Tornado | 8 chip | Goes to LFS</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('u4'))</script>
+  <span class="frame-data">Mid | i16~18 | <strong>+3</strong> | Airborne from frame 9 | Goes to RFS</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf4','4','4'))</script>
+  <span class="frame-data">High, Mid, Low | i9~10 | +1 | Goes to RFS</span>
+</div>
+<div class="note">Starts with a high — duck the first kick. Wavu: the third hit can't be low-parried if the first one hit</div>
+<div class="entry">
+  <script>document.write(icons('db4','4'))</script>
+  <span class="frame-data">Low, High | -1~+1 | Combo only from a 1st-hit CH</span>
+</div>
+<div class="note">After you block the low, stay down — the ,4 is a high</div>
+<div class="callout "><strong>Stance tips from the TekkenDocs anti-strat page</strong> (community notes, not on Wavu):<br>• Sidewalk <strong>left</strong> against Left Flamingo (LFS) and <strong>right</strong> against Right Flamingo (RFS).<br>• After a weak Flamingo transition, a single jab or 1,2 is a good check. His fastest Flamingo move is the i13 jab; per an unconfirmed note carried over from Tekken 7, if your jab trades with it you're +4.<br>• Right Foot Forward (RFF) is fairly weak to sidesteps.<br>• Heat Smash: if the first two hits whiff, duck the last hit and launch.</div>
 <h3>Everything else</h3>
 <div class="entry">
   <script>document.write(icons('b3'))</script>
@@ -925,7 +963,8 @@ function icons(...notations) {
 
 <div class="sources">
   <strong>Sources</strong><br>
-  Frame data from <a href="https://wavu.wiki/t/Hwoarang_movelist">Wavu Wiki — Hwoarang movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Hwoarang_counterplay">Wavu Wiki — Hwoarang counterplay</a>, including its prose on Flamingo, d3,4, df3,4, RFS.f4,4, RFF3~4, b3 and low parrying. Step direction cross-checked against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which marks him SSC* — "step away from his chest position."<br><strong>Movement section:</strong> the SSR default is Tier 1 — Wavu's counterplay prose plus one per-move whiff note — and is consistent with the chart's stance-dependent rule. Nothing here is lab-derived. Blocking in RFF isn't addressed on Wavu either way.<br><strong>Approach killers:</strong> replay-observed — three of Mike's ranked replays from Oct 15, 2026, read from the in-game frame data panel (hit level, startup, damage, frame advantage, counter flag). Move identities confirmed by matching every panel value to Wavu (u+3: i20, 25 dmg, +44a (+38); d+3,4: 7/13 dmg, i21~23, +14g oH, +8g~+10g oB). The "what you pressed" and spacing notes describe those replays, not general Hwoarang behavior.
+  Frame data from <a href="https://wavu.wiki/t/Hwoarang_movelist">Wavu Wiki — Hwoarang movelist</a> (last edited 12 September 2026) and <a href="https://wavu.wiki/t/Hwoarang_counterplay">Wavu Wiki — Hwoarang counterplay</a>, including its prose on Flamingo, d3,4, df3,4, RFS.f4,4, RFF3~4, b3 and low parrying. Step direction cross-checked against the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie), which marks him SSC* — "step away from his chest position."<br><strong>Movement section:</strong> the SSR default is Tier 1 — Wavu's counterplay prose plus one per-move whiff note — and is consistent with the chart's stance-dependent rule. Nothing here is lab-derived. Blocking in RFF isn't addressed on Wavu either way.<br><strong>Approach killers:</strong> replay-observed — three of Mike's ranked replays from Oct 15, 2026, read from the in-game frame data panel (hit level, startup, damage, frame advantage, counter flag). Move identities confirmed by matching every panel value to Wavu (u+3: i20, 25 dmg, +44a (+38); d+3,4: 7/13 dmg, i21~23, +14g oH, +8g~+10g oB). The "what you pressed" and spacing notes describe those replays, not general Hwoarang behavior.<br>
+  <strong>Revision, 16 October 2026:</strong> read the <a href="https://tekkendocs.com/t8/hwoarang/antistrat">TekkenDocs Hwoarang anti-strat page</a> for the first time and added a plus-on-block list (every value confirmed on Wavu), its stance tips, and the unbreakable air throw. Fixed the delayed hopkick's input icon: it showed uf+4, a different move (a high at -2), when the move is uf,n,4. Every existing entry re-checked against the full Wavu movelist; no frame changes needed.
 </div>
 
 </body></html>
