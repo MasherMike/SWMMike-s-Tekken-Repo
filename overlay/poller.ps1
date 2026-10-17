@@ -21,6 +21,26 @@ $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $KeyFile = Join-Path $Here "ewgf-key.txt"
 $OutFile = Join-Path $Here "overlay-data.js"
 $TmpFile = Join-Path $Here "overlay-data.tmp"
+$LogFile = Join-Path $Here "poller-log.txt"
+$LogMaxLines = 2000                       # about two weeks of streaming; older lines are trimmed
+
+# Print a message in the window and keep a copy in poller-log.txt (stays on this PC).
+function Write-Log($text, $color) {
+    if ($color) { Write-Host $text -ForegroundColor $color } else { Write-Host $text }
+    try { [System.IO.File]::AppendAllText($LogFile, ("{0:yyyy-MM-dd} {1}" -f (Get-Date), $text) + "`r`n") } catch {}
+}
+
+# Keep the log from growing forever: on start, keep only the newest lines.
+function Limit-Log {
+    try {
+        if (Test-Path $LogFile) {
+            $lines = [System.IO.File]::ReadAllLines($LogFile)
+            if ($lines.Count -gt $LogMaxLines) {
+                [System.IO.File]::WriteAllLines($LogFile, $lines[($lines.Count - $LogMaxLines)..($lines.Count - 1)])
+            }
+        }
+    } catch {}
+}
 
 if (-not (Test-Path $KeyFile)) {
     Write-Host ""
@@ -32,20 +52,6 @@ if (-not (Test-Path $KeyFile)) {
     exit 1
 }
 $Key = (Get-Content $KeyFile -Raw).Trim()
-
-# Only one poller at a time: two copies would use the hourly limit twice as fast.
-$script:Lock = New-Object System.Threading.Mutex($false, "Local\TekkenOverlayPoller")
-$haveLock = $false
-try { $haveLock = $script:Lock.WaitOne(0) }
-catch [System.Threading.AbandonedMutexException] { $haveLock = $true }   # last copy crashed; take over
-if (-not $haveLock) {
-    Write-Host ""
-    Write-Host "  The overlay poller is already running in another window." -ForegroundColor Yellow
-    Write-Host "  Check your taskbar for 'Tekken overlay poller'. One copy is all you need."
-    Write-Host ""
-    Read-Host "Press Enter to close"
-    exit 1
-}
 
 # Only one poller at a time: two copies would use the hourly limit twice as fast.
 $script:Lock = New-Object System.Threading.Mutex($false, "Local\TekkenOverlayPoller")
@@ -121,9 +127,11 @@ function Write-OverlayData($battles, $tier, $errorText, $pausedUntil) {
     Move-Item -Path $TmpFile -Destination $OutFile -Force
 }
 
+Limit-Log
+Write-Log ("[{0:h:mm:ss tt}] Poller started (checks every {1}s or more)" -f (Get-Date), $IntervalSeconds) "DarkGray"
 Write-Host "Tekken overlay poller running. Leave this window open while you stream." -ForegroundColor Green
 Write-Host "Checks ewgf.gg every $IntervalSeconds seconds or more, pacing itself to stay under the hourly limit."
-Write-Host "Close this window to stop."
+Write-Host "Close this window to stop. A copy of these lines is saved in poller-log.txt."
 Write-Host ""
 
 $lastGood = @()
@@ -162,7 +170,7 @@ while ($true) {
         Write-OverlayData $rows $lastTier $null $null
         $sleep = Get-PollDelay $remaining $lastReset
         $newest = "none"; if ($rows.Count -gt 0) { $newest = ($rows | Sort-Object battle_at | Select-Object -Last 1).battle_at }
-        Write-Host ("[{0:h:mm:ss tt}] {1} battles, newest {2} | {3} tier, {4} requests left this hour, next check in {5}s" -f `
+        Write-Log ("[{0:h:mm:ss tt}] {1} battles, newest {2} | {3} tier, {4} requests left this hour, next check in {5}s" -f `
             (Get-Date), $rows.Count, $newest, $lastTier, $remaining, $sleep)
     }
     catch {
@@ -175,13 +183,13 @@ while ($true) {
             if ($env:EWGF_TEST_FAST -and $wait -gt 5) { $wait = 3 }
             $wait = [Math]::Min($wait, 3600)
             $resume = (Get-Date).ToUniversalTime().AddSeconds($wait)
-            Write-Host ("[{0:h:mm:ss tt}] ewgf.gg hourly limit reached. Pausing until {1:h:mm tt}." -f `
-                (Get-Date), $resume.ToLocalTime()) -ForegroundColor Yellow
+            Write-Log ("[{0:h:mm:ss tt}] ewgf.gg hourly limit reached. Pausing until {1:h:mm tt}." -f `
+                (Get-Date), $resume.ToLocalTime()) "Yellow"
             Write-OverlayData $lastGood $lastTier "rate_limited" $resume
             $sleep = $wait
         }
         else {
-            Write-Host ("[{0:h:mm:ss tt}] Could not reach ewgf.gg: {1}" -f (Get-Date), $msg) -ForegroundColor Yellow
+            Write-Log ("[{0:h:mm:ss tt}] Could not reach ewgf.gg: {1}" -f (Get-Date), $msg) "Yellow"
             # Keep showing the last good data, flagged with the error.
             Write-OverlayData $lastGood $lastTier $msg $null
         }

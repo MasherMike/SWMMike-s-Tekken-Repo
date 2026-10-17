@@ -9,3 +9,4 @@ overlay/overlay-data.tmp
 
 # Guide source downloads (scripts/fetch_sources.py) - re-downloadable, not committed
 build/
+overlay/poller-log.txt

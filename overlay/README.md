@@ -62,6 +62,15 @@ down automatically so it never runs out, keeping a few spare for the hourly
 GitHub collector. If it does hit the limit, it waits for the reset instead
 of retrying.
 
+## Log file
+
+The poller keeps a copy of everything it prints in `poller-log.txt`, next to
+it: every check, every "hourly limit reached" pause, and every connection
+error, each with the date and time. It keeps the newest 2,000 lines (about two
+weeks of streaming) and trims older ones when it starts. The file stays on your
+PC and is never uploaded. Open it in Notepad any time, for example to show the
+ewgf.gg developer exactly when limits were hit.
+
 ## Privacy
 
 The poller keeps only what the panel shows: characters, ranks, results and
