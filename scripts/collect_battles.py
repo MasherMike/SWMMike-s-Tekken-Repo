@@ -163,6 +163,12 @@ def main():
     unknown = sorted({r["stage_id"] for r in rows if r["stage"] is None})
     print(f"Pulled {len(raw)} battles, {len(new)} new, {len(rows)} total. "
           f"Requests left this hour: {payload.get('_metadata', {}).get('rate_limit_remaining')}.")
+    # Same numbers as a GitHub notice, so they show on the run's summary page
+    # (and can be read without opening the log).
+    meta = payload.get("_metadata", {})
+    print(f"::notice title=ewgf.gg API::tier={meta.get('tier')}, "
+          f"requests left this hour={meta.get('rate_limit_remaining')}, "
+          f"resets={meta.get('rate_limit_reset')}")
     if unknown:
         print(f"Unmapped stage IDs: {unknown}")
 
