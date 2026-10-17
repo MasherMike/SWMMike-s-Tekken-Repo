@@ -1,5 +1,5 @@
 # Session review: Sat Oct 17, 2026
-Last session (ranked) · 10:09 AM – 10:55 AM · 20 games
+Today (ranked) · 10:09 AM – 10:55 AM · 20 games
 
 Reviewing **ranked games only**.
 
@@ -65,4 +65,4 @@ Round margin is the opponent's rounds minus yours, averaged: a number moving tow
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
 ---
-Generated Oct 17, 2026 10:59 AM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Oct 17, 2026 11:02 AM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
