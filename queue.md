@@ -15,6 +15,7 @@ queue. When reordering, go by ranked results.
 
 ## Queue
 
+- Anna          <!-- moved to front by Mike, 2026-10-17: 3-6 ranked lifetime as Victor (33%), lost 0-3 and 2-3 on Oct 17 -->
 - Armor King    <!-- moved to front by Mike, 2026-10-12: 8-10 at seeding; 5-7 ranked Oct 10-12 incl. two 0-3s to a GoD V -->
 - Eddy          <!-- 7-5 ranked, 58%. Was moved to front 2026-10-09 on the all-modes record; guide built before the ranked-only rule -->
 - Zafina        <!-- 0-4,   0% -->
@@ -22,7 +23,6 @@ queue. When reordering, go by ranked results.
 - Leo           <!-- 2-6,  25% -->
 - Kuma          <!-- 3-7,  30% -->
 - Shaheen       <!-- 6-10, 38% -->
-- Anna          <!-- 1-3,  25% -->
 - Claudio       <!-- 4-6,  40% -->
 - Lars          <!-- 4-5,  44% -->
 - Nina          <!-- 4-5,  44% -->
@@ -52,5 +52,5 @@ queue. When reordering, go by ranked results.
 
 ## Done
 
-Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi, Eddy, Zafina
+Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi, Eddy, Zafina, Armor King
 (the task checks `guides/` directly; this list is just for reading)
