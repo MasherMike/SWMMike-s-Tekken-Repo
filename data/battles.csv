@@ -1542,17 +1542,11 @@ battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
 2026-10-17T01:14:56Z,quick,Clive,Reina,Tekken God Supreme,L,2 to 3,1400,Secluded Training Ground
 2026-10-17T01:20:40Z,quick,Clive,Armor King,Tekken God Supreme,L,2 to 3,100,Arena
 2026-10-17T14:09:57Z,ranked,Victor,Asuka,God of Destruction II,W,3 to 1,1700,Seaside Resort
-2026-10-17T14:14:48Z,ranked,Victor,Asuka,,W,3 to 2,,
 2026-10-17T14:14:48Z,ranked,Victor,Asuka,God of Destruction II,W,3 to 2,1700,Seaside Resort
-2026-10-17T14:19:20Z,ranked,Victor,Azucena,,W,3 to 2,,
 2026-10-17T14:19:20Z,ranked,Victor,Azucena,God of Destruction III,W,3 to 2,1900,Phoenix Gate
-2026-10-17T14:21:42Z,ranked,Victor,Azucena,,W,3 to 0,,
 2026-10-17T14:21:42Z,ranked,Victor,Azucena,God of Destruction III,W,3 to 0,1900,Phoenix Gate
-2026-10-17T14:23:53Z,ranked,Victor,Heihachi,,W,3 to 0,,
 2026-10-17T14:23:53Z,ranked,Victor,Heihachi,God of Destruction I,W,3 to 0,700,Fallen Destiny
-2026-10-17T14:25:50Z,ranked,Victor,Heihachi,,W,3 to 0,,
 2026-10-17T14:25:50Z,ranked,Victor,Heihachi,God of Destruction I,W,3 to 0,700,Fallen Destiny
-2026-10-17T14:28:48Z,ranked,Victor,Kunimitsu,,L,0 to 3,,
 2026-10-17T14:28:48Z,ranked,Victor,Kunimitsu,God of Destruction,L,0 to 3,1300,Celebration on the Seine
 2026-10-17T14:31:43Z,ranked,Victor,Anna,God of Destruction III,L,0 to 3,1300,Celebration on the Seine
 2026-10-17T14:35:39Z,ranked,Victor,Anna,God of Destruction III,L,2 to 3,1300,Celebration on the Seine

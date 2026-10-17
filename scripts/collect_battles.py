@@ -87,6 +87,29 @@ def key(r):
     return (r["battle_at"], r["my_char"], r["opp_char"], r["rounds"], r["stage_id"])
 
 
+def game_id(r):
+    """Same game from either source (ewgf or Wavu Wank). No stage: Wank doesn't have it."""
+    return (r["battle_at"], r["my_char"], r["opp_char"], r["rounds"])
+
+
+def merge_duplicates(rows):
+    """Fold rows that describe the same game into one, keeping every known field.
+    Happens when Wavu Wank adds a game before ewgf delivers it (Oct 17, 2026 bug).
+    Rows that disagree on a filled-in field are left alone."""
+    out, by_id = [], {}
+    for r in rows:
+        k = game_id(r)
+        first = by_id.get(k)
+        if first is not None and all(first.get(f) in (None, v) for f, v in r.items() if v is not None):
+            for f, v in r.items():
+                if v is not None:
+                    first[f] = v
+            continue
+        by_id.setdefault(k, r)
+        out.append(r)
+    return out
+
+
 def clean(r):
     """Keep only approved fields. A text value shaped like a player ID is a bug
     somewhere upstream, so stop rather than write it."""
@@ -99,7 +122,7 @@ def clean(r):
 
 def save_rows(rows):
     """The only way battle data reaches disk: jsonl + page copy + CSV."""
-    rows = sorted((clean(r) for r in rows), key=lambda r: str(r["battle_at"]))
+    rows = sorted(merge_duplicates([clean(r) for r in rows]), key=lambda r: str(r["battle_at"]))
     os.makedirs("data", exist_ok=True)
     with open(BATTLES, "w") as fh:
         for r in rows:
@@ -143,12 +166,17 @@ def main():
 
     existing = load_rows()
     seen = {key(r) for r in existing}
+    # Games Wavu Wank added before ewgf had them: fill those in instead of adding a copy.
+    wank_only = {game_id(r): r for r in existing if r.get("stage_id") is None}
 
     payload = fetch()
     raw = payload.get("data", [])
     new = []
     for b in raw:
         r = slim(b, stage_names)
+        if r and game_id(r) in wank_only:
+            wank_only.pop(game_id(r)).update({f: r[f] for f in ("opp_rank", "stage_id", "stage", "mode")})
+            continue
         if r and key(r) not in seen:
             seen.add(key(r))
             new.append(r)
