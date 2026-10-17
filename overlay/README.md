@@ -56,11 +56,16 @@ file:///C:/Users/YOU/Documents/TekkenOverlay/overlay.html?modes=ranked&scale=1.2
 
 ## Request limit
 
-ewgf.gg allows a set number of requests per hour and reports how many are
-left with every reply. The poller checks every 40 seconds at most and slows
-down automatically so it never runs out, keeping a few spare for the hourly
-GitHub collector. If it does hit the limit, it waits for the reset instead
-of retrying.
+ewgf.gg allows a set number of requests per hour (currently 100 on this key)
+and reports how many are left with every reply. The poller spreads what's left
+evenly over the rest of the hour, never checks more often than every 30
+seconds, and keeps a few requests spare for the hourly GitHub collector.
+
+ewgf.gg's own "resets at" time is currently wrong (it returns the time of the
+request), so the poller works out the hour itself: when the count jumps back
+up, a new hour has started. Until it has seen that, it assumes a full hour is
+left, so it errs on the side of checking less often. If it ever does run out,
+it waits exactly as long as ewgf.gg says and carries on.
 
 ## Log file
 

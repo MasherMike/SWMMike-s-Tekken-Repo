@@ -14,8 +14,10 @@ $IntervalSeconds = 30                     # fastest check: 120 requests/hour
 $Reserve = 3                              # requests/hour left for the hourly GitHub collector
 $BaseUrl = "https://api.ewgf.gg"
 $MinWait = 60                             # shortest pause after a "too many requests" reply
+$WindowSeconds = 3600                     # ewgf.gg counts requests in one-hour windows
+$BlindWaitMax = 600                       # longest wait while the window's end is unknown
 if ($env:EWGF_BASE_URL) { $BaseUrl = $env:EWGF_BASE_URL }   # for testing only
-if ($env:EWGF_TEST_FAST) { $IntervalSeconds = 2; $MinWait = 2 } # for testing only
+if ($env:EWGF_TEST_FAST) { $IntervalSeconds = 2; $MinWait = 2; $WindowSeconds = 20; $BlindWaitMax = 4 } # for testing only
 
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $KeyFile = Join-Path $Here "ewgf-key.txt"
@@ -81,17 +83,22 @@ function ConvertTo-UtcDate($value) {
     try { return ([DateTimeOffset]::Parse([string]$value)).UtcDateTime } catch { return $null }
 }
 
-# How long to wait before the next check. ewgf.gg tells us how many requests
-# are left this hour and when the hour resets, so we spread what's left
-# evenly over the rest of the hour and never run dry.
-function Get-PollDelay($remaining, $resetUtc) {
-    if ($null -eq $remaining -or $null -eq $resetUtc) { return $IntervalSeconds }
-    $secondsLeft = ($resetUtc - (Get-Date).ToUniversalTime()).TotalSeconds
-    if ($secondsLeft -le 0) { return $IntervalSeconds }
+# How long to wait before the next check: spread the requests that are left
+# evenly over the rest of the hourly window, so we never run dry.
+function Get-PollDelay($remaining, $windowEndUtc) {
+    if ($null -eq $remaining) { return $IntervalSeconds }
+    $secondsLeft = $WindowSeconds                       # unknown end: assume a whole hour (safest)
+    if ($windowEndUtc) {
+        $s = ($windowEndUtc - (Get-Date).ToUniversalTime()).TotalSeconds
+        if ($s -gt 0) { $secondsLeft = $s }
+    }
     $usable = [int]$remaining - $Reserve
-    if ($usable -le 0) { return [int][Math]::Ceiling($secondsLeft) + 5 }   # wait for the reset
-    $even = [int][Math]::Ceiling($secondsLeft / $usable)
-    return [Math]::Max($IntervalSeconds, $even)
+    if ($usable -le 0) { $delay = [int][Math]::Ceiling($secondsLeft) + 5 }   # wait for the reset
+    else { $delay = [Math]::Max($IntervalSeconds, [int][Math]::Ceiling($secondsLeft / $usable)) }
+    # When we don't know when the window ends, don't wait blind for too long:
+    # check again within 10 minutes (a "too many requests" reply says exactly when it resets).
+    if (-not $windowEndUtc) { $delay = [Math]::Min($delay, $BlindWaitMax) }
+    return $delay
 }
 
 # Status code and Retry-After from a failed request (PowerShell 5.1 and 7).
@@ -104,8 +111,9 @@ function Get-RetryAfterSeconds($err) {
     if (-not $r) { return $null }
     try {
         $ra = $r.Headers.RetryAfter                          # PowerShell 7
-        if ($ra -and $ra.Delta) { return [int]$ra.Delta.Value.TotalSeconds }
-        if ($ra -and $ra.Date) { return [int]($ra.Date.Value.UtcDateTime - (Get-Date).ToUniversalTime()).TotalSeconds }
+        # PowerShell unwraps these optional values, so read them directly (no .Value).
+        if ($ra -and $ra.Delta) { return [int]([TimeSpan]$ra.Delta).TotalSeconds }
+        if ($ra -and $ra.Date) { return [int](([DateTimeOffset]$ra.Date).UtcDateTime - (Get-Date).ToUniversalTime()).TotalSeconds }
     } catch {}
     try { $v = $r.Headers["Retry-After"]; if ($v) { return [int]$v } } catch {}   # PowerShell 5.1
     return $null
@@ -137,6 +145,8 @@ Write-Host ""
 $lastGood = @()
 $lastTier = $null
 $lastReset = $null
+$prevRemaining = $null
+$windowEnd = $null       # when the current hourly window ends, as far as we can tell
 while ($true) {
     $sleep = $IntervalSeconds
     try {
@@ -167,8 +177,25 @@ while ($true) {
         $lastTier = $meta.tier
         $remaining = $meta.rate_limit_remaining
         $lastReset = ConvertTo-UtcDate $meta.rate_limit_reset
-        Write-OverlayData $rows $lastTier $null $null
-        $sleep = Get-PollDelay $remaining $lastReset
+        $now = (Get-Date).ToUniversalTime()
+
+        # Work out when the hourly window ends. ewgf.gg's rate_limit_reset is used
+        # if it's in the future; right now it returns the request's own time, so we
+        # also watch for the count jumping back up, which means a new window began.
+        if ($null -ne $remaining -and $null -ne $prevRemaining -and [int]$remaining -gt [int]$prevRemaining) {
+            $windowEnd = $now.AddSeconds($WindowSeconds)
+        }
+        if ($lastReset -and $lastReset -gt $now.AddSeconds(5)) { $windowEnd = $lastReset }
+        if ($windowEnd -and $windowEnd -le $now) { $windowEnd = $null }   # stale guess
+        $prevRemaining = $remaining
+
+        $sleep = Get-PollDelay $remaining $windowEnd
+        if ($sleep -gt 300) {
+            # Saving requests for the rest of the hour: tell the overlay when the next check is.
+            Write-OverlayData $rows $lastTier "rate_limited" $now.AddSeconds($sleep)
+        } else {
+            Write-OverlayData $rows $lastTier $null $null
+        }
         $newest = "none"; if ($rows.Count -gt 0) { $newest = ($rows | Sort-Object battle_at | Select-Object -Last 1).battle_at }
         Write-Log ("[{0:h:mm:ss tt}] {1} battles, newest {2} | {3} tier, {4} requests left this hour, next check in {5}s" -f `
             (Get-Date), $rows.Count, $newest, $lastTier, $remaining, $sleep)
@@ -178,15 +205,15 @@ while ($true) {
         if ((Get-HttpStatus $_) -eq 429) {
             # Hourly limit used up. Wait it out instead of knocking every few seconds.
             $wait = Get-RetryAfterSeconds $_
-            if (-not $wait -and $lastReset) { $wait = [int](($lastReset - (Get-Date).ToUniversalTime()).TotalSeconds) + 5 }
+            if (-not $wait -and $windowEnd) { $wait = [int](($windowEnd - (Get-Date).ToUniversalTime()).TotalSeconds) + 5 }
             if (-not $wait -or $wait -lt $MinWait) { $wait = [Math]::Max($MinWait, 300) }
-            if ($env:EWGF_TEST_FAST -and $wait -gt 5) { $wait = 3 }
             $wait = [Math]::Min($wait, 3600)
             $resume = (Get-Date).ToUniversalTime().AddSeconds($wait)
             Write-Log ("[{0:h:mm:ss tt}] ewgf.gg hourly limit reached. Pausing until {1:h:mm tt}." -f `
                 (Get-Date), $resume.ToLocalTime()) "Yellow"
             Write-OverlayData $lastGood $lastTier "rate_limited" $resume
             $sleep = $wait
+            $prevRemaining = 0          # so the first reply after the pause counts as a new window
         }
         else {
             Write-Log ("[{0:h:mm:ss tt}] Could not reach ewgf.gg: {1}" -f (Get-Date), $msg) "Yellow"
