@@ -41,7 +41,8 @@ file:///C:/Users/YOU/Documents/TekkenOverlay/overlay.html?modes=ranked&scale=1.2
 |---|---|---|
 | `modes` | Which modes count: `ranked`, `quick`, `player`, `group`, comma-separated | all modes |
 | `scale` | Size multiplier | 1 |
-| `opps` | Opponent rows shown | 4 |
+| `opps` | Most opponent rows shown; extras roll into a "+N more" line | all |
+| `min` | Hide opponents you played fewer times than this; a note says how many are hidden (`min=2` hides one-and-dones) | 1 (show all) |
 | `dots` | Recent results shown | 10 |
 | `gap` | Minutes without a game that start a new session | 45 |
 

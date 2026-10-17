@@ -10,7 +10,8 @@
     overlay.html?modes=ranked&scale=1.2
   modes  = which modes count: ranked, quick, player, group (comma-separated; default all)
   scale  = size multiplier (default 1)
-  opps   = opponent rows to show (default 4)
+  opps   = most opponents to show (default: all of them)
+  min    = hide opponents you played fewer times than this (default 1 = show all)
   dots   = recent results to show (default 10)
   gap    = minutes of no games that start a new session (default 45)
 -->
@@ -66,6 +67,8 @@
   .opp { display: flex; justify-content: space-between; font-size: 13px; }
   .opp .rec { font-variant-numeric: tabular-nums; font-weight: 600; }
   .opp .rec.up { color: var(--win); } .opp .rec.down { color: var(--loss); } .opp .rec.even { color: var(--even); }
+  .opp.more { color: var(--muted); font-size: 12px; }
+  .opp.note { grid-column: 1 / -1; color: var(--muted); font-size: 11px; font-style: italic; }
   .waiting { font-size: 12px; color: var(--muted); padding: 4px 0 2px; }
   .foot { margin-top: 8px; font-size: 10px; color: var(--muted); letter-spacing: 0.05em; }
   .foot.warn { color: var(--even); }
@@ -78,7 +81,8 @@
   const params = new URLSearchParams(location.search)
   const MODES = (params.get('modes') || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean)
   const SCALE = parseFloat(params.get('scale')) || 1
-  const OPPS = parseInt(params.get('opps'), 10) || 4
+  const OPPS = parseInt(params.get('opps'), 10) || 0   // 0 = show every opponent
+  const MIN_GAMES = parseInt(params.get('min'), 10) || 1   // 1 = show everyone you played
   const DOTS = parseInt(params.get('dots'), 10) || 10
   const GAP_MIN = parseInt(params.get('gap'), 10) || 45
   const STALE_SEC = 900          // poller writes every 40s or more; 15 minutes means it stopped
@@ -159,13 +163,21 @@
       const o = byOpp[g.opp_char] || (byOpp[g.opp_char] = { w: 0, l: 0 })
       g.result === 'W' ? o.w++ : o.l++
     })
-    const opps = Object.entries(byOpp)
+    const oppList = Object.entries(byOpp)
+      .filter(([name, r]) => r.w + r.l >= MIN_GAMES)
       .sort((a, b) => (b[1].w + b[1].l) - (a[1].w + a[1].l) || a[0].localeCompare(b[0]))
-      .slice(0, OPPS)
+    const shown = OPPS ? oppList.slice(0, OPPS) : oppList
+    const hidden = oppList.length - shown.length                       // cut by opps
+    const filtered = Object.keys(byOpp).length - oppList.length          // cut by min
+    const noteText = MIN_GAMES === 2
+      ? `${filtered} one-and-done${filtered === 1 ? '' : 's'} hidden`
+      : `${filtered} opponent${filtered === 1 ? '' : 's'} under ${MIN_GAMES} games hidden`
+    const note = filtered ? `<div class="opp note">${noteText}</div>` : ''
+    const opps = shown
       .map(([name, r]) => {
         const cls = r.w > r.l ? 'up' : r.w < r.l ? 'down' : 'even'
         return `<div class="opp"><span>${esc(name)}</span><span class="rec ${cls}">${r.w}–${r.l}</span></div>`
-      }).join('')
+      }).join('') + (hidden ? `<div class="opp more"><span>+${hidden} more</span></div>` : '') + note
 
     // footer: freshness
     const age = (Date.now() - new Date(data.updated).getTime()) / 1000
