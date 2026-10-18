@@ -10,3 +10,13 @@ overlay/overlay-data.tmp
 # Guide source downloads (scripts/fetch_sources.py) - re-downloadable, not committed
 build/
 overlay/poller-log.txt
+
+# Tekken app (app/): keys, log and live data stay on the PC
+app/ewgf-key.txt
+app/github-token.txt
+app/app-log.txt
+app/data/
+app/site/data/
+app/site/index.html
+app/site/guides/
+app/collect_battles.py

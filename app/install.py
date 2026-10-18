@@ -1,0 +1,65 @@
+"""Install or update the Tekken app from this repo.
+
+    py app\\install.py D:\\SW-T8\\app
+
+Run it from an unzipped copy of the repo (GitHub: Code -> Download ZIP).
+It copies:
+  - the app's code (this folder) and the shared collector (scripts/collect_battles.py)
+  - the website: index.html and guides/
+  - the battle database (data/), but ONLY if the target doesn't have one yet
+
+It never touches ewgf-key.txt, github-token.txt or app-log.txt, and never
+overwrites an existing database: the app's own copy is the newest one, and
+the GitHub sync merges the two by itself.
+"""
+
+import shutil
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+APP_SRC = REPO / "app"
+
+CODE = ["server.py", "poller.py", "sync.py", "Start Tekken App.bat"]
+
+
+def copy(src, dst, note):
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dst)
+    print(f"  {note:9} {dst}")
+
+
+def main():
+    if len(sys.argv) != 2:
+        print(__doc__)
+        return 1
+    target = Path(sys.argv[1]).resolve()
+    print(f"Installing the Tekken app into {target}")
+
+    for name in CODE:
+        copy(APP_SRC / name, target / name, "code")
+    copy(REPO / "scripts" / "collect_battles.py", target / "collect_battles.py", "code")
+    copy(APP_SRC / "site" / "overlay.html", target / "site" / "overlay.html", "overlay")
+    copy(REPO / "index.html", target / "site" / "index.html", "site")
+    for g in sorted((REPO / "guides").iterdir()):
+        if g.suffix in (".html", ".js"):
+            copy(g, target / "site" / "guides" / g.name, "guide")
+
+    data = target / "data"
+    if (data / "battles.jsonl").exists():
+        print(f"  kept      {data / 'battles.jsonl'} (already there; the sync merges it with GitHub)")
+        copy(REPO / "data" / "stages.json", data / "stages.json", "data")
+    else:
+        for name in ("battles.jsonl", "stages.json"):
+            copy(REPO / "data" / name, data / name, "data")
+        copy(REPO / "data" / "battles.js", target / "site" / "data" / "battles.js", "data")
+
+    for f, what in (("ewgf-key.txt", "ewgf API key"), ("github-token.txt", "GitHub token")):
+        if not (target / f).exists():
+            print(f"  missing   {target / f}  <- put your {what} here")
+    print("Done. Start it with 'Start Tekken App.bat'.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

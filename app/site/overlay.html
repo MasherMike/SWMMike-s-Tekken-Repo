@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tekken session overlay</title>
+<!--
+  Served by the Tekken app (server.py). In Streamlabs/OBS add a Browser source
+  with the URL http://localhost:8787/overlay.html (untick "Local file").
+  Suggested size: 380 x 300. The background is transparent.
+  Options go after the address, e.g.
+    http://localhost:8787/overlay.html?modes=ranked&scale=1.2
+  modes  = which modes count: ranked, quick, player, group (comma-separated; default all)
+  scale  = size multiplier (default 1)
+  opps   = most opponents to show (default: all of them)
+  min    = hide opponents you played fewer times than this (default 1 = show all)
+  dots   = recent results to show (default 10)
+  gap    = minutes of no games that start a new session (default 45)
+  layout = panel (full, default) or strip (one slim line for mid-fight)
+  anchor = top (default; grows downward) or bottom (pinned to the bottom of the box; grows upward)
+  If a busy session would run past the edge of the box, it shrinks just enough to fit.
+-->
+<style>
+  :root {
+    --panel: rgba(12, 12, 18, 0.86);
+    --line: rgba(255, 255, 255, 0.08);
+    --text: #ececf2;
+    --muted: #8a8aa3;
+    --win: #3ddc84;
+    --loss: #ff5a5a;
+    --even: #ffc94d;
+    --accent: #4a9eff;
+  }
+  html, body { margin: 0; background: transparent; }
+  html, body { height: 100%; overflow: hidden; }
+  body.anchor-bottom #panel { position: absolute; left: 0; bottom: 0; }
+  body.anchor-bottom #panel { transform-origin: bottom left !important; }
+  /* Strip: one slim line for mid-fight */
+  .panel.strip { width: auto; display: inline-flex; align-items: center; gap: 12px;
+                 padding: 6px 14px 6px 12px; white-space: nowrap; }
+  .strip .char { font-size: 15px; }
+  .strip .srec { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .strip .srec .w { color: var(--win); } .strip .srec .l { color: var(--loss); }
+  .strip .srec .dash { color: var(--muted); font-weight: 400; margin: 0 3px; }
+  .strip .srate { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .strip .recent { margin: 0; gap: 4px; }
+  .strip .dot { width: 10px; height: 10px; }
+  .strip .streak { margin-left: 4px; }
+  .strip .vs { font-size: 13px; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--line); }
+  .strip .vs b { color: var(--text); font-weight: 600; }
+  .strip .vs .rec { font-weight: 700; font-variant-numeric: tabular-nums; margin-left: 4px; }
+  .strip .vs .rec.up { color: var(--win); } .strip .vs .rec.down { color: var(--loss); } .strip .vs .rec.even { color: var(--even); }
+  .strip .warn { font-size: 11px; color: var(--even); }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+  .panel {
+    width: 340px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 14px 10px;
+    box-sizing: border-box;
+    transform-origin: top left;
+  }
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .who { min-width: 0; }
+  .char { font-size: 17px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .rank { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .record { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .record .w { color: var(--win); }
+  .record .l { color: var(--loss); }
+  .record .dash { color: var(--muted); font-weight: 400; margin: 0 4px; }
+  .sub { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted);
+         text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+  .sub .rate { color: var(--text); font-variant-numeric: tabular-nums; }
+  .sub.total { margin-top: 1px; text-transform: none; letter-spacing: 0.02em; }
+  .recent { display: flex; align-items: center; gap: 5px; margin: 10px 0 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot.W { background: var(--win); }
+  .dot.L { background: var(--loss); }
+  .dot.empty { border: 1px solid var(--line); box-sizing: border-box; }
+  .streak { margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+  .streak.W { color: var(--win); }
+  .streak.L { color: var(--loss); }
+  .opps { border-top: 1px solid var(--line); padding-top: 7px;
+          display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 3px; }
+  .opp { display: flex; justify-content: space-between; font-size: 13px; }
+  .opp .rec { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .opp .rec.up { color: var(--win); } .opp .rec.down { color: var(--loss); } .opp .rec.even { color: var(--even); }
+  .opp.more { color: var(--muted); font-size: 12px; }
+  .opp.note { grid-column: 1 / -1; color: var(--muted); font-size: 11px; font-style: italic; }
+  .waiting { font-size: 12px; color: var(--muted); padding: 4px 0 2px; }
+  .foot { margin-top: 8px; font-size: 10px; color: var(--muted); letter-spacing: 0.05em; }
+  .foot.warn { color: var(--even); }
+</style>
+</head>
+<body>
+<div class="panel" id="panel"><div class="waiting">Waiting for the Tekken app…</div></div>
+
+<script>
+  const params = new URLSearchParams(location.search)
+  const MODES = (params.get('modes') || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean)
+  const SCALE = parseFloat(params.get('scale')) || 1
+  const OPPS = parseInt(params.get('opps'), 10) || 0   // 0 = show every opponent
+  const MIN_GAMES = parseInt(params.get('min'), 10) || 1   // 1 = show everyone you played
+  const DOTS = parseInt(params.get('dots'), 10) || 10
+  const GAP_MIN = parseInt(params.get('gap'), 10) || 45
+  const LAYOUT = (params.get('layout') || 'panel').toLowerCase()   // panel (full) or strip (one slim line)
+  const ANCHOR = (params.get('anchor') || 'top').toLowerCase()     // top (grows down) or bottom (grows up)
+  const STALE_SEC = 900          // the app updates every 30s or more; 15 minutes means it stopped
+
+  if (ANCHOR === 'bottom') document.body.classList.add('anchor-bottom')
+
+  // Size: the chosen scale, shrunk just enough to fit the source box if a big
+  // session would otherwise run past its edge (so nothing is ever cut off).
+  function applyScale() {
+    const panel = document.getElementById('panel')
+    panel.style.transform = 'none'
+    const h = panel.offsetHeight, w = panel.offsetWidth
+    const fit = Math.min(SCALE, window.innerHeight / h, window.innerWidth / w)
+    panel.style.transform = `scale(${fit > 0 ? fit : SCALE})`
+  }
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+
+  // Reload overlay-data.js every 10 seconds (served live by the Tekken app)
+  function loadData() {
+    const old = document.getElementById('data-script')
+    if (old) old.remove()
+    const s = document.createElement('script')
+    s.id = 'data-script'
+    s.src = 'overlay-data.js?t=' + Date.now()
+    s.onload = render
+    s.onerror = () => { window.OVERLAY_DATA = null; render() }
+    document.body.appendChild(s)
+  }
+
+  function currentSession(battles) {
+    const list = battles
+      .filter(b => !MODES.length || MODES.includes(String(b.mode).toLowerCase()))
+      .map(b => ({ ...b, t: new Date(b.battle_at).getTime() }))
+      .filter(b => !isNaN(b.t))
+      .sort((a, b) => a.t - b.t)
+    if (!list.length) return { latest: null, games: [] }
+    const latest = list[list.length - 1]
+    const gap = GAP_MIN * 60 * 1000
+    if (Date.now() - latest.t > gap) return { latest, games: [] }   // no session running yet
+    let i = list.length - 1
+    while (i > 0 && list[i].t - list[i - 1].t < gap) i--
+    return { latest, games: list.slice(i) }
+  }
+
+  function ago(sec) {
+    if (sec < 60) return `${Math.max(0, Math.round(sec))}s ago`
+    if (sec < 3600) return `${Math.round(sec / 60)} min ago`
+    return `${Math.round(sec / 3600)} h ago`
+  }
+
+  function render() {
+    const panel = document.getElementById('panel')
+    const data = window.OVERLAY_DATA
+    if (!data || !Array.isArray(data.battles)) {
+      if (LAYOUT === 'strip') {
+        panel.className = 'panel strip'
+        panel.innerHTML = '<span class="srate">Tekken app not running</span>'
+      } else {
+        panel.className = 'panel'
+        panel.innerHTML = '<div class="waiting">Waiting for the Tekken app… start it with Start Tekken App.bat</div>'
+      }
+      applyScale()
+      return
+    }
+    const { latest, games: allGames } = currentSession(data.battles)
+    // Show the character you're on now; total across characters goes in one line below
+    const games = latest ? allGames.filter(g => g.my_char === latest.my_char) : []
+    const otherChars = new Set(allGames.map(g => g.my_char)).size > 1
+    const allW = allGames.filter(g => g.result === 'W').length
+    const totalLine = otherChars
+      ? `<div class="sub total"><span>All characters</span><span class="rate">${allW}–${allGames.length - allW}</span></div>`
+      : ''
+    const w = games.filter(g => g.result === 'W').length
+    const l = games.length - w
+    const rate = games.length ? Math.round(100 * w / games.length) + '%' : '–'
+
+    // recent results, oldest -> newest, padded with empty slots
+    const recent = games.slice(-DOTS)
+    const dots = recent.map(g => `<span class="dot ${g.result === 'W' ? 'W' : 'L'}"></span>`).join('') +
+      '<span class="dot empty"></span>'.repeat(Math.max(0, DOTS - recent.length))
+
+    // current streak
+    let streak = ''
+    if (games.length) {
+      const last = games[games.length - 1].result
+      let n = 0
+      for (let i = games.length - 1; i >= 0 && games[i].result === last; i--) n++
+      if (n >= 2) streak = `<span class="streak ${last}">${last}${n}</span>`
+    }
+
+    // opponents this session, most played first
+    const byOpp = {}
+    games.forEach(g => {
+      const o = byOpp[g.opp_char] || (byOpp[g.opp_char] = { w: 0, l: 0 })
+      g.result === 'W' ? o.w++ : o.l++
+    })
+    const oppList = Object.entries(byOpp)
+      .filter(([name, r]) => r.w + r.l >= MIN_GAMES)
+      .sort((a, b) => (b[1].w + b[1].l) - (a[1].w + a[1].l) || a[0].localeCompare(b[0]))
+    const shown = OPPS ? oppList.slice(0, OPPS) : oppList
+    const hidden = oppList.length - shown.length                       // cut by opps
+    const filtered = Object.keys(byOpp).length - oppList.length          // cut by min
+    const noteText = MIN_GAMES === 2
+      ? `${filtered} one-and-done${filtered === 1 ? '' : 's'} hidden`
+      : `${filtered} opponent${filtered === 1 ? '' : 's'} under ${MIN_GAMES} games hidden`
+    const note = filtered ? `<div class="opp note">${noteText}</div>` : ''
+    const opps = shown
+      .map(([name, r]) => {
+        const cls = r.w > r.l ? 'up' : r.w < r.l ? 'down' : 'even'
+        return `<div class="opp"><span>${esc(name)}</span><span class="rec ${cls}">${r.w}–${r.l}</span></div>`
+      }).join('') + (hidden ? `<div class="opp more"><span>+${hidden} more</span></div>` : '') + note
+
+    // footer: freshness
+    const age = (Date.now() - new Date(data.updated).getTime()) / 1000
+    let foot = `<div class="foot">Updated ${ago(age)}</div>`
+    const paused = data.paused_until ? new Date(data.paused_until) : null
+    if (data.error === 'rate_limited' && paused && paused > Date.now())
+      foot = `<div class="foot warn">Hourly ewgf.gg limit reached · back at ${paused.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>`
+    else if (data.error === 'rate_limited') foot = `<div class="foot">Resuming…</div>`
+    else if (data.error) foot = `<div class="foot warn">ewgf.gg not responding, retrying · last data ${ago(age)}</div>`
+    else if (age > STALE_SEC) foot = `<div class="foot warn">Not updating · is the Tekken app running?</div>`
+
+    const modeLabel = MODES.length ? MODES.join(' + ') : 'all modes'
+
+    // Strip: one slim line, with your record against the opponent you're playing now
+    if (LAYOUT === 'strip') {
+      const newest = games.length ? games[games.length - 1] : null
+      let vs = ''
+      if (newest) {
+        const r = byOpp[newest.opp_char] || { w: 0, l: 0 }
+        const cls = r.w > r.l ? 'up' : r.w < r.l ? 'down' : 'even'
+        vs = `<span class="vs">vs <b>${esc(newest.opp_char)}</b><span class="rec ${cls}">${r.w}–${r.l}</span></span>`
+      }
+      const warn = /warn/.test(foot) ? `<span class="warn">⚠</span>` : ''
+      panel.className = 'panel strip'
+      panel.innerHTML = games.length
+        ? `<span class="char">${esc(latest.my_char)}</span>
+           <span class="srec"><span class="w">${w}W</span><span class="dash">–</span><span class="l">${l}L</span></span>
+           <span class="srate">${rate}</span>
+           <span class="recent">${dots}${streak}</span>${vs}${warn}`
+        : `<span class="char">${esc(latest ? latest.my_char : '')}</span><span class="srate">New session</span>${warn}`
+      applyScale()
+      return
+    }
+    panel.className = 'panel'
+    panel.innerHTML = `
+      <div class="head">
+        <div class="who">
+          <div class="char">${esc(latest ? latest.my_char : '')}</div>
+          <div class="rank">${esc(latest ? latest.my_rank : '')}</div>
+        </div>
+        <div class="record"><span class="w">${w}W</span><span class="dash">–</span><span class="l">${l}L</span></div>
+      </div>
+      <div class="sub"><span>This session · ${esc(modeLabel)}</span><span class="rate">${rate}</span></div>
+      ${totalLine}
+      ${games.length
+        ? `<div class="recent">${dots}${streak}</div>${opps ? `<div class="opps">${opps}</div>` : ''}`
+        : '<div class="waiting">New session · results appear after your first game</div>'}
+      ${foot}`
+    applyScale()
+  }
+
+  loadData()
+  setInterval(loadData, 10000)
+  setInterval(render, 5000)      // keeps "Updated Xs ago" ticking
+</script>
+</body>
+</html>

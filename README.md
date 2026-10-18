@@ -25,8 +25,13 @@ A single failed ratings run (Wavu Wank didn't answer) is caught up by the next o
 - **End-of-session review:** GitHub → Actions → **End session** → Run workflow.
   Pick *last session* or *today*, and *ranked* (default) or *all*. The report
   lands in `reviews/LATEST.md` and on the run's summary page.
-- **Stream overlay:** see `overlay/README.md`. Runs on your PC with your own
-  ewgf key, which never leaves it.
+- **Tekken app (replaces the old overlay poller):** see `app/README.md`.
+  Runs on your PC: stage tracker and guides at `localhost:8787`, live poller,
+  stream overlay (Twitch strip or full scoreboard) and a GitHub sync every
+  15 minutes, so games played on stream reach this repo without waiting for
+  the hourly collector. Your ewgf key and GitHub token never leave the PC.
+- **Old stream overlay:** `overlay/` (PowerShell poller). Superseded by the app;
+  don't run both, or they split the hourly ewgf request limit.
 - **Guide sources for any character:** `python scripts/fetch_sources.py "Armor King"`
   downloads and parses the Wavu movelist + counterplay and TekkenDocs frame data +
   anti-strat into `build/sources/<Character>/sources.json` (not committed), with a
