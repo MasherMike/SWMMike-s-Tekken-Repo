@@ -25,7 +25,7 @@ Only your PC can reach these addresses.
 | `sync.py` | Every 15 min: pulls GitHub's battle data (overnight games, Wavu Wank ratings), merges, pushes the app's new games; also downloads new or changed guides, `index.html` and the overlay (never the Python code) |
 | `review.py` | Session Gallery: one fresh ewgf check, then `scripts/session_review.py`; saves to `reviews/` here and on GitHub, and lists saved reviews |
 | `site/overlay.html` | The overlay (panel or strip) |
-| `site/review.html` | The Session Gallery page |
+| `site/review.html` | The Session Gallery page. On GitHub Pages (`…/review.html`, e.g. from your phone) the same page is read-only: it lists `reviews/` from the repo and links to the End session workflow to run a new review |
 | `install.py` | Rebuilds a working app folder from this repo |
 
 The app also uses `scripts/collect_battles.py` and `scripts/session_review.py`

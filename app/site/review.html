@@ -4,9 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Session Gallery</title>
-<!-- Tekken app page: runs scripts/session_review.py on this PC (POST /api/end-session)
-     for any window and mix of modes, and browses every saved review (reviews/*.md).
-     Only works through the app at localhost:8787. -->
+<!-- Session Gallery. Two modes, one file:
+     - In the Tekken app (localhost:8787): runs scripts/session_review.py on the PC
+       (POST /api/end-session) for any window and mix of modes, and lists reviews/*.md.
+     - On GitHub Pages (phone): read-only. Lists reviews/*.md from the repo (GitHub API +
+       raw files) and links to the "End session" workflow to run a new review.
+     The root review.html on Pages just redirects here. -->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #141414; color: #e0e0e0; min-height: 100vh;
@@ -34,6 +37,8 @@
   .run { background: #e0e0e0; color: #111; border: 0; border-radius: 8px; padding: 9px 18px;
          font: inherit; font-weight: 700; cursor: pointer; }
   .run:disabled { opacity: .5; cursor: wait; }
+  a.run { text-decoration: none; display: inline-block; }
+  .controls[hidden] { display: none; }
   .hint { font-size: 12px; color: #666; }
   .status { font-size: 13px; color: #888; margin-bottom: 14px; min-height: 18px; }
   .status.err { color: #ff8a80; }
@@ -76,10 +81,17 @@
 <div class="container">
   <div class="top">
     <h1 class="page">Session Gallery</h1>
-    <a class="back" href="/">← Stage tracker &amp; guides</a>
+    <a class="back" id="back" href="/">← Stage tracker &amp; guides</a>
   </div>
 
-  <div class="controls">
+  <div class="controls gh" id="ghpanel" hidden>
+    <div class="runrow">
+      <a class="run" id="ghrun" href="https://github.com/MasherMike/SWMMike-s-Tekken-Repo/actions/workflows/end-session.yml" target="_blank" rel="noopener">Run a review on GitHub</a>
+      <span class="hint">Opens the End session workflow: tap <b>Run workflow</b>, pick the window and games, run. The review shows up here about a minute after it finishes (pull down to refresh). Date ranges and Player/Group Match work in the app on your PC.</span>
+    </div>
+  </div>
+
+  <div class="controls" id="controls">
     <div class="row"><span class="label">Window</span>
       <button class="opt" data-scope="last session">Last Session</button>
       <button class="opt" data-scope="today">Today</button>
@@ -118,6 +130,49 @@
   const PREF = 'tk-gallery-options'
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
   const today = new Date()
+
+  // In the app, or on GitHub Pages (read-only)?
+  const IN_APP = ['localhost', '127.0.0.1'].includes(location.hostname)
+  const REPO = 'MasherMike/SWMMike-s-Tekken-Repo'
+  const GH_LIST = window.GALLERY_LIST_URL || `https://api.github.com/repos/${REPO}/contents/reviews`
+  const GH_RAW = window.GALLERY_RAW_URL || `https://raw.githubusercontent.com/${REPO}/main/reviews/`
+  if (!IN_APP) {
+    $('controls').hidden = true
+    $('ghpanel').hidden = false
+    $('back').href = location.pathname.replace(/app\/site\/review\.html.*$/, '').replace(/review\.html.*$/, '') || '/'
+    document.querySelector('.report .empty').textContent = 'Pick a review on the left.'
+  }
+
+  // Label a review from its file name (GitHub mode lists names only):
+  // 2026-10-17-1009.md -> "Sat Oct 17 · 10:09 AM"; 2026-10-12-to-2026-10-17.md -> "Oct 12 – Oct 17"
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const DAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+  function labelFromName(name) {
+    let m = name.match(/^(\d{4})-(\d{2})-(\d{2})-to-(\d{4})-(\d{2})-(\d{2})\.md$/)
+    if (m) return { title: `Review: ${MON[m[2] - 1]} ${+m[3]} – ${MON[m[5] - 1]} ${+m[6]}, ${m[4]}`, summary: 'Several days' }
+    m = name.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})\.md$/)
+    if (m) {
+      const d = new Date(+m[1], m[2] - 1, +m[3]), h = +m[4]
+      return { title: `Session review: ${DAY[d.getDay()]} ${MON[d.getMonth()]} ${d.getDate()}, ${m[1]}`,
+               summary: `Started ${(h % 12) || 12}:${m[5]} ${h < 12 ? 'AM' : 'PM'}` }
+    }
+    return { title: name.replace(/\.md$/, ''), summary: '' }
+  }
+  const endKey = n => n.includes('-to-') ? n.split('-to-')[1].slice(0, 10) + '-9999' : n.slice(0, 15)
+
+  async function listReviews() {
+    if (IN_APP) return ((await (await fetch('/api/reviews')).json()).reviews) || []
+    const files = await (await fetch(GH_LIST, { headers: { Accept: 'application/vnd.github+json' } })).json()
+    if (!Array.isArray(files)) throw new Error('GitHub list unavailable')
+    return files.filter(f => /\.md$/.test(f.name) && f.name !== 'LATEST.md')
+      .map(f => ({ name: f.name, ...labelFromName(f.name) }))
+      .sort((a, b) => endKey(b.name).localeCompare(endKey(a.name)))
+  }
+  async function readReview(name) {
+    if (IN_APP) { const r = await (await fetch('/api/review?name=' + encodeURIComponent(name))).json(); return r.ok ? r.markdown : null }
+    const r = await fetch(GH_RAW + encodeURIComponent(name))
+    return r.ok ? r.text() : null
+  }
 
   // Options (remembered on this PC)
   const state = (() => {
@@ -191,22 +246,21 @@
   let current = null
   async function loadList(select) {
     try {
-      const r = await (await fetch('/api/reviews')).json()
-      const items = r.reviews || []
+      const items = await listReviews()
       $('list').innerHTML = '<h2>Saved reviews</h2>' + (items.length
         ? items.map(it => `<button class="item" data-name="${esc(it.name)}"><div class="t">${esc(it.title)}</div><div class="s">${esc(it.summary)}</div></button>`).join('')
-        : '<div class="empty">No reviews yet. Run one after you play.</div>')
+        : `<div class="empty">No reviews yet. ${IN_APP ? 'Run one after you play.' : 'Run one on GitHub after you play.'}</div>`)
       const pick = select || current || (items[0] && items[0].name)
       if (pick) open(pick)
     } catch {
-      $('list').innerHTML = '<h2>Saved reviews</h2><div class="empty">Open this page through the Tekken app (localhost:8787).</div>'
+      $('list').innerHTML = `<h2>Saved reviews</h2><div class="empty">${IN_APP ? 'The Tekken app isn\'t answering. Is its window open?' : 'Couldn\'t reach GitHub. Try again in a minute.'}</div>`
     }
   }
   async function open(name) {
     current = name
     document.querySelectorAll('.item').forEach(b => b.classList.toggle('active', b.dataset.name === name))
-    const r = await (await fetch('/api/review?name=' + encodeURIComponent(name))).json()
-    $('report').innerHTML = r.ok ? md(r.markdown) : '<p class="empty">That review is missing.</p>'
+    const text = await readReview(name).catch(() => null)
+    $('report').innerHTML = text ? md(text) : '<p class="empty">Couldn\'t load that review.</p>'
   }
   $('list').addEventListener('click', e => { const b = e.target.closest('.item'); if (b) open(b.dataset.name) })
 
