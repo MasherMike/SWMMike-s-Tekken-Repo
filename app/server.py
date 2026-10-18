@@ -14,6 +14,7 @@ that database and the GitHub repo in step (needs github-token.txt).
 import errno
 import functools
 import http.server
+import json
 import os
 import socket
 import sys
@@ -33,6 +34,7 @@ sys.path.insert(0, str(APP_DIR))
 import collect_battles as cb     # noqa: E402  (shared with GitHub; the privacy filter lives here)
 import poller                    # noqa: E402
 import sync                      # noqa: E402
+import review                    # noqa: E402
 
 # Point the shared collector at the app's files. The website reads its copy
 # from site/data/battles.js; the CSV copy sits with the database.
@@ -42,6 +44,7 @@ cb.PAGE_COPY = str(SITE_DIR / "data" / "battles.js")
 cb.CSV_COPY = str(DATA_DIR / "battles.csv")
 
 POLLER = None                    # set in main() once the key is found
+SYNC = None                      # set in main() once the GitHub token is found
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -64,7 +67,34 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
+        if path == "/api/review/latest":
+            text = review.latest()
+            return self.send_json({"ok": bool(text), "markdown": text or ""})
         super().do_GET()
+
+    def send_json(self, obj, code=200):
+        body = json.dumps(obj).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self):
+        # Only the app's own pages may ask for this: a page on another site can't
+        # send the custom header without a permission check this server never grants.
+        origin = self.headers.get("Origin")
+        if self.headers.get("X-Tekken-App") != "1" or (origin and origin not in (URL.rstrip("/"), f"http://127.0.0.1:{PORT}")):
+            return self.send_json({"ok": False, "error": "Not allowed"}, 403)
+        if self.path.split("?", 1)[0] != "/api/end-session":
+            return self.send_json({"ok": False, "error": "Unknown action"}, 404)
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            body = json.loads(self.rfile.read(n) or b"{}")
+        except ValueError:
+            body = {}
+        result = review.run(body.get("scope"), body.get("mode"), POLLER, SYNC)
+        self.send_json(result)
 
     def end_headers(self):
         # Always send the newest file, so fresh battle data shows on refresh.
@@ -104,8 +134,10 @@ def start_sync():
         print(f"  GitHub : OFF. No github-token.txt in {APP_DIR}")
         print("           Games are still saved here; they just aren't backed up to GitHub.")
         return
+    global SYNC
     print(f"  GitHub : ON (syncs a minute after start, then every {sync.EVERY // 60} min)")
-    sync.Sync(token).start()
+    SYNC = sync.Sync(token)
+    SYNC.start()
 
 
 def main():
@@ -137,9 +169,12 @@ def main():
     print(f"  Overlay: {URL}overlay.html")
     start_poller()
     start_sync()
+    print(f"  Review : {URL}review.html  (End session)")
+    if not review.tz_ok():
+        print("  [!] " + review.TZDATA_FIX)
     print("  Leave this window open. Close it to stop the app.")
     print()
-    if not os.environ.get("TEKKEN_APP_NO_BROWSER"):
+    if not os.environ.get("TEKKEN_APP_NO_BROWSER"):    # set when started with Windows
         threading.Timer(0.5, webbrowser.open, args=(URL,)).start()
 
     try:

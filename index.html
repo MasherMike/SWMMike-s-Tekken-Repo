@@ -259,6 +259,7 @@
     .view-btn.active { background: #2e2e2e; color: #fff; }
     .view-btn .count { color: #666; margin-left: 6px; font-size: 12px; }
     .view-btn.active .count { color: #999; }
+    a.view-btn { text-decoration: none; display: inline-flex; align-items: center; }
     [data-view][hidden] { display: none !important; }
 
     /* ── Matchup Guides ── */
@@ -397,6 +398,7 @@
     <nav class="view-switch" aria-label="Sections">
       <button class="view-btn active" data-view-btn="stages">Stage Data</button>
       <button class="view-btn" data-view-btn="guides">Matchup Guides<span class="count" id="guide-count"></span></button>
+      <a class="view-btn app-only" href="review.html" hidden>End session</a>
     </nav>
 
     <!-- ═══ Matchup Guides view ═══ -->
@@ -1143,6 +1145,29 @@
     })
 
     window.addEventListener('hashchange', () => showView(location.hash.slice(1)))
+
+    // ── Tekken app extras (only when served by the app at localhost:8787) ────────
+    const IN_APP = ['localhost', '127.0.0.1'].includes(location.hostname)
+    if (IN_APP) document.querySelectorAll('.app-only').forEach(el => { el.hidden = false })
+
+    // ── Auto-refresh: reload data/battles.js and redraw when new games arrive ────
+    // Every 30 s in the app (it saves games live), every 5 min on GitHub Pages.
+    function refreshBattles() {
+      const s = document.createElement('script')
+      s.src = 'data/battles.js?t=' + Date.now()
+      s.onload = () => {
+        s.remove()
+        const fresh = Array.isArray(window.BATTLES) ? window.BATTLES : []
+        const last = list => list.length ? list[list.length - 1].battle_at + '|' + list.length : ''
+        if (last(fresh) === last(BATTLE_LIST)) return
+        BATTLE_LIST.splice(0, BATTLE_LIST.length, ...fresh)
+        renderLive()
+        if (!document.querySelector('[data-view="guides"]').hidden) renderGuides()
+      }
+      s.onerror = () => s.remove()
+      document.body.appendChild(s)
+    }
+    setInterval(refreshBattles, IN_APP ? 30000 : 300000)
 
     // ── Initial render ────────────────────────────────────────────────────────────
     render()

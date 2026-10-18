@@ -10,6 +10,7 @@ poller.
 | `http://localhost:8787/` | Stage tracker and matchup guides |
 | `http://localhost:8787/overlay.html?layout=strip&anchor=bottom&scale=1.25` | Twitch strip (Streamlabs Browser source, 700 x 56) |
 | `http://localhost:8787/overlay.html?opps=8&min=2&scale=1.5` | Full scoreboard for off-stream sessions (Brave) |
+| `http://localhost:8787/review.html` | **End session**: your session review in seconds (also linked from the site) |
 
 Only your PC can reach these addresses.
 
@@ -18,14 +19,18 @@ Only your PC can reach these addresses.
 | File | Job |
 |---|---|
 | `Start Tekken App.bat` | Double-click to start. Close its window to stop. |
+| `Start with Windows (on-off).bat` | Double-click to make the app start by itself at login (minimized, no browser); again to turn it off |
 | `server.py` | The local web server; starts the poller and the sync |
 | `poller.py` | Checks ewgf.gg every 30 s or more, feeds the overlay, saves new games |
 | `sync.py` | Every 15 min: pulls GitHub's battle data (overnight games, Wavu Wank ratings), merges, pushes the app's new games; also downloads new or changed guides, `index.html` and the overlay (never the Python code) |
+| `review.py` | End session: one fresh ewgf check, then `scripts/session_review.py` unchanged; saves to `reviews/` here and on GitHub |
 | `site/overlay.html` | The overlay (panel or strip) |
+| `site/review.html` | The End session page |
 | `install.py` | Rebuilds a working app folder from this repo |
 
-The app also uses `scripts/collect_battles.py` from the repo unchanged, so the
-privacy filter (`save_rows`) is the same everywhere: no names, tags or IDs.
+The app also uses `scripts/collect_battles.py` and `scripts/session_review.py`
+from the repo unchanged, so the privacy filter (`save_rows`) and the review are
+the same everywhere: no names, tags or IDs.
 
 ## On your PC only (never in the repo)
 
@@ -37,7 +42,8 @@ privacy filter (`save_rows`) is the same everywhere: no names, tags or IDs.
 ## Reinstall (new PC, dead drive)
 
 1. Install Python from the Microsoft Store ("Python install manager"), then run
-   `py install --configure` in a command window.
+   `py install --configure` and `py -m pip install tzdata` in a command window
+   (Windows has no time zone data of its own; the review needs it).
 2. On GitHub: **Code → Download ZIP**, and unzip it.
 3. In a command window inside the unzipped folder:
    `py app\install.py D:\SW-T8\app`

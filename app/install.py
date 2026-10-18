@@ -4,7 +4,8 @@
 
 Run it from an unzipped copy of the repo (GitHub: Code -> Download ZIP).
 It copies:
-  - the app's code (this folder) and the shared collector (scripts/collect_battles.py)
+  - the app's code (this folder) and the shared scripts (scripts/collect_battles.py,
+    scripts/session_review.py)
   - the website: index.html and guides/
   - the battle database (data/), but ONLY if the target doesn't have one yet
 
@@ -20,7 +21,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 APP_SRC = REPO / "app"
 
-CODE = ["server.py", "poller.py", "sync.py", "Start Tekken App.bat"]
+CODE = ["server.py", "poller.py", "sync.py", "review.py",
+        "Start Tekken App.bat", "Start with Windows (on-off).bat"]
+SHARED = ["collect_battles.py", "session_review.py"]     # from scripts/, used unchanged
 
 
 def copy(src, dst, note):
@@ -38,8 +41,11 @@ def main():
 
     for name in CODE:
         copy(APP_SRC / name, target / name, "code")
-    copy(REPO / "scripts" / "collect_battles.py", target / "collect_battles.py", "code")
-    copy(APP_SRC / "site" / "overlay.html", target / "site" / "overlay.html", "overlay")
+    for name in SHARED:
+        copy(REPO / "scripts" / name, target / name, "code")
+    for page in sorted((APP_SRC / "site").glob("*.html")):           # overlay.html, review.html
+        copy(page, target / "site" / page.name, "page")
+    copy(REPO / "queue.md", target / "queue.md", "queue")
     copy(REPO / "index.html", target / "site" / "index.html", "site")
     for g in sorted((REPO / "guides").iterdir()):
         if g.suffix in (".html", ".js"):

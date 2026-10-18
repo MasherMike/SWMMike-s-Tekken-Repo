@@ -20,3 +20,6 @@ app/site/data/
 app/site/index.html
 app/site/guides/
 app/collect_battles.py
+app/session_review.py
+app/queue.md
+app/reviews/

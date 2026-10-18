@@ -7,11 +7,12 @@ Every 15 minutes (and once a minute after the app starts):
   3. if GitHub is missing anything, upload the merged battles.jsonl/.js/.csv as one commit.
 
 It also keeps the app's copy of the website current: index.html, the guides
-(guides/*.html, guides/manifest.js) and the overlay (app/site/overlay.html) are
+(guides/*.html, guides/manifest.js), the app's pages (app/site/*.html) and queue.md are
 downloaded whenever GitHub's version differs, so a new weekly guide shows up
 here within 15 minutes. The app's Python code is never changed this way.
 
-On GitHub it only ever writes those three data files. The token lives in github-token.txt
+On GitHub it only ever writes those three data files, plus reviews/*.md when
+you press End session. The token lives in github-token.txt
 next to this file and never leaves the PC except to talk to api.github.com.
 """
 
@@ -47,8 +48,10 @@ def site_target(repo_path):
     """Where a repo file goes in the app's site folder, or None if it isn't a site file."""
     if repo_path == "index.html":
         return SITE_DIR / "index.html"
-    if repo_path == "app/site/overlay.html":
-        return SITE_DIR / "overlay.html"
+    if repo_path.startswith("app/site/") and repo_path.count("/") == 2:     # overlay.html, review.html
+        return SITE_DIR / repo_path.split("/")[-1]
+    if repo_path == "queue.md":                                            # the review reads guide queue positions
+        return APP_DIR / "queue.md"
     if repo_path.startswith("guides/") and repo_path.count("/") == 1 and repo_path.endswith((".html", ".js")):
         return SITE_DIR / repo_path
     return None
@@ -95,15 +98,16 @@ class Sync(threading.Thread):
         text = self.api("GET", f"/contents/data/battles.jsonl?ref={commit_sha}", raw=True).decode("utf-8")
         return [json.loads(line) for line in text.splitlines() if line.strip()]
 
-    def push(self, parent_sha):
-        """Upload the three data files as one commit on top of parent_sha."""
+    def push(self, parent_sha, files=None, message="data: sync from the Tekken app"):
+        """Upload files ({repo path: local path}; default the three data files) as one commit."""
+        files = files or {repo_path: local() for repo_path, local in FILES.items()}
         base_tree = self.api("GET", f"/git/commits/{parent_sha}")["tree"]["sha"]
         tree = []
-        for repo_path, local in FILES.items():
-            blob = self.api("POST", "/git/blobs", {"content": lf_bytes(local()).decode("utf-8"), "encoding": "utf-8"})
+        for repo_path, local in files.items():
+            blob = self.api("POST", "/git/blobs", {"content": lf_bytes(local).decode("utf-8"), "encoding": "utf-8"})
             tree.append({"path": repo_path, "mode": "100644", "type": "blob", "sha": blob["sha"]})
         new_tree = self.api("POST", "/git/trees", {"base_tree": base_tree, "tree": tree})["sha"]
-        commit = self.api("POST", "/git/commits", {"message": "data: sync from the Tekken app",
+        commit = self.api("POST", "/git/commits", {"message": message,
                                                      "tree": new_tree, "parents": [parent_sha]})["sha"]
         # Not forced: if GitHub moved on meanwhile (a collector run), this fails and we retry.
         self.api("PATCH", f"/git/refs/heads/{BRANCH}", {"sha": commit, "force": False})
@@ -124,6 +128,18 @@ class Sync(threading.Thread):
             os.replace(tmp, target)                   # swap in whole, never half a file
             updated.append(e["path"].split("/")[-1])
         return updated
+
+    def push_files(self, files, message):
+        """Push extra files (e.g. a review), retrying if GitHub moves on meanwhile."""
+        for attempt in range(3):
+            head = self.api("GET", f"/git/ref/heads/{BRANCH}")["object"]["sha"]
+            try:
+                return self.push(head, files, message)
+            except urllib.error.HTTPError as e:
+                if e.code in (409, 422) and attempt < 2:
+                    time.sleep(3)
+                    continue
+                raise
 
     def sync_once(self):
         site = ""

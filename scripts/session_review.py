@@ -63,7 +63,8 @@ def fmt_record(games):
 
 
 def hm(dt):
-    return dt.strftime("%-I:%M %p")
+    # "%-I" (no leading zero) only works on Linux/Mac; this works on Windows too (the Tekken app)
+    return dt.strftime("%I:%M %p").lstrip("0")
 
 
 def load_guides():
@@ -160,7 +161,7 @@ def table(rows, headers):
 def build(games, label, all_games, mode="all", skipped=()):
     guides, queue = load_guides(), load_queue()
     start, end = games[0]["t"], games[-1]["t"]
-    lines = [f"# Session review: {start:%a %b %-d, %Y}",
+    lines = [f"# Session review: {start:%a %b} {start.day}, {start:%Y}",
              f"{label} · {hm(start)} – {hm(end)} · {len(games)} games", ""]
     if mode != "all":
         note = f"Reviewing **{mode} games only**."
@@ -305,7 +306,8 @@ def build(games, label, all_games, mode="all", skipped=()):
             lines += ["## Worth a look", "",
                       f"Outside rematch sets, your roughest matchup was **{opp}**: {fmt_record(free)}.{caution} {ref}", ""]
 
-    lines += ["---", f"Generated {datetime.now(TZ):%b %-d, %Y %-I:%M %p} from data/battles.jsonl. "
+    now = datetime.now(TZ)
+    lines += ["---", f"Generated {now:%b} {now.day}, {now:%Y} {hm(now)} from data/battles.jsonl. "
               f"A session is a run of games with no break of {SESSION_GAP_MIN}+ minutes."]
     return "\n".join(lines) + "\n"
 

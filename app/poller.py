@@ -109,6 +109,7 @@ class Poller(threading.Thread):
         self.window_end = None        # when the current hourly window ends, as far as we can tell
         self.prev_remaining = None
         self.saving_ok = True         # turned off if the privacy check ever objects
+        self.check_lock = threading.Lock()   # the End session button can ask for a check too
 
     # ---- the overlay's data, served at /overlay-data.js ----------------------
     def overlay_js(self):
@@ -213,6 +214,10 @@ class Poller(threading.Thread):
 
     def check_once(self):
         """One check. Returns how many seconds to wait before the next."""
+        with self.check_lock:
+            return self._check_once()
+
+    def _check_once(self):
         try:
             payload = self.fetch()
         except RateLimited as e:
