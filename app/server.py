@@ -70,6 +70,13 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         if path == "/api/review/latest":
             text = review.latest()
             return self.send_json({"ok": bool(text), "markdown": text or ""})
+        if path == "/api/reviews":
+            return self.send_json({"ok": True, "reviews": review.gallery()})
+        if path == "/api/review":
+            from urllib.parse import parse_qs, urlsplit
+            name = parse_qs(urlsplit(self.path).query).get("name", [""])[0]
+            text = review.read(name)
+            return self.send_json({"ok": bool(text), "markdown": text or ""}, 200 if text else 404)
         super().do_GET()
 
     def send_json(self, obj, code=200):
@@ -169,7 +176,7 @@ def main():
     print(f"  Overlay: {URL}overlay.html")
     start_poller()
     start_sync()
-    print(f"  Review : {URL}review.html  (End session)")
+    print(f"  Gallery: {URL}review.html  (Session Gallery: reviews)")
     if not review.tz_ok():
         print("  [!] " + review.TZDATA_FIX)
     print("  Leave this window open. Close it to stop the app.")

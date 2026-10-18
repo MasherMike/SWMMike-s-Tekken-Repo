@@ -14,12 +14,18 @@ on:
         options:
           - last session
           - today
+          - yesterday
+          - last 7 days
+          - last 14 days
+          - last 30 days
         default: last session
       mode:
         description: "Which games count (ranked = coaching default; quick match is for feeding data)"
         type: choice
         options:
           - ranked
+          - quick
+          - ranked,quick
           - all
         default: ranked
 

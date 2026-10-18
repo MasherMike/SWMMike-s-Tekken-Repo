@@ -7,7 +7,8 @@ Every 15 minutes (and once a minute after the app starts):
   3. if GitHub is missing anything, upload the merged battles.jsonl/.js/.csv as one commit.
 
 It also keeps the app's copy of the website current: index.html, the guides
-(guides/*.html, guides/manifest.js), the app's pages (app/site/*.html) and queue.md are
+(guides/*.html, guides/manifest.js), the app's pages (app/site/*.html), queue.md
+and past reviews (reviews/*.md, for the Session Gallery) are
 downloaded whenever GitHub's version differs, so a new weekly guide shows up
 here within 15 minutes. The app's Python code is never changed this way.
 
@@ -52,6 +53,8 @@ def site_target(repo_path):
         return SITE_DIR / repo_path.split("/")[-1]
     if repo_path == "queue.md":                                            # the review reads guide queue positions
         return APP_DIR / "queue.md"
+    if repo_path.startswith("reviews/") and repo_path.count("/") == 1 and repo_path.endswith(".md"):
+        return APP_DIR / repo_path                                         # past reviews for the Session Gallery
     if repo_path.startswith("guides/") and repo_path.count("/") == 1 and repo_path.endswith((".html", ".js")):
         return SITE_DIR / repo_path
     return None
@@ -147,7 +150,7 @@ class Sync(threading.Thread):
             head = self.api("GET", f"/git/ref/heads/{BRANCH}")["object"]["sha"]
             updated = self.pull_site(head)
             if updated:
-                site = f"; site updated: {', '.join(updated)}"
+                site = f"; downloaded from GitHub: {', '.join(updated)}"
         except Exception as e:                        # the data sync still runs
             site = f"; site update failed: {e}"
         return self._sync_data() + site

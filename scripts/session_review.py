@@ -7,11 +7,14 @@ Reads data/battles.jsonl (kept current by collect_battles.py) and writes:
 and prints the same report so the workflow can show it on the run page.
 
 A "session" is a run of games with no break of SESSION_GAP_MIN or longer.
-Set SCOPE=today to review every game played today instead.
+SCOPE picks the window: "last session" (default), "today", "yesterday",
+"last 7 days", "last 14 days", "last 30 days" (calendar days, today included),
+or "range:YYYY-MM-DD..YYYY-MM-DD" (Eastern dates, both ends included).
 
 MODE picks which games count. It defaults to "ranked": Mike plays quick match
 loosely to feed the data collector, so coaching reads ranked games only.
-Set MODE=all to review every mode. Games left out are named in one line.
+Set MODE=all to review every mode, or list modes: MODE=ranked,quick.
+Games left out are named in one line.
 
 Run by .github/workflows/end-session.yml.
 """
@@ -98,11 +101,51 @@ def split_sessions(games):
     return sessions
 
 
+ALL_MODES = ("ranked", "quick", "player", "group")
+DAY_WINDOWS = {"last 7 days": 7, "last 14 days": 14, "last 30 days": 30}
+
+
+def parse_modes(mode):
+    """'all' / 'ranked' / 'ranked,quick' -> the set of modes that count."""
+    mode = (mode or "ranked").strip().lower()
+    if mode == "all":
+        return set(ALL_MODES)
+    picked = {m for m in re.split(r"[,+\s]+", mode) if m in ALL_MODES}
+    return picked or {"ranked"}
+
+
+def mode_label(modes):
+    return "all" if modes == set(ALL_MODES) else " + ".join(m for m in ALL_MODES if m in modes)
+
+
+def md(dt):
+    return f"{dt:%b} {dt.day}"
+
+
+def span(a, b, multi):
+    """'10:09 AM – 10:55 AM', with dates when the review covers several days."""
+    if not multi:
+        return f"{hm(a)} – {hm(b)}"
+    return f"{md(a)} {hm(a)} – {hm(b)}" if a.date() == b.date() else f"{md(a)} {hm(a)} – {md(b)} {hm(b)}"
+
+
 def pick_games(games, scope):
+    today = datetime.now(TZ).date()
     if scope == "today":
-        today = datetime.now(TZ).date()
         picked = [g for g in games if g["t"].date() == today]
         return picked, "Today"
+    if scope == "yesterday":
+        day = today - timedelta(days=1)
+        return [g for g in games if g["t"].date() == day], "Yesterday"
+    if scope in DAY_WINDOWS:
+        first = today - timedelta(days=DAY_WINDOWS[scope] - 1)
+        return [g for g in games if g["t"].date() >= first], scope.capitalize()
+    if scope.startswith("range:"):
+        a, _, b = scope[6:].partition("..")
+        first, last = sorted(datetime.strptime(x.strip(), "%Y-%m-%d").date() for x in (a, b or a))
+        label = md(datetime(first.year, first.month, first.day)) + (
+            "" if first == last else f" – {md(datetime(last.year, last.month, last.day))}")
+        return [g for g in games if first <= g["t"].date() <= last], label
     sessions = split_sessions(games)
     return (sessions[-1], "Last session") if sessions else ([], "Last session")
 
@@ -161,8 +204,16 @@ def table(rows, headers):
 def build(games, label, all_games, mode="all", skipped=()):
     guides, queue = load_guides(), load_queue()
     start, end = games[0]["t"], games[-1]["t"]
-    lines = [f"# Session review: {start:%a %b} {start.day}, {start:%Y}",
-             f"{label} · {hm(start)} – {hm(end)} · {len(games)} games", ""]
+    multi = start.date() != end.date()            # a review spanning several days
+    modes = parse_modes(mode)
+    mode = mode_label(modes)
+    if multi:
+        n_sessions = len(split_sessions(games))
+        lines = [f"# Review: {md(start)} – {md(end)}, {end:%Y}",
+                 f"{label} · {len(games)} games over {n_sessions} session{'s' if n_sessions != 1 else ''}", ""]
+    else:
+        lines = [f"# Session review: {start:%a %b} {start.day}, {start:%Y}",
+                 f"{label} · {hm(start)} – {hm(end)} · {len(games)} games", ""]
     if mode != "all":
         note = f"Reviewing **{mode} games only**."
         if skipped:
@@ -191,7 +242,7 @@ def build(games, label, all_games, mode="all", skipped=()):
     earlier = [g for g in all_games if g["mode"] == "ranked" and g["t"] < start]
     if ranked_now and len(earlier) >= 10:
         w, l = record(earlier)
-        lines += [f"Ranked this session: **{pct(record(ranked_now)[0], len(ranked_now))}** "
+        lines += [f"Ranked this {'period' if multi else 'session'}: **{pct(record(ranked_now)[0], len(ranked_now))}** "
                   f"vs **{pct(w, w + l)}** across your {w + l} earlier stored ranked games.", ""]
 
     # How the losses went
@@ -209,7 +260,7 @@ def build(games, label, all_games, mode="all", skipped=()):
     sets = rematch_sets(games)
     if sets:
         why = ("In ranked these are where you adapt: the last column shows whether you did."
-               if mode == "ranked" else
+               if modes == {"ranked"} else
                "These are fights you chose, so read them as practice, not results.")
         lines += ["## Rematch sets", "",
                   "Back-to-back games against the same character at the same rank. " + why, ""]
@@ -225,7 +276,7 @@ def build(games, label, all_games, mode="all", skipped=()):
             else:
                 trend = f"steady ({early:+.1f} → {late:+.1f})"
             rows.append([f"{s[0]['my_char']} vs {s[0]['opp_char']} ({s[0]['opp_rank']})",
-                         s[0]["mode"], f"{hm(s[0]['t'])} – {hm(s[-1]['t'])}",
+                         s[0]["mode"], span(s[0]["t"], s[-1]["t"], multi),
                          fmt_record(s), trend])
         lines += [table(rows, ["Set", "Mode", "When", "Record", "Round margin, early → late"]),
                   "", "Round margin is the opponent's rounds minus yours, averaged: "
@@ -256,10 +307,10 @@ def build(games, label, all_games, mode="all", skipped=()):
             rank_note = f", all {ranks[0]}" if len(ranks) == 1 else ""
             note = f"against {who}{rank_note}."
         lines += ["## Streaks", "",
-                  f"- Longest losing streak: **{n}** ({hm(first['t'])} – {hm(last['t'])}), {note}"]
+                  f"- Longest losing streak: **{n}** ({span(first['t'], last['t'], multi)}), {note}"]
         wn, wf, wl = st["W"]
         if wn >= 2:
-            lines += [f"- Longest winning streak: **{wn}** ({hm(wf['t'])} – {hm(wl['t'])})"]
+            lines += [f"- Longest winning streak: **{wn}** ({span(wf['t'], wl['t'], multi)})"]
         lines += [""]
 
     # Opponents (rematch sets counted once per game, like any other game)
@@ -285,7 +336,9 @@ def build(games, label, all_games, mode="all", skipped=()):
         by_stage[g.get("stage") or f"Stage {g['stage_id']}"].append(g)
     rows = [[s, len(gs), fmt_record(gs)] for s, gs in sorted(by_stage.items(), key=lambda kv: (-len(kv[1]), kv[0]))]
     lines += ["## Stages", "", table(rows, ["Stage", "Games", "Record"]),
-              "", f"One session is too few games per stage to judge a stage; use the Battle Log sheet for that.", ""]
+              "", ("A few days of games is still a small sample per stage; the stage tracker has the full picture."
+                   if multi else
+                   "One session is too few games per stage to judge a stage; use the Battle Log sheet for that."), ""]
 
     # Worth a look: worst non-rematch matchup with enough games
     rematch_games = {id(g) for s in sets for g in s}
@@ -321,8 +374,9 @@ def main():
         g["opp_rank"] = g.get("opp_rank") or UNKNOWN_RANK
     games.sort(key=lambda g: g["t"])
 
-    mode = os.environ.get("MODE", "ranked").strip().lower() or "ranked"
-    pool = games if mode == "all" else [g for g in games if g["mode"] == mode]
+    modes = parse_modes(os.environ.get("MODE", "ranked"))
+    mode = mode_label(modes)
+    pool = [g for g in games if g["mode"] in modes]
     picked, label = pick_games(pool, scope)
     if not picked:
         print(f"No {mode} games found for '{scope}'.")
@@ -330,11 +384,14 @@ def main():
     if mode != "all":
         label = f"{label} ({mode})"
     start, end = picked[0]["t"], picked[-1]["t"]
-    skipped = [g for g in games if g["mode"] != mode and start <= g["t"] <= end] if mode != "all" else []
+    skipped = [g for g in games if g["mode"] not in modes and start <= g["t"] <= end]
     report = build(picked, label, games, mode, skipped)
 
     os.makedirs(OUT_DIR, exist_ok=True)
-    name = f"{OUT_DIR}/{picked[0]['t']:%Y-%m-%d-%H%M}.md"
+    if start.date() != end.date():          # several days: name it by the date range
+        name = f"{OUT_DIR}/{start:%Y-%m-%d}-to-{end:%Y-%m-%d}.md"
+    else:
+        name = f"{OUT_DIR}/{picked[0]['t']:%Y-%m-%d-%H%M}.md"
     for path in (name, f"{OUT_DIR}/LATEST.md"):
         with open(path, "w") as fh:
             fh.write(report)

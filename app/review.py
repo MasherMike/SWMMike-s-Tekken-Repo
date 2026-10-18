@@ -1,13 +1,16 @@
-"""End session: the same review as GitHub's "End session" workflow, run on this PC.
+"""Session Gallery: the same review as GitHub's "End session" workflow, run on this PC,
+for any window (last session, today, yesterday, last 7/14/30 days, a date range)
+and any mix of modes (ranked, quick, player, group).
 
   1. one fresh check of ewgf.gg, so your last game is included,
   2. scripts/session_review.py (copied into the app as session_review.py), unchanged,
   3. the review saved to reviews/ here and pushed to reviews/ on GitHub.
 
-The website's End session page (review.html) calls run() through the server.
+The Session Gallery page (site/review.html) calls these through the server.
 """
 
 import os
+import re
 import threading
 from pathlib import Path
 
@@ -31,15 +34,45 @@ def tz_ok():
         return False
 
 
+SCOPES = ("last session", "today", "yesterday", "last 7 days", "last 14 days", "last 30 days")
+MODES = ("ranked", "quick", "player", "group")
+RANGE = re.compile(r"^range:\d{4}-\d{2}-\d{2}\.\.\d{4}-\d{2}-\d{2}$")
+NAME = re.compile(r"^[0-9A-Za-z_-]+\.md$")
+
+
 def latest():
     f = OUT_DIR / "LATEST.md"
     return f.read_text(encoding="utf-8") if f.exists() else None
 
 
+def gallery():
+    """Saved reviews, newest first: name, title line and summary line."""
+    items = []
+    for p in OUT_DIR.glob("*.md") if OUT_DIR.exists() else []:
+        if p.name == "LATEST.md":
+            continue
+        head = p.read_text(encoding="utf-8").splitlines()[:2] + ["", ""]
+        items.append({"name": p.name, "title": head[0].lstrip("# ").strip(), "summary": head[1].strip(),
+                      "saved": p.stat().st_mtime})
+    # newest first by the last day covered: "2026-10-17-2053.md" or "2026-10-10-to-2026-10-17.md"
+    end = lambda n: n.split("-to-")[1][:10] + "-9999" if "-to-" in n else n[:15]
+    return sorted(items, key=lambda i: end(i["name"]), reverse=True)
+
+
+def read(name):
+    if not NAME.match(name or ""):
+        return None
+    f = OUT_DIR / name
+    return f.read_text(encoding="utf-8") if f.exists() else None
+
+
 def run(scope, mode, poller_obj=None, sync_obj=None):
     """Returns {"ok", "markdown", "file", "steps": [...]}."""
-    scope = "today" if scope == "today" else "last session"
-    mode = "all" if mode == "all" else "ranked"
+    scope = (scope or "").strip().lower()
+    if scope not in SCOPES and not RANGE.match(scope):
+        scope = "last session"
+    modes = [m for m in (mode if isinstance(mode, list) else str(mode or "").split(",")) if m in MODES] or ["ranked"]
+    mode = ",".join(modes)
     steps = []
     if not tz_ok():
         return {"ok": False, "error": TZDATA_FIX, "steps": steps}

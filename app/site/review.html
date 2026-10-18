@@ -3,33 +3,56 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>End Session</title>
+<title>Session Gallery</title>
 <!-- Tekken app page: runs scripts/session_review.py on this PC (POST /api/end-session)
-     and shows the report. Only works through the app at localhost:8787. -->
+     for any window and mix of modes, and browses every saved review (reviews/*.md).
+     Only works through the app at localhost:8787. -->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #141414; color: #e0e0e0; min-height: 100vh;
          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; }
-  .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
   a { color: #8ab4ff; }
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
   .back { color: #888; text-decoration: none; font-size: 13px; }
   .back:hover { color: #ddd; }
   h1.page { font-size: 20px; font-weight: 700; }
+
   .controls { background: #1b1b1b; border: 1px solid #2a2a2a; border-radius: 10px; padding: 16px;
-              display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin-bottom: 20px; }
-  .group { display: flex; align-items: center; gap: 6px; }
-  .label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .08em; margin-right: 4px; }
-  .opt { background: transparent; border: 1px solid #333; color: #888; border-radius: 6px; padding: 5px 12px; cursor: pointer; font: inherit; font-size: 13px; }
+              display: grid; gap: 12px; margin-bottom: 14px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .08em; width: 64px; flex-shrink: 0; }
+  .opt { background: transparent; border: 1px solid #333; color: #888; border-radius: 6px; padding: 5px 12px;
+         cursor: pointer; font: inherit; font-size: 13px; }
+  .opt:hover { color: #ddd; }
   .opt.active { background: #2e2e2e; border-color: #888; color: #fff; }
-  .run { margin-left: auto; background: #e0e0e0; color: #111; border: 0; border-radius: 8px; padding: 9px 18px;
+  .range { display: none; align-items: center; gap: 6px; color: #888; font-size: 13px; }
+  .range.show { display: flex; }
+  .range input { background: #141414; border: 1px solid #333; color: #e0e0e0; border-radius: 6px; padding: 4px 8px;
+                 font: inherit; font-size: 13px; color-scheme: dark; }
+  .runrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .run { background: #e0e0e0; color: #111; border: 0; border-radius: 8px; padding: 9px 18px;
          font: inherit; font-weight: 700; cursor: pointer; }
   .run:disabled { opacity: .5; cursor: wait; }
-  .status { font-size: 13px; color: #888; margin-bottom: 16px; min-height: 18px; }
+  .hint { font-size: 12px; color: #666; }
+  .status { font-size: 13px; color: #888; margin-bottom: 14px; min-height: 18px; }
   .status.err { color: #ff8a80; }
   .status li { list-style: none; }
   .status li::before { content: '✓ '; color: #3ddc84; }
-  .report { background: #1b1b1b; border: 1px solid #2a2a2a; border-radius: 10px; padding: 20px 22px; line-height: 1.55; }
+
+  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; align-items: start; }
+  .list { background: #1b1b1b; border: 1px solid #2a2a2a; border-radius: 10px; padding: 8px;
+          max-height: calc(100vh - 80px); overflow-y: auto; position: sticky; top: 16px; }
+  .list h2 { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .08em; padding: 6px 8px 8px; font-weight: 600; }
+  .item { display: block; width: 100%; text-align: left; background: transparent; border: 0; border-radius: 8px;
+          padding: 8px 10px; cursor: pointer; color: inherit; font: inherit; }
+  .item:hover { background: #222; }
+  .item.active { background: #2a2a2a; }
+  .item .t { font-size: 13px; font-weight: 600; color: #ddd; }
+  .item .s { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.35; }
+  .empty { color: #666; padding: 8px; }
+
+  .report { background: #1b1b1b; border: 1px solid #2a2a2a; border-radius: 10px; padding: 20px 22px; line-height: 1.55; min-width: 0; }
   .report h1 { font-size: 20px; margin-bottom: 4px; }
   .report h2 { font-size: 15px; margin: 22px 0 8px; color: #fff; }
   .report p { margin: 8px 0; color: #ccc; }
@@ -39,37 +62,91 @@
   .report td { border-bottom: 1px solid #222; padding: 6px 8px; }
   .report hr { border: 0; border-top: 1px solid #2a2a2a; margin: 20px 0 10px; }
   .report .foot { font-size: 12px; color: #666; }
-  .empty { color: #666; }
-  @media (max-width: 600px) { .run { margin-left: 0; width: 100%; } .report { padding: 14px; overflow-x: auto; } }
+  .tablewrap { overflow-x: auto; }
+
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .list { position: static; max-height: 240px; }
+    .label { width: 100%; }
+    .report { padding: 14px; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="top">
-    <h1 class="page">End session</h1>
+    <h1 class="page">Session Gallery</h1>
     <a class="back" href="/">← Stage tracker &amp; guides</a>
   </div>
 
   <div class="controls">
-    <div class="group"><span class="label">Review</span>
-      <button class="opt active" data-scope="last session">Last session</button>
+    <div class="row"><span class="label">Window</span>
+      <button class="opt" data-scope="last session">Last Session</button>
       <button class="opt" data-scope="today">Today</button>
+      <button class="opt" data-scope="yesterday">Yesterday</button>
+      <button class="opt" data-scope="last 7 days">Last 7 Days</button>
+      <button class="opt" data-scope="last 14 days">Last 14 Days</button>
+      <button class="opt" data-scope="last 30 days">Last 30 Days</button>
+      <button class="opt" data-scope="range">Date Range…</button>
+      <span class="range" id="range">
+        <input type="date" id="from" aria-label="From"> to <input type="date" id="to" aria-label="To">
+      </span>
     </div>
-    <div class="group"><span class="label">Games</span>
-      <button class="opt active" data-mode="ranked">Ranked</button>
-      <button class="opt" data-mode="all">All modes</button>
+    <div class="row"><span class="label">Games</span>
+      <button class="opt" data-mode="ranked">Ranked Match</button>
+      <button class="opt" data-mode="quick">Quick Match</button>
+      <button class="opt" data-mode="player">Player Match</button>
+      <button class="opt" data-mode="group">Group Match</button>
     </div>
-    <button class="run" id="run">End session</button>
+    <div class="runrow">
+      <button class="run" id="run">Run review</button>
+      <span class="hint">Checks ewgf.gg for your newest game first, then saves the review here and on GitHub.</span>
+    </div>
   </div>
 
   <div class="status" id="status"></div>
-  <article class="report" id="report"><p class="empty">Loading your latest review…</p></article>
+
+  <div class="layout">
+    <nav class="list" id="list" aria-label="Saved reviews"><h2>Saved reviews</h2><div class="empty">Loading…</div></nav>
+    <article class="report" id="report"><p class="empty">Pick a review on the left, or run a new one.</p></article>
+  </div>
 </div>
 
 <script>
-  const state = { scope: 'last session', mode: 'ranked' }
   const $ = id => document.getElementById(id)
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+  const PREF = 'tk-gallery-options'
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  const today = new Date()
+
+  // Options (remembered on this PC)
+  const state = (() => {
+    const fallback = { scope: 'last session', modes: ['ranked'], from: iso(new Date(today - 6 * 864e5)), to: iso(today) }
+    try { return Object.assign(fallback, JSON.parse(localStorage.getItem(PREF) || '{}')) } catch { return fallback }
+  })()
+  const save = () => { try { localStorage.setItem(PREF, JSON.stringify(state)) } catch {} }
+
+  function paintOptions() {
+    document.querySelectorAll('[data-scope]').forEach(b => b.classList.toggle('active', b.dataset.scope === state.scope))
+    document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', state.modes.includes(b.dataset.mode)))
+    $('range').classList.toggle('show', state.scope === 'range')
+    $('from').value = state.from; $('to').value = state.to
+    $('from').max = $('to').max = iso(today)
+  }
+
+  document.addEventListener('click', e => {
+    const s = e.target.closest('[data-scope]')
+    if (s) { state.scope = s.dataset.scope; save(); paintOptions(); return }
+    const m = e.target.closest('[data-mode]')
+    if (m) {
+      const k = m.dataset.mode
+      if (state.modes.includes(k)) { if (state.modes.length > 1) state.modes = state.modes.filter(x => x !== k) }
+      else state.modes = [...state.modes, k]
+      save(); paintOptions()
+    }
+  })
+  $('from').addEventListener('change', e => { state.from = e.target.value; save() })
+  $('to').addEventListener('change', e => { state.to = e.target.value; save() })
 
   // Just enough Markdown for the review: headings, tables, lists, bold, links, rules.
   function inline(t) {
@@ -92,8 +169,8 @@
         const head = cells(l); i += 2
         const rows = []
         while (i < lines.length && lines[i].trim().startsWith('|')) rows.push(cells(lines[i++]))
-        out.push('<table><thead><tr>' + head.map(h => `<th>${inline(h)}</th>`).join('') + '</tr></thead><tbody>' +
-          rows.map(r => '<tr>' + r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') + '</tbody></table>')
+        out.push('<div class="tablewrap"><table><thead><tr>' + head.map(h => `<th>${inline(h)}</th>`).join('') + '</tr></thead><tbody>' +
+          rows.map(r => '<tr>' + r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') + '</tbody></table></div>')
         continue
       }
       if (/^\s*[-*]\s+/.test(l)) {
@@ -110,38 +187,57 @@
     return out.join('\n')
   }
 
-  function show(markdown) {
-    $('report').innerHTML = markdown ? md(markdown) : '<p class="empty">No reviews yet. Press End session after you play.</p>'
+  // Gallery
+  let current = null
+  async function loadList(select) {
+    try {
+      const r = await (await fetch('/api/reviews')).json()
+      const items = r.reviews || []
+      $('list').innerHTML = '<h2>Saved reviews</h2>' + (items.length
+        ? items.map(it => `<button class="item" data-name="${esc(it.name)}"><div class="t">${esc(it.title)}</div><div class="s">${esc(it.summary)}</div></button>`).join('')
+        : '<div class="empty">No reviews yet. Run one after you play.</div>')
+      const pick = select || current || (items[0] && items[0].name)
+      if (pick) open(pick)
+    } catch {
+      $('list').innerHTML = '<h2>Saved reviews</h2><div class="empty">Open this page through the Tekken app (localhost:8787).</div>'
+    }
   }
+  async function open(name) {
+    current = name
+    document.querySelectorAll('.item').forEach(b => b.classList.toggle('active', b.dataset.name === name))
+    const r = await (await fetch('/api/review?name=' + encodeURIComponent(name))).json()
+    $('report').innerHTML = r.ok ? md(r.markdown) : '<p class="empty">That review is missing.</p>'
+  }
+  $('list').addEventListener('click', e => { const b = e.target.closest('.item'); if (b) open(b.dataset.name) })
 
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-scope], [data-mode]')
-    if (!b) return
-    const key = b.dataset.scope ? 'scope' : 'mode'
-    state[key] = b.dataset[key]
-    document.querySelectorAll(`[data-${key}]`).forEach(x => x.classList.toggle('active', x === b))
-  })
-
+  // Run a new review
   $('run').addEventListener('click', async () => {
     const btn = $('run'), status = $('status')
+    let scope = state.scope
+    if (scope === 'range') {
+      if (!state.from || !state.to) { status.className = 'status err'; status.textContent = 'Pick both dates first.'; return }
+      const [a, b] = [state.from, state.to].sort()
+      scope = `range:${a}..${b}`
+    }
     btn.disabled = true
     status.className = 'status'
-    status.textContent = 'Checking ewgf.gg for your last game and writing the review…'
+    status.textContent = 'Checking ewgf.gg for your newest game and writing the review…'
     try {
       const r = await fetch('/api/end-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Tekken-App': '1' },
-        body: JSON.stringify(state),
+        body: JSON.stringify({ scope, mode: state.modes }),
       })
       const res = await r.json()
+      const steps = `<ul>${(res.steps || []).map(s => `<li>${esc(s)}</li>`).join('')}</ul>`
       if (!res.ok) {
         status.className = 'status err'
-        status.innerHTML = `<ul>${(res.steps || []).map(s => `<li>${esc(s)}</li>`).join('')}</ul>${esc(res.error || 'Something went wrong.')}`
+        status.innerHTML = steps + esc(res.error || 'Something went wrong.')
       } else {
-        status.innerHTML = `<ul>${res.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ul>`
-        show(res.markdown)
+        status.innerHTML = steps
+        await loadList(res.file)
       }
-    } catch (err) {
+    } catch {
       status.className = 'status err'
       status.textContent = 'The Tekken app isn\'t answering. Is its window still open?'
     } finally {
@@ -149,9 +245,8 @@
     }
   })
 
-  fetch('/api/review/latest').then(r => r.json()).then(r => show(r.markdown)).catch(() => {
-    $('report').innerHTML = '<p class="empty">Open this page through the Tekken app (localhost:8787).</p>'
-  })
+  paintOptions()
+  loadList()
 </script>
 </body>
 </html>
