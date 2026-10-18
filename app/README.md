@@ -20,7 +20,7 @@ Only your PC can reach these addresses.
 | `Start Tekken App.bat` | Double-click to start. Close its window to stop. |
 | `server.py` | The local web server; starts the poller and the sync |
 | `poller.py` | Checks ewgf.gg every 30 s or more, feeds the overlay, saves new games |
-| `sync.py` | Every 15 min: pulls GitHub's battle data (overnight games, Wavu Wank ratings), merges, pushes the app's new games |
+| `sync.py` | Every 15 min: pulls GitHub's battle data (overnight games, Wavu Wank ratings), merges, pushes the app's new games; also downloads new or changed guides, `index.html` and the overlay (never the Python code) |
 | `site/overlay.html` | The overlay (panel or strip) |
 | `install.py` | Rebuilds a working app folder from this repo |
 
@@ -44,5 +44,6 @@ privacy filter (`save_rows`) is the same everywhere: no names, tags or IDs.
 4. Put `ewgf-key.txt` and `github-token.txt` into `D:\SW-T8\app`.
 5. Double-click `Start Tekken App.bat`.
 
-Running `install.py` again over an existing install updates the code, site
-and guides, and keeps your keys and database.
+Guides, `index.html` and the overlay update themselves through the sync.
+Running `install.py` again over an existing install also updates the Python
+code, and keeps your keys and database.

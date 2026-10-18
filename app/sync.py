@@ -6,10 +6,16 @@ Every 15 minutes (and once a minute after the app starts):
      known field kept (collect_battles.save_rows does this, privacy filter included),
   3. if GitHub is missing anything, upload the merged battles.jsonl/.js/.csv as one commit.
 
-It only ever touches those three data files. The token lives in github-token.txt
+It also keeps the app's copy of the website current: index.html, the guides
+(guides/*.html, guides/manifest.js) and the overlay (app/site/overlay.html) are
+downloaded whenever GitHub's version differs, so a new weekly guide shows up
+here within 15 minutes. The app's Python code is never changed this way.
+
+On GitHub it only ever writes those three data files. The token lives in github-token.txt
 next to this file and never leaves the PC except to talk to api.github.com.
 """
 
+import hashlib
 import json
 import os
 import threading
@@ -32,6 +38,26 @@ FILES = {                                                             # repo pat
     "data/battles.js": lambda: cb.PAGE_COPY,
     "data/battles.csv": lambda: cb.CSV_COPY,
 }
+
+
+SITE_DIR = APP_DIR / "site"
+
+
+def site_target(repo_path):
+    """Where a repo file goes in the app's site folder, or None if it isn't a site file."""
+    if repo_path == "index.html":
+        return SITE_DIR / "index.html"
+    if repo_path == "app/site/overlay.html":
+        return SITE_DIR / "overlay.html"
+    if repo_path.startswith("guides/") and repo_path.count("/") == 1 and repo_path.endswith((".html", ".js")):
+        return SITE_DIR / repo_path
+    return None
+
+
+def git_blob_sha(path):
+    """The id GitHub gives a file's contents, so unchanged files aren't downloaded again."""
+    data = path.read_bytes()
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
 
 
 def find_token():
@@ -82,7 +108,35 @@ class Sync(threading.Thread):
         # Not forced: if GitHub moved on meanwhile (a collector run), this fails and we retry.
         self.api("PATCH", f"/git/refs/heads/{BRANCH}", {"sha": commit, "force": False})
 
+    def pull_site(self, commit_sha):
+        """Download site files that differ from GitHub's. Returns the names updated."""
+        tree = self.api("GET", f"/git/commits/{commit_sha}")["tree"]["sha"]
+        entries = self.api("GET", f"/git/trees/{tree}?recursive=1")["tree"]
+        updated = []
+        for e in entries:
+            target = site_target(e["path"]) if e.get("type") == "blob" else None
+            if not target or (target.exists() and git_blob_sha(target) == e["sha"]):
+                continue
+            data = self.api("GET", f"/contents/{e['path']}?ref={commit_sha}", raw=True)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            tmp = target.with_suffix(target.suffix + ".tmp")
+            tmp.write_bytes(data)
+            os.replace(tmp, target)                   # swap in whole, never half a file
+            updated.append(e["path"].split("/")[-1])
+        return updated
+
     def sync_once(self):
+        site = ""
+        try:
+            head = self.api("GET", f"/git/ref/heads/{BRANCH}")["object"]["sha"]
+            updated = self.pull_site(head)
+            if updated:
+                site = f"; site updated: {', '.join(updated)}"
+        except Exception as e:                        # the data sync still runs
+            site = f"; site update failed: {e}"
+        return self._sync_data() + site
+
+    def _sync_data(self):
         for attempt in range(3):
             head = self.api("GET", f"/git/ref/heads/{BRANCH}")["object"]["sha"]
             remote = self.remote_rows(head)
