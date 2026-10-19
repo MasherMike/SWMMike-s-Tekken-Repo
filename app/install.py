@@ -23,7 +23,7 @@ APP_SRC = REPO / "app"
 
 CODE = ["server.py", "poller.py", "sync.py", "review.py",
         "Start Tekken App.bat", "Start with Windows (on-off).bat",
-        "README - Start here.txt", "Open Stage Tracker.url", "Open Session Gallery.url", "Open Scoreboard.url"]
+        "README - Start here.txt", "Open Stage Tracker.html", "Open Session Gallery.html", "Open Scoreboard.html"]
 SHARED = ["collect_battles.py", "session_review.py"]     # from scripts/, used unchanged
 
 

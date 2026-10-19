@@ -9,9 +9,9 @@ START / STOP
   Start with Windows (on-off).bat  Starts the app by itself at login. Double-click again to turn off.
 
 OPEN (the app must be running)
-  Open Stage Tracker.url           Stage data + matchup guides
-  Open Session Gallery.url         Run reviews, browse saved ones
-  Open Scoreboard.url              Full off-stream scoreboard (live)
+  Open Stage Tracker.html          Stage data + matchup guides
+  Open Session Gallery.html        Run reviews, browse saved ones
+  Open Scoreboard.html             Full off-stream scoreboard (live)
 
 STREAMLABS (Browser source, Local file UNticked, 700 x 56)
   http://localhost:8787/overlay.html?layout=strip&anchor=bottom&scale=1.25

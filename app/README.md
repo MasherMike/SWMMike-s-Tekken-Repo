@@ -20,7 +20,7 @@ Only your PC can reach these addresses.
 |---|---|
 | `Start Tekken App.bat` | Double-click to start. Close its window to stop. |
 | `README - Start here.txt` | One-page cheat sheet that sits in the app folder on the PC |
-| `Open Stage Tracker.url`, `Open Session Gallery.url`, `Open Scoreboard.url` | Double-click shortcuts to the app's pages (the app must be running) |
+| `Open Stage Tracker.html`, `Open Session Gallery.html`, `Open Scoreboard.html` | Double-click shortcuts to the app's pages (the app must be running) |
 | `Start with Windows (on-off).bat` | Double-click to make the app start by itself at login (minimized, no browser); again to turn it off |
 | `server.py` | The local web server; starts the poller and the sync |
 | `poller.py` | Checks ewgf.gg every 30 s or more, feeds the overlay, saves new games |

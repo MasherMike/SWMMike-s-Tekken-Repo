@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Session Gallery</title>
+<!-- Double-click shortcut: opens http://localhost:8787/review.html in your browser once the
+     Tekken app is answering. (A .html file opens in any browser; .url files can
+     open as plain text when Brave is set to handle them.) -->
+<style>body{background:#141414;color:#bbb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:32px;font-size:15px;line-height:1.5}b{color:#fff}code{color:#ddd}</style>
+</head>
+<body>
+<p id="msg">Opening <b>Session Gallery</b>…</p>
+<script>
+  const TARGET = 'http://localhost:8787/review.html'
+  function probe() {
+    const s = document.createElement('script')
+    s.src = 'http://localhost:8787/guides/manifest.js?t=' + Date.now()   // small script the app always serves
+    s.onload = () => location.replace(TARGET)
+    s.onerror = () => {
+      s.remove()
+      document.getElementById('msg').innerHTML = '<b>The Tekken app isn\'t running.</b><br>' +
+        'Start it with <code>Start Tekken App.bat</code> in this folder. This page opens ' +
+        '<b>Session Gallery</b> by itself as soon as the app is up.'
+    }
+    document.body.appendChild(s)
+  }
+  probe()
+  setInterval(probe, 3000)
+</script>
+</body>
+</html>
