@@ -1567,4 +1567,6 @@ battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
 2026-10-19T00:18:50Z,ranked,Victor,Clive,God of Destruction III,W,3 to 2,1100,Into the Stratosphere
 2026-10-19T00:23:10Z,ranked,Victor,Kazuya,God of Destruction I,W,3 to 1,1500,Elegant Palace
 2026-10-19T00:25:42Z,ranked,Victor,Kazuya,God of Destruction I,W,3 to 1,1500,Elegant Palace
-2026-10-19T23:07:41Z,ranked,Victor,Hwoarang,,L,0 to 3,,
+2026-10-19T23:07:41Z,ranked,Victor,Hwoarang,God of Destruction IV,L,0 to 3,1900,Phoenix Gate
+2026-10-19T23:09:57Z,ranked,Victor,Hwoarang,God of Destruction IV,W,3 to 0,1900,Phoenix Gate
+2026-10-19T23:13:22Z,ranked,Victor,Hwoarang,God of Destruction IV,L,1 to 3,1600,Midnight Siege
