@@ -2,8 +2,10 @@
 
 > **Replaced by the Tekken app in `app/`** (Oct 17, 2026), which serves this
 > overlay plus a slim strip layout from `localhost:8787`. Kept for reference.
-> Don't run `start-overlay.bat` while the app is running: two pollers split
-> the hourly ewgf request limit.
+> Since Oct 18, 2026 `overlay.html` here only forwards to the app's overlay
+> (keeping your options), and `start-overlay.bat` only prints a notice: running
+> both pollers split the hourly ewgf request limit. `poller.ps1` is kept for
+> reference.
 
 A small panel for OBS that shows your current session live: record on the
 character you're playing, recent results, current streak, and who you've
