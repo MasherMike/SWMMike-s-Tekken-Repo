@@ -2,8 +2,10 @@
 Adds Wavu Wank skill ratings to Mike's stored ranked games.
 
 Runs 3 times a day (midnight, 8 AM, 4 PM Eastern) from
-.github/workflows/collect-wank.yml. One request per run to Mike's own public
-player page, which Wavu Wank's robots.txt allows. The page lists his recent
+.github/workflows/collect-wank.yml, plus once per End session (the GitHub
+workflow and the Tekken app's Session Gallery), so reviews include ratings.
+One request per run to Mike's own public player page, which Wavu Wank's
+robots.txt allows. The page lists his recent
 games, so any run that gets skipped is caught up by the next one.
 
 Only my_rating and opp_rating are added (plus any ranked game ewgf missed).
@@ -28,14 +30,28 @@ HEADERS = {
 }
 
 
-def fetch():
+def fetch_page(timeout=60):
+    """One request for Mike's player page. Raises urllib errors; callers decide what to do."""
     req = urllib.request.Request(URL, headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = resp.read()
+        if resp.headers.get("Content-Encoding") == "gzip":
+            raw = gzip.decompress(raw)
+        return raw.decode("utf-8", errors="replace")
+
+
+def add_ratings(rows, html):
+    """Merge the page's games into rows (in place). Returns (games_on_page, rated, added)."""
+    games = parse_games(html)
+    if not games:
+        raise ValueError("No games found on the page; the page layout may have changed.")
+    rated, added = merge(rows, games, since=SINCE)
+    return len(games), rated, added
+
+
+def fetch():
     try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            raw = resp.read()
-            if resp.headers.get("Content-Encoding") == "gzip":
-                raw = gzip.decompress(raw)
-            return raw.decode("utf-8", errors="replace")
+        return fetch_page()
     except urllib.error.HTTPError as e:
         sys.exit(f"Wavu Wank returned HTTP {e.code}; trying again next run.")
     except urllib.error.URLError as e:

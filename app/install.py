@@ -5,7 +5,7 @@
 Run it from an unzipped copy of the repo (GitHub: Code -> Download ZIP).
 It copies:
   - the app's code (this folder) and the shared scripts (scripts/collect_battles.py,
-    scripts/session_review.py)
+    scripts/session_review.py, scripts/wank.py, scripts/collect_wank.py)
   - the website: index.html and guides/
   - the battle database (data/), but ONLY if the target doesn't have one yet
 
@@ -24,7 +24,7 @@ APP_SRC = REPO / "app"
 CODE = ["server.py", "poller.py", "sync.py", "review.py",
         "Start Tekken App.bat", "Start with Windows (on-off).bat",
         "README - Start here.txt", "Open Stage Tracker.html", "Open Session Gallery.html", "Open Scoreboard.html"]
-SHARED = ["collect_battles.py", "session_review.py"]     # from scripts/, used unchanged
+SHARED = ["collect_battles.py", "session_review.py", "wank.py", "collect_wank.py"]     # from scripts/, used unchanged
 
 
 def copy(src, dst, note):

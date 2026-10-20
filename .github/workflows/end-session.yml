@@ -1,6 +1,6 @@
 # End-of-session review. Run it when you finish playing:
 #   GitHub app or website -> this repo -> Actions -> "End session" -> Run workflow.
-# It pulls your newest battles, writes reviews/LATEST.md, and shows the same
+# It pulls your newest battles and ratings, writes reviews/LATEST.md, and shows the same
 # report on the run's summary page.
 
 name: End session
@@ -50,6 +50,13 @@ jobs:
         env:
           EWGF_API_KEY: ${{ secrets.EWGF_API_KEY }}
         run: python scripts/collect_battles.py
+
+      - name: Add ratings from Wavu Wank
+        # One request to your own public player page. Only ranked games have
+        # ratings. If the site is down, the review still runs, just without them.
+        if: contains(inputs.mode, 'ranked') || inputs.mode == 'all'
+        continue-on-error: true
+        run: python scripts/collect_wank.py
 
       - name: Write the review
         env:

@@ -3,8 +3,9 @@ for any window (last session, today, yesterday, last 7/14/30 days, a date range)
 and any mix of modes (ranked, quick, player, group).
 
   1. one fresh check of ewgf.gg, so your last game is included,
-  2. scripts/session_review.py (copied into the app as session_review.py), unchanged,
-  3. the review saved to reviews/ here and pushed to reviews/ on GitHub.
+  2. one ratings check of Wavu Wank (ranked reviews only), so the review has ratings,
+  3. scripts/session_review.py (copied into the app as session_review.py), unchanged,
+  4. the review saved to reviews/ here and pushed to reviews/ on GitHub.
 
 The Session Gallery page (site/review.html) calls these through the server.
 """
@@ -12,6 +13,7 @@ The Session Gallery page (site/review.html) calls these through the server.
 import os
 import re
 import threading
+import time
 from pathlib import Path
 
 import collect_battles as cb
@@ -38,6 +40,36 @@ SCOPES = ("last session", "today", "yesterday", "last 7 days", "last 14 days", "
 MODES = ("ranked", "quick", "player", "group")
 RANGE = re.compile(r"^range:\d{4}-\d{2}-\d{2}\.\.\d{4}-\d{2}-\d{2}$")
 NAME = re.compile(r"^[0-9A-Za-z_-]+\.md$")
+
+
+WANK_STAMP = APP_DIR / "wank-last-check.txt"   # time of the last ratings check from this PC
+WANK_MIN_GAP = 10 * 60                         # at most one Wavu Wank request per 10 minutes
+
+
+def add_ratings():
+    """One request to your Wavu Wank page; adds my_rating/opp_rating to the games
+    it lists. Returns a line for the steps list. Never raises: a review without
+    ratings is still a review."""
+    try:
+        last = float(WANK_STAMP.read_text().strip())
+    except (OSError, ValueError):
+        last = 0
+    if time.time() - last < WANK_MIN_GAP:
+        return "Ratings checked less than 10 minutes ago: skipped (be kind to Wavu Wank)"
+    try:
+        import collect_wank
+        html = collect_wank.fetch_page(timeout=30)
+        WANK_STAMP.write_text(str(time.time()))
+        with poller.DB_LOCK:
+            rows = cb.load_rows()
+            listed, rated, added = collect_wank.add_ratings(rows, html)
+            cb.save_rows(rows)
+        poller.log(f"Wavu Wank: {listed} games listed, {rated} given ratings, {added} added")
+        extra = f", {added} game{'s' if added != 1 else ''} ewgf hadn't sent yet" if added else ""
+        return f"Checked Wavu Wank: {rated} game{'s' if rated != 1 else ''} got ratings{extra}"
+    except Exception as e:                       # offline, site down, layout changed
+        poller.log(f"Wavu Wank check failed: {e}")
+        return f"Couldn't reach Wavu Wank ({e}); reviewed without new ratings"
 
 
 def latest():
@@ -86,7 +118,11 @@ def run(scope, mode, poller_obj=None, sync_obj=None):
         else:
             steps.append("Poller off: reviewed the games already saved")
 
-        # 2. the review itself (the repo's script, pointed at the app's files)
+        # 2. ratings (Wavu Wank only rates ranked games)
+        if "ranked" in modes:
+            steps.append(add_ratings())
+
+        # 3. the review itself (the repo's script, pointed at the app's files)
         import session_review as sr
         sr.BATTLES = cb.BATTLES
         sr.MANIFEST = str(APP_DIR / "site" / "guides" / "manifest.js")
@@ -114,7 +150,7 @@ def run(scope, mode, poller_obj=None, sync_obj=None):
         name = max(same, key=lambda p: p.stat().st_mtime).name if same else "LATEST.md"
         steps.append(f"Wrote reviews/{name}")
 
-        # 3. GitHub
+        # 4. GitHub
         if sync_obj is not None:
             try:
                 sync_obj.push_files({f"reviews/{name}": str(OUT_DIR / name),
