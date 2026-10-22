@@ -4,8 +4,11 @@ and any mix of modes (ranked, quick, player, group).
 
   1. one fresh check of ewgf.gg, so your last game is included,
   2. one ratings check of Wavu Wank (ranked reviews only), so the review has ratings,
-  3. scripts/session_review.py (copied into the app as session_review.py), unchanged,
-  4. the review saved to reviews/ here and pushed to reviews/ on GitHub.
+  3. GitHub's battle data merged in (overnight games, ratings the GitHub workflow added),
+  4. scripts/session_review.py (copied into the app as session_review.py), unchanged,
+  5. the review saved to reviews/ here, then pushed to GitHub together with
+     data/battles.jsonl/.js/.csv as ONE commit, so GitHub's data always has
+     every game the review counts (and the coach's nightly check sees the same numbers).
 
 The Session Gallery page (site/review.html) calls these through the server.
 """
@@ -122,7 +125,14 @@ def run(scope, mode, poller_obj=None, sync_obj=None):
         if "ranked" in modes:
             steps.append(add_ratings())
 
-        # 3. the review itself (the repo's script, pointed at the app's files)
+        # 3. GitHub's copy first, so the review sees games and ratings it has and we don't
+        if sync_obj is not None:
+            try:
+                steps.append(sync_obj.merge_from_github())
+            except Exception as e:                # offline: review the games we have
+                steps.append(f"Couldn't read GitHub's copy ({e}); reviewed the games saved here")
+
+        # 4. the review itself (the repo's script, pointed at the app's files)
         import session_review as sr
         sr.BATTLES = cb.BATTLES
         sr.MANIFEST = str(APP_DIR / "site" / "guides" / "manifest.js")
@@ -150,13 +160,13 @@ def run(scope, mode, poller_obj=None, sync_obj=None):
         name = max(same, key=lambda p: p.stat().st_mtime).name if same else "LATEST.md"
         steps.append(f"Wrote reviews/{name}")
 
-        # 4. GitHub
+        # 5. GitHub: the review AND the data it was built from, as one commit
         if sync_obj is not None:
             try:
-                sync_obj.push_files({f"reviews/{name}": str(OUT_DIR / name),
-                                     "reviews/LATEST.md": str(OUT_DIR / "LATEST.md")},
-                                    f"review: {scope} ({mode}) from the Tekken app")
-                steps.append("Saved to GitHub (reviews/)")
+                sync_obj.push_with_data({f"reviews/{name}": str(OUT_DIR / name),
+                                         "reviews/LATEST.md": str(OUT_DIR / "LATEST.md")},
+                                        f"review: {scope} ({mode}) from the Tekken app")
+                steps.append("Saved to GitHub (reviews/ and data/, one commit)")
             except Exception as e:
                 steps.append(f"Couldn't save to GitHub ({e}); it's kept here in reviews/")
         else:

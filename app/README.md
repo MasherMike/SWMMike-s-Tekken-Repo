@@ -25,7 +25,7 @@ Only your PC can reach these addresses.
 | `server.py` | The local web server; starts the poller and the sync |
 | `poller.py` | Checks ewgf.gg every 30 s or more, feeds the overlay, saves new games |
 | `sync.py` | Every 15 min: pulls GitHub's battle data (overnight games, Wavu Wank ratings), merges, pushes the app's new games; also downloads new or changed guides, `index.html` and the overlay (never the Python code) |
-| `review.py` | Session Gallery: one fresh ewgf check, one Wavu Wank ratings check (ranked reviews only, at most one per 10 minutes), then `scripts/session_review.py`; saves to `reviews/` here and on GitHub, and lists saved reviews |
+| `review.py` | Session Gallery: one fresh ewgf check, one Wavu Wank ratings check (ranked reviews only, at most one per 10 minutes), then merges GitHub's battle data, then `scripts/session_review.py`; saves to `reviews/` here and pushes the review **and** `data/` to GitHub as one commit, and lists saved reviews |
 | `site/overlay.html` | The overlay (panel or strip) |
 | `site/review.html` | The Session Gallery page. On GitHub Pages (`…/review.html`, e.g. from your phone) the same page is read-only: it lists `reviews/` from the repo and links to the End session workflow to run a new review |
 | `install.py` | Rebuilds a working app folder from this repo |
