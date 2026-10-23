@@ -109,5 +109,14 @@ window.GUIDES = [
     step: 'SSR',
     record: { w: 5, l: 7 },
     added: '2026-10-16'
+  },
+  {
+    character: 'Anna',
+    file: 'guides/Anti-Anna.html',
+    artifact: 'https://claude.ai/artifact/TT3pjbiMNLtRCr1aRryz6M',
+    tags: ['SSR Default', 'Mid Checks CJM', 'Stay Crouched'],
+    step: 'SSR',
+    record: { w: 3, l: 6 },
+    added: '2026-10-23'
   }
 ];
