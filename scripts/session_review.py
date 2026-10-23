@@ -32,6 +32,8 @@ SESSION_GAP_MIN = 45                 # a break this long starts a new session
 REMATCH_GAP_MIN = 6                  # back-to-back games closer than this can be a rematch set
 REMATCH_MIN_GAMES = 3
 MIN_SAMPLE = 3                       # rows with fewer games are shown but not called out
+STANDING_MIN = 10                    # games vs a character before it can be a peak or a low
+STANDING_TOP = 5                     # how many peaks and lows the standings list
 
 UNKNOWN_RANK = "Rank unknown"     # backlog games imported from Wavu Wank have no rank tier or stage
 BATTLES = "data/battles.jsonl"
@@ -200,6 +202,59 @@ def table(rows, headers):
     return "\n".join(out)
 
 
+# ── matchup standings (same ranking as the website's Matchups tab) ───────────
+def standings(games):
+    """[(opp, w, l)] for opponents with STANDING_MIN+ games, most comfortable first."""
+    by = defaultdict(list)
+    for g in games:
+        by[g["opp_char"]].append(g)
+    rows = [(opp, *record(gs)) for opp, gs in by.items() if len(gs) >= STANDING_MIN]
+    return sorted(rows, key=lambda r: (-r[1] / (r[1] + r[2]), -(r[1] + r[2]), r[0]))
+
+
+def standings_section(games, all_games):
+    """Peaks, lows and how this session moved the characters you faced. Ranked only."""
+    ranked_now = [g for g in games if g["mode"] == "ranked"]
+    if not ranked_now:
+        return []
+    me = Counter(g["my_char"] for g in ranked_now).most_common(1)[0][0]
+    end = games[-1]["t"]
+    start = games[0]["t"]
+    mine = [g for g in all_games if g["mode"] == "ranked" and g["my_char"] == me and g["t"] <= end]
+    after = standings(mine)
+    if len(after) < 2:
+        return []
+    before = {opp: i for i, (opp, *_) in enumerate(standings([g for g in mine if g["t"] < start]), 1)}
+    pos = {opp: i for i, (opp, *_) in enumerate(after, 1)}
+    top = after[:STANDING_TOP]
+    low = after[len(top):][-STANDING_TOP:][::-1]
+    fmt = lambda r: f"{r[0]} {pct(r[1], r[1] + r[2])} ({r[1]}–{r[2]})"
+    lines = ["## Matchup standings", "",
+             f"Ranked as **{me}**, every character with {STANDING_MIN}+ games, through this "
+             f"{'period' if start.date() != end.date() else 'session'}. "
+             "The website's Matchups tab has the full list and the other characters you play.", "",
+             table([[i + 1, fmt(top[i]) if i < len(top) else "", fmt(low[i]) if i < len(low) else ""]
+                    for i in range(max(len(top), len(low)))], ["#", "Top peaks", "Deepest lows"]), ""]
+    faced = sorted({g["opp_char"] for g in ranked_now if g["my_char"] == me} & set(pos), key=pos.get)
+    rows = []
+    for opp in faced:
+        now = pos[opp]
+        was = before.get(opp)
+        if was is None:
+            move = f"new (reached {STANDING_MIN} games)"
+        elif was > now:
+            move = f"up {was - now} (#{was} → #{now})"
+        elif was < now:
+            move = f"down {now - was} (#{was} → #{now})"
+        else:
+            move = f"held #{now}"
+        sess = [g for g in ranked_now if g["my_char"] == me and g["opp_char"] == opp]
+        rows.append([opp, f"#{now} of {len(after)}", fmt_record(sess), move])
+    if rows:
+        lines += [table(rows, ["Faced this session", "Standing", "Record this session", "Move"]), ""]
+    return lines
+
+
 # ── report ───────────────────────────────────────────────────────────────────
 def build(games, label, all_games, mode="all", skipped=()):
     guides, queue = load_guides(), load_queue()
@@ -327,6 +382,8 @@ def build(games, label, all_games, mode="all", skipped=()):
             ref = ""
         rows.append([opp, len(gs), fmt_record(gs), ref])
     lines += ["## Opponents", "", table(rows, ["Character", "Games", "Record", "Guide"]), ""]
+
+    lines += standings_section(games, all_games)
 
     # Stages
     by_stage = defaultdict(list)
