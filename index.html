@@ -383,7 +383,34 @@
     .guide-live .row.thin span:last-child { color: #666; }
     .guide-live .label { color: #666; }
 
+    /* ── Matchups (ranked win rates vs each character) ── */
+    .mu-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .mu-card { background: #1e1e1e; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 18px 10px; }
+    .mu-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .mu-card.peaks h3 { color: #4caf50; }
+    .mu-card.lows h3 { color: #e05a5a; }
+    .mu-card ol { list-style: none; }
+    .mu-card li { display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: baseline; padding: 5px 0; border-top: 1px solid #262626; font-size: 13px; color: #ddd; font-variant-numeric: tabular-nums; }
+    .mu-card li:first-child { border-top: none; }
+    .mu-card .pos { color: #555; font-size: 12px; }
+    .mu-card .rec { color: #888; font-size: 12px; }
+    .mu-card .rec b { color: #eee; font-weight: 600; margin-right: 6px; }
+    .mu-row { display: grid; grid-template-columns: 30px 150px 1fr 48px 60px 64px; gap: 10px; align-items: center; padding: 7px 20px; font-size: 13px; color: #ddd; }
+    .mu-row .pos { color: #555; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .mu-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mu-row.peak .pos { color: #4caf50; }
+    .mu-row.low .pos { color: #e05a5a; }
+    .mu-row.thin .name, .mu-row.thin .win-rate { color: #666; }
+    .mu-row.thin .bar-fill { opacity: 0.35; }
+    .mu-row .guide { font-size: 11px; text-align: right; }
+    .mu-row .guide a { color: #888; text-decoration: none; border: 1px solid #333; border-radius: 5px; padding: 2px 7px; }
+    .mu-row .guide a:hover { color: #ddd; border-color: #666; }
+    .mu-sub { padding: 14px 20px 4px; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+
     @media (max-width: 560px) {
+      .mu-cols { grid-template-columns: 1fr; }
+      .mu-row { grid-template-columns: 24px 1fr 44px 54px; padding: 7px 14px; }
+      .mu-row .bar-track, .mu-row .guide { display: none; }
       .live-panel .stage-row { grid-template-columns: 1fr 70px 44px 56px; }
       .view-switch { width: 100%; }
       .view-btn { flex: 1; padding: 8px 10px; }
@@ -397,9 +424,17 @@
     <!-- View switch -->
     <nav class="view-switch" aria-label="Sections">
       <button class="view-btn active" data-view-btn="stages">Stage Data</button>
+      <button class="view-btn" data-view-btn="matchups">Matchups</button>
       <button class="view-btn" data-view-btn="guides">Matchup Guides<span class="count" id="guide-count"></span></button>
       <a class="view-btn" href="review.html">Session Gallery</a>
     </nav>
+
+    <!-- ═══ Matchups view: win rate vs every character, most comfortable first ═══ -->
+    <section data-view="matchups" hidden>
+      <div class="live-filters" data-live-filters style="margin-bottom:14px"></div>
+      <div id="mu-body"></div>
+      <p class="guides-note">Ranked by win rate, ties go to the bigger sample. Peaks and lows only count characters with 10+ games; fewer than that is a hint, not a verdict. Updates on its own as new games arrive (every 30 s in the app, every 5 min here), so each End session shows up without a reload.</p>
+    </section>
 
     <!-- ═══ Matchup Guides view ═══ -->
     <section data-view="guides" hidden>
@@ -1105,21 +1140,77 @@
         : `<div class="guides-empty">${GUIDE_LIST.length ? 'No guide matches that name.' : 'No guides yet.'}</div>`
     }
 
-    // ── View switching (remembered in the URL hash: #guides) ─────────────────────
+    // ── Matchups: every opponent ranked, most comfortable → needs studying ────────
+    const MU_HIGHLIGHT = 5
+    function matchupRows() {
+      const by = {}
+      liveBattles().forEach(b => { (by[b.opp_char] = by[b.opp_char] || []).push(b) })
+      return Object.entries(by)
+        .map(([name, games]) => ({ name, ...tally(games), rate: tally(games).w / games.length }))
+        .sort((a, b) => b.rate - a.rate || b.n - a.n || a.name.localeCompare(b.name))
+    }
+
+    function guideFor(name) {
+      const g = GUIDE_LIST.find(x => x.character === name)
+      return g ? `<a href="${escapeHtml(g.file)}" target="_blank" rel="noopener">Guide</a>` : ''
+    }
+
+    function renderMatchups() {
+      const el = document.getElementById('mu-body'); if (!el) return
+      if (!BATTLE_LIST.length) { el.innerHTML = '<div class="live-empty">No battle data yet.</div>'; return }
+      const rows = matchupRows()
+      if (!rows.length) { el.innerHTML = '<div class="live-empty">No battles match these filters yet.</div>'; return }
+      const solid = rows.filter(r => r.n >= MIN_SAMPLE), thin = rows.filter(r => r.n < MIN_SAMPLE)
+      const peaks = solid.slice(0, MU_HIGHLIGHT)
+      const lows = solid.slice(peaks.length).slice(-MU_HIGHLIGHT).reverse()   // worst first, never repeats a peak
+      const peakSet = new Set(peaks), lowSet = new Set(lows)
+      const t = tally(liveBattles())
+      const li = (r, i) => `<li><span class="pos">${i + 1}</span><span>${escapeHtml(r.name)}</span>
+        <span class="rec"><b>${r.pct}%</b>${r.w}–${r.l}</span></li>`
+      const card = (cls, title, list, empty) => `<div class="mu-card ${cls}"><h3>${title}</h3>${
+        list.length ? `<ol>${list.map(li).join('')}</ol>` : `<div class="live-empty">${empty}</div>`}</div>`
+      const row = (r, i, cls) => `
+        <div class="mu-row ${cls}">
+          <span class="pos">${i}</span>
+          <span class="name" title="${escapeHtml(r.name)}">${escapeHtml(r.name)}</span>
+          <div class="bar-track"><div class="bar-fill ${guideBarColor(r.pct)}" style="width:${r.pct}%"></div></div>
+          <span class="win-rate">${r.pct}%</span>
+          <span class="sample">${r.w}–${r.l}</span>
+          <span class="guide">${guideFor(r.name)}</span>
+        </div>`
+      el.innerHTML = `
+        <div class="mu-cols">
+          ${card('peaks', `Top ${MU_HIGHLIGHT} peaks`, peaks, `Needs ${MIN_SAMPLE}+ games vs a character`)}
+          ${card('lows', `Deepest ${MU_HIGHLIGHT} lows`, lows, `Needs more characters with ${MIN_SAMPLE}+ games`)}
+        </div>
+        <div class="chart-panel live-panel">
+          <div class="live-panel-head">
+            <h3>Most comfortable → needs studying</h3>
+            <span class="live-meta">${solid.length} characters · ${t.n} games · ${t.pct}% overall</span>
+          </div>
+          ${solid.map((r, i) => row(r, i + 1, peakSet.has(r) ? 'peak' : lowSet.has(r) ? 'low' : '')).join('')}
+          ${thin.length ? `<div class="mu-sub">Fewer than ${MIN_SAMPLE} games (hints only)</div>
+            ${thin.map(r => row(r, '·', 'thin')).join('')}` : ''}
+        </div>`
+    }
+
+    // ── View switching (remembered in the URL hash: #guides, #matchups) ─────────
+    const VIEWS = ['stages', 'matchups', 'guides']
     function showView(view) {
-      if (view !== 'guides') view = 'stages'
+      if (!VIEWS.includes(view)) view = 'stages'
       document.querySelectorAll('[data-view]').forEach(el => { el.hidden = el.dataset.view !== view })
       document.querySelectorAll('[data-view-btn]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.viewBtn === view)
       })
       if (view === 'guides') renderGuides()
+      if (view === 'matchups') renderMatchups()
     }
 
     document.addEventListener('click', e => {
       const viewBtn = e.target.closest('[data-view-btn]')
       if (viewBtn) {
         const view = viewBtn.dataset.viewBtn
-        history.replaceState(null, '', view === 'guides' ? '#guides' : location.pathname + location.search)
+        history.replaceState(null, '', view !== 'stages' ? '#' + view : location.pathname + location.search)
         showView(view)
         return
       }
@@ -1130,6 +1221,7 @@
         saveLiveState()
         renderLive()
         renderGuides()
+        renderMatchups()
         return
       }
       const sortBtn = e.target.closest('[data-gsort]')
@@ -1163,6 +1255,7 @@
         BATTLE_LIST.splice(0, BATTLE_LIST.length, ...fresh)
         renderLive()
         if (!document.querySelector('[data-view="guides"]').hidden) renderGuides()
+        if (!document.querySelector('[data-view="matchups"]').hidden) renderMatchups()
       }
       s.onerror = () => s.remove()
       document.body.appendChild(s)
