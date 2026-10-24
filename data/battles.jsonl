@@ -1612,3 +1612,4 @@
 {"battle_at": "2026-10-24T00:49:25Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 1200, "stage": "Ortiz Farm", "my_rating": 1904, "opp_rating": 1797}
 {"battle_at": "2026-10-24T00:53:30Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-1", "stage_id": 300, "stage": "Yakushima", "my_rating": 1890, "opp_rating": 1810}
 {"battle_at": "2026-10-24T00:55:32Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 300, "stage": "Yakushima", "my_rating": 1899, "opp_rating": 1802}
+{"battle_at": "2026-10-24T22:44:26Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Heihachi", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-1", "stage_id": 300, "stage": "Yakushima"}
