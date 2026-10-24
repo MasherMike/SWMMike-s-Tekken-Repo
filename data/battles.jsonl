@@ -1621,3 +1621,5 @@
 {"battle_at": "2026-10-24T23:02:26Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Law", "opp_rank": "God of Destruction II", "result": "W", "rounds": "3-0", "stage_id": 100, "stage": "Arena"}
 {"battle_at": "2026-10-24T23:06:07Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Jack-8", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 400, "stage": "Coliseum of Fate"}
 {"battle_at": "2026-10-24T23:08:40Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Jack-8", "opp_rank": "God of Destruction III", "result": "L", "rounds": "1-3", "stage_id": 400, "stage": "Coliseum of Fate"}
+{"battle_at": "2026-10-24T23:11:55Z", "mode": "ranked", "my_char": "Victor", "opp_char": "King", "opp_rank": "God of Destruction V", "result": "L", "rounds": "1-3", "stage_id": 1300, "stage": "Celebration on the Seine"}
+{"battle_at": "2026-10-24T23:14:49Z", "mode": "ranked", "my_char": "Victor", "opp_char": "King", "opp_rank": "God of Destruction V", "result": "L", "rounds": "1-3", "stage_id": 1300, "stage": "Celebration on the Seine"}
