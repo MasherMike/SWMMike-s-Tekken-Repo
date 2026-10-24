@@ -1598,3 +1598,8 @@
 {"battle_at": "2026-10-24T00:03:06Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Xiaoyu", "opp_rank": "God of Destruction II", "result": "L", "rounds": "0-3", "stage_id": 500, "stage": "Rebel Hangar"}
 {"battle_at": "2026-10-24T00:08:28Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 500, "stage": "Rebel Hangar"}
 {"battle_at": "2026-10-24T00:11:31Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "L", "rounds": "1-3", "stage_id": 500, "stage": "Rebel Hangar"}
+{"battle_at": "2026-10-24T00:14:25Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 201, "stage": "Urban Square"}
+{"battle_at": "2026-10-24T00:16:37Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 201, "stage": "Urban Square"}
+{"battle_at": "2026-10-24T00:20:36Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 1900, "stage": "Phoenix Gate"}
+{"battle_at": "2026-10-24T00:23:54Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-2", "stage_id": 1900, "stage": "Phoenix Gate"}
+{"battle_at": "2026-10-24T00:26:27Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 300, "stage": "Yakushima"}
