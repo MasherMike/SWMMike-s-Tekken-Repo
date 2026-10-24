@@ -1603,3 +1603,6 @@
 {"battle_at": "2026-10-24T00:20:36Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 1900, "stage": "Phoenix Gate"}
 {"battle_at": "2026-10-24T00:23:54Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-2", "stage_id": 1900, "stage": "Phoenix Gate"}
 {"battle_at": "2026-10-24T00:26:27Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 300, "stage": "Yakushima"}
+{"battle_at": "2026-10-24T00:30:24Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Law", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-1", "stage_id": 1200, "stage": "Ortiz Farm"}
+{"battle_at": "2026-10-24T00:32:38Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Law", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-0", "stage_id": 1200, "stage": "Ortiz Farm"}
+{"battle_at": "2026-10-24T00:36:33Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Lili", "opp_rank": "God of Destruction V", "result": "L", "rounds": "2-3", "stage_id": 900, "stage": "Descent into Subconscious"}
