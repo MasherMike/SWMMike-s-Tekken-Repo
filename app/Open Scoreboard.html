@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Scoreboard</title>
-<!-- Double-click shortcut: opens http://localhost:8787/overlay.html?opps=8&min=2&scale=1.5 in your browser once the
+<!-- Double-click shortcut: opens http://localhost:8787/scoreboard.html in your browser once the
      Tekken app is answering. (A .html file opens in any browser; .url files can
      open as plain text when Brave is set to handle them.) -->
 <style>body{background:#141414;color:#bbb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:32px;font-size:15px;line-height:1.5}b{color:#fff}code{color:#ddd}</style>
@@ -11,7 +11,7 @@
 <body>
 <p id="msg">Opening <b>Scoreboard</b>…</p>
 <script>
-  const TARGET = 'http://localhost:8787/overlay.html?opps=8&min=2&scale=1.5'
+  const TARGET = 'http://localhost:8787/scoreboard.html'
   function probe() {
     const s = document.createElement('script')
     s.src = 'http://localhost:8787/guides/manifest.js?t=' + Date.now()   // small script the app always serves

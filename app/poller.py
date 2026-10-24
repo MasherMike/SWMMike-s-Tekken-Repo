@@ -6,9 +6,13 @@ This replaces the old poller.ps1 window. Every check:
   3. saves any new games to data/battles.jsonl through collect_battles.save_rows(),
      the same privacy filter GitHub uses: no names, tags or IDs, ever.
 
-Pacing follows the old poller exactly: never more often than every 30 seconds,
-the hour's remaining requests spread evenly over what's left of the hour, a few
-kept spare for the GitHub collector, and a clean pause if the limit is hit.
+Pacing: every 10 seconds while you're playing (a game in the last 20 minutes),
+every 60 seconds otherwise. Never faster than the hour's remaining requests
+allow, spread evenly over what's left of the hour, a few kept spare for the
+GitHub collector, and a clean pause if the limit is hit.
+
+The window and app-log.txt only get a line when something happens (new games,
+a problem, the pace changing), plus one summary line an hour.
 """
 
 import gzip
@@ -28,13 +32,16 @@ APP_DIR = Path(__file__).resolve().parent
 TEKKEN_ID = cb.TEKKEN_ID
 BASE_URL = os.environ.get("EWGF_BASE_URL", "https://api.ewgf.gg")   # override for testing only
 
-INTERVAL = 30             # fastest check, in seconds
+ACTIVE_INTERVAL = 10      # check this often while you're playing, in seconds
+IDLE_INTERVAL = 60        # ...and this often otherwise
+ACTIVE_FOR = 20 * 60      # "playing" = your newest game is less than this old
 RESERVE = 3               # requests per hour left for the GitHub collector
 MIN_WAIT = 60             # shortest pause after a "too many requests" reply
 WINDOW = 3600             # ewgf.gg counts requests in one-hour windows
 BLIND_WAIT_MAX = 600      # longest wait while the window's end is unknown
+HEARTBEAT = 3600          # one "still running" summary line this often
 if os.environ.get("EWGF_TEST_FAST"):                                 # testing only
-    INTERVAL, MIN_WAIT, WINDOW, BLIND_WAIT_MAX = 2, 2, 20, 4
+    ACTIVE_INTERVAL, IDLE_INTERVAL, MIN_WAIT, WINDOW, BLIND_WAIT_MAX, HEARTBEAT = 1, 2, 2, 20, 4, 6
 
 # Where to look for your key, in order. The first file that exists is used.
 KEY_FILES = [APP_DIR / "ewgf-key.txt", Path(r"D:\TekkenOverlay\ewgf-key.txt")]
@@ -81,6 +88,48 @@ def trim_log():
         pass
 
 
+class safe_open:
+    """open() for the battle database files that never leaves half a file behind.
+    Writes go to "<file>.tmp" and replace the real file only once complete, so a
+    crash or power cut mid-save keeps the previous version. Reading is plain open().
+    server.py hands this to collect_battles as its open(), so that file stays
+    identical to GitHub's copy."""
+
+    def __new__(cls, path, mode="r", *args, **kwargs):
+        if "w" not in mode:
+            return open(path, mode, *args, **kwargs)
+        return super().__new__(cls)
+
+    def __init__(self, path, mode="r", *args, **kwargs):
+        self.path, self.tmp = str(path), f"{path}.tmp"
+        self.fh = open(self.tmp, mode, *args, **kwargs)
+
+    def __enter__(self):
+        return self.fh
+
+    def __exit__(self, kind, *_):
+        try:
+            if kind is None:
+                self.fh.flush()
+                os.fsync(self.fh.fileno())
+        finally:
+            self.fh.close()
+        if kind is not None:
+            try:
+                os.remove(self.tmp)
+            except OSError:
+                pass
+            return
+        for attempt in range(10):
+            try:
+                os.replace(self.tmp, self.path)
+                return
+            except PermissionError:           # Windows: the page is reading it right now
+                if attempt == 9:
+                    raise
+                time.sleep(0.2)
+
+
 def find_key():
     for path in KEY_FILES:
         if path.exists():
@@ -110,6 +159,11 @@ class Poller(threading.Thread):
         self.prev_remaining = None
         self.saving_ok = True         # turned off if the privacy check ever objects
         self.check_lock = threading.Lock()   # the End session button can ask for a check too
+        self.pace = IDLE_INTERVAL     # seconds between checks: ACTIVE_ or IDLE_INTERVAL
+        self.problems = {}            # last error logged per kind, so it's logged once, not every check
+        self.throttled = False        # pacing itself to the hourly limit right now
+        self.checks = self.saved = 0  # since the last summary line
+        self.next_heartbeat = time.monotonic() + HEARTBEAT
 
     # ---- the overlay's data, served at /overlay-data.js ----------------------
     def overlay_js(self):
@@ -166,8 +220,14 @@ class Poller(threading.Thread):
         """Same steps as collect_battles.main(), minus the GitHub-only parts. Returns # new."""
         if not self.saving_ok:
             return 0
-        with DB_LOCK:
-            return self._save_new(raw)
+        try:
+            with DB_LOCK:
+                added = self._save_new(raw)
+            self.resolved("save", "Saving games works again")
+            return added
+        except OSError as e:                     # disk full, file locked...: try again next check
+            self.report(f"Could not save new games: {e}. Will try again next check.", "save")
+            return 0
 
     def _save_new(self, raw):
         with open(cb.STAGES, encoding="utf-8") as fh:
@@ -194,10 +254,41 @@ class Poller(threading.Thread):
                 return 0
         return len(new)
 
-    # ---- pacing (same rules as the old poller) --------------------------------
+    # ---- logging: only when something happens -------------------------------
+    def report(self, problem, kind="ewgf"):
+        """Log a problem once; the same problem on every check stays quiet."""
+        if problem != self.problems.get(kind):
+            log(problem)
+            self.problems[kind] = problem
+
+    def resolved(self, kind, what):
+        if self.problems.pop(kind, None):
+            log(what)
+
+    def heartbeat(self, remaining, tier):
+        if time.monotonic() < self.next_heartbeat:
+            return
+        saved = f"{self.saved} new game{'s' if self.saved != 1 else ''} saved" if self.saved else "no new games"
+        log(f"Still checking: {self.checks} checks in the last hour, {saved} | "
+            f"{tier} tier, {remaining} requests left this hour")
+        self.checks = self.saved = 0
+        self.next_heartbeat = time.monotonic() + HEARTBEAT
+        trim_log()
+
+    # ---- pacing ----------------------------------------------------------------
+    def set_pace(self, rows):
+        """Fast while you're playing (newest game under ACTIVE_FOR old), slow otherwise."""
+        newest = max((t for t in (parse_utc(r["battle_at"]) for r in rows) if t), default=None)
+        playing = newest is not None and (utc_now() - newest).total_seconds() < ACTIVE_FOR
+        pace = ACTIVE_INTERVAL if playing else IDLE_INTERVAL
+        if pace != self.pace:
+            log(f"{'Playing' if playing else 'No games for ' + str(ACTIVE_FOR // 60) + ' minutes'}: "
+                f"checking every {pace}s")
+            self.pace = pace
+
     def delay(self, remaining):
         if remaining is None:
-            return INTERVAL
+            return self.pace
         seconds_left = WINDOW                                  # unknown end: assume a whole hour
         if self.window_end:
             s = (self.window_end - utc_now()).total_seconds()
@@ -207,7 +298,7 @@ class Poller(threading.Thread):
         if usable <= 0:
             d = math.ceil(seconds_left) + 5                    # wait for the reset
         else:
-            d = max(INTERVAL, math.ceil(seconds_left / usable))
+            d = max(self.pace, math.ceil(seconds_left / usable))
         if not self.window_end:
             d = min(d, BLIND_WAIT_MAX)
         return d
@@ -230,13 +321,15 @@ class Poller(threading.Thread):
             resume = utc_now() + timedelta(seconds=wait)
             log(f"ewgf.gg hourly limit reached. Pausing until "
                 f"{resume.astimezone().strftime('%I:%M %p').lstrip('0')}.")
+            self.problems["ewgf"] = "rate limited"   # so the next good reply says it's answering again
             self.set_overlay(error="rate_limited", paused_until=resume)
             self.prev_remaining = 0        # the first reply after the pause counts as a new window
             return wait
         except Exception as e:             # network down, ewgf slow, bad reply...
-            log(f"Could not reach ewgf.gg: {e}")
+            self.report(f"Could not reach ewgf.gg: {e}")
             self.set_overlay(error=str(e))
-            return INTERVAL
+            return self.pace
+        self.resolved("ewgf", "ewgf.gg is answering again")
 
         raw = payload.get("data", []) or []
         meta = payload.get("_metadata", {}) or {}
@@ -255,6 +348,7 @@ class Poller(threading.Thread):
         self.prev_remaining = remaining
 
         rows = self.overlay_rows(raw)
+        self.set_pace(rows)
         wait = self.delay(remaining)
         if wait > 300:
             self.set_overlay(rows, tier, "rate_limited", now + timedelta(seconds=wait))
@@ -262,13 +356,26 @@ class Poller(threading.Thread):
             self.set_overlay(rows, tier)
 
         added = self.save_new(raw)
-        saved = f"{added} new saved" if added else "no new games"
-        log(f"{len(rows)} battles, {saved} | {tier} tier, {remaining} requests left this hour, "
-            f"next check in {wait}s")
+        self.checks += 1
+        self.saved += added
+        if added:
+            log(f"{added} new game{'s' if added != 1 else ''} saved | {tier} tier, "
+                f"{remaining} requests left this hour")
+        throttled = wait > self.pace * 2   # pacing itself to the hourly limit: worth knowing, once
+        if throttled and not self.throttled:
+            log(f"Only {remaining} requests left this hour: slowing to one check every {wait}s")
+        self.throttled = throttled
+        self.heartbeat(remaining, tier)
         return wait
 
     def run(self):
         trim_log()
-        log(f"Poller started (checks every {INTERVAL}s or more)")
+        log(f"Poller started (every {ACTIVE_INTERVAL}s while you're playing, every {IDLE_INTERVAL}s otherwise; "
+            f"this window stays quiet unless something happens)")
         while True:
-            time.sleep(self.check_once())
+            try:
+                wait = self.check_once()
+            except Exception as e:             # never let one bad check stop the poller for good
+                self.report(f"Poller hit a problem: {e}")
+                wait = self.pace
+            time.sleep(wait)

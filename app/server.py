@@ -2,6 +2,7 @@
 
   http://localhost:8787/              stage tracker and matchup guides
   http://localhost:8787/overlay.html  stream overlay (Streamlabs/OBS Browser source)
+  http://localhost:8787/scoreboard.html  full-window off-stream scoreboard
 
 Start it by double-clicking "Start Tekken App.bat". Stop it by closing its
 window (or pressing Ctrl+C in it). Nothing outside this computer can reach it.
@@ -42,6 +43,7 @@ cb.BATTLES = str(DATA_DIR / "battles.jsonl")
 cb.STAGES = str(DATA_DIR / "stages.json")
 cb.PAGE_COPY = str(SITE_DIR / "data" / "battles.js")
 cb.CSV_COPY = str(DATA_DIR / "battles.csv")
+cb.open = poller.safe_open       # saves replace each file whole, so a crash never leaves half a database
 
 POLLER = None                    # set in main() once the key is found
 SYNC = None                      # set in main() once the GitHub token is found
@@ -63,6 +65,18 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
             body = POLLER.overlay_js().encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/javascript; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if path == "/queue.md":                  # the guide queue, for the Scoreboard's "Queue #N"
+            q = APP_DIR / "queue.md"
+            if not q.exists():
+                self.send_error(404, "No queue.md")
+                return
+            body = q.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/markdown; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)

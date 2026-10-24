@@ -11,7 +11,7 @@ START / STOP
 OPEN (the app must be running)
   Open Stage Tracker.html          Stage data + matchup guides
   Open Session Gallery.html        Run reviews, browse saved ones
-  Open Scoreboard.html             Full off-stream scoreboard (live)
+  Open Scoreboard.html             Full-window off-stream scoreboard (live): session, every match, lifetime records, guides
 
 STREAMLABS (Browser source, Local file UNticked, 700 x 56)
   http://localhost:8787/overlay.html?layout=strip&anchor=bottom&scale=1.25
