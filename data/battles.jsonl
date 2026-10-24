@@ -1628,3 +1628,8 @@
 {"battle_at": "2026-10-24T23:22:20Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Devil Jin", "opp_rank": "God of Destruction II", "result": "L", "rounds": "0-3", "stage_id": 1100, "stage": "Into the Stratosphere"}
 {"battle_at": "2026-10-24T23:26:06Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Lili", "opp_rank": "God of Destruction", "result": "W", "rounds": "3-1", "stage_id": 1500, "stage": "Elegant Palace"}
 {"battle_at": "2026-10-24T23:29:36Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Xiaoyu", "opp_rank": "God of Destruction", "result": "W", "rounds": "3-1", "stage_id": 1700, "stage": "Seaside Resort"}
+{"battle_at": "2026-10-24T23:32:22Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Xiaoyu", "opp_rank": "God of Destruction", "result": "W", "rounds": "3-1", "stage_id": 1700, "stage": "Seaside Resort"}
+{"battle_at": "2026-10-24T23:35:32Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Asuka", "opp_rank": "God of Destruction", "result": "W", "rounds": "3-1", "stage_id": 1200, "stage": "Ortiz Farm"}
+{"battle_at": "2026-10-24T23:39:23Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Fahkumram", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-2", "stage_id": 1300, "stage": "Celebration on the Seine"}
+{"battle_at": "2026-10-24T23:43:41Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-0", "stage_id": 1600, "stage": "Midnight Siege"}
+{"battle_at": "2026-10-24T23:45:35Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction IV", "result": "L", "rounds": "0-3", "stage_id": 1600, "stage": "Midnight Siege"}
