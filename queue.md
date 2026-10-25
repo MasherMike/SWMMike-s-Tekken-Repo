@@ -15,6 +15,7 @@ queue. When reordering, go by ranked results.
 
 ## Queue
 
+- Devil Jin     <!-- moved to front by Mike, 2026-10-24: 13-4 ranked before tonight, then 1-2 (W 3-1, L 0-3, L 0-3) to a GoD II who opened up stance mixups -->
 - Anna          <!-- moved to front by Mike, 2026-10-17: 3-6 ranked lifetime as Victor (33%), lost 0-3 and 2-3 on Oct 17 -->
 - Armor King    <!-- moved to front by Mike, 2026-10-12: 8-10 at seeding; 5-7 ranked Oct 10-12 incl. two 0-3s to a GoD V -->
 - Eddy          <!-- 7-5 ranked, 58%. Was moved to front 2026-10-09 on the all-modes record; guide built before the ranked-only rule -->
@@ -47,10 +48,9 @@ queue. When reordering, go by ranked results.
 - Lee           <!-- 12-5, 71% -->
 - Law           <!-- 17-7, 71% -->
 - Yoshimitsu    <!-- 14-5, 74% -->
-- Devil Jin     <!-- 13-4, 76% -->
 - Fahkumram     <!-- 15-4, 79% -->
 
 ## Done
 
-Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi, Eddy, Zafina, Armor King
+Victor, Bob, Jin, Lili, Dragunov, Miary Zo, Hwoarang, Heihachi, Eddy, Zafina, Armor King, Anna
 (the task checks `guides/` directly; this list is just for reading)
