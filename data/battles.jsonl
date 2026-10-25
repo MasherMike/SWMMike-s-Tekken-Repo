@@ -1633,3 +1633,5 @@
 {"battle_at": "2026-10-24T23:39:23Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Fahkumram", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-2", "stage_id": 1300, "stage": "Celebration on the Seine"}
 {"battle_at": "2026-10-24T23:43:41Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-0", "stage_id": 1600, "stage": "Midnight Siege"}
 {"battle_at": "2026-10-24T23:45:35Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction IV", "result": "L", "rounds": "0-3", "stage_id": 1600, "stage": "Midnight Siege"}
+{"battle_at": "2026-10-24T23:50:15Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction IV", "result": "W", "rounds": "3-2", "stage_id": 1600, "stage": "Midnight Siege"}
+{"battle_at": "2026-10-24T23:56:02Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Armor King", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 300, "stage": "Yakushima"}
