@@ -118,5 +118,14 @@ window.GUIDES = [
     step: 'SSR',
     record: { w: 3, l: 6 },
     added: '2026-10-23'
+  },
+  {
+    character: 'Devil Jin',
+    file: 'guides/Anti-Devil-Jin.html',
+    artifact: 'https://claude.ai/artifact/DgyWR1XQZnwDx5NXjezqzS',
+    tags: ['SSR Default', 'Duck uf+1', 'MCR Has No Lows'],
+    step: 'SSR',
+    record: { w: 14, l: 6 },
+    added: '2026-10-30'
   }
 ];
