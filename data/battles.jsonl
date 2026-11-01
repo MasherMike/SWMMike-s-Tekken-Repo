@@ -1665,3 +1665,8 @@
 {"battle_at": "2026-11-01T00:47:23Z", "mode": "ranked", "my_char": "Paul", "opp_char": "Kunimitsu", "opp_rank": "God of Destruction", "result": "W", "rounds": "3-0", "stage_id": 101, "stage": "Arena Underground", "my_rating": 1690, "opp_rating": 1591}
 {"battle_at": "2026-11-01T00:50:31Z", "mode": "ranked", "my_char": "Paul", "opp_char": "Kunimitsu", "opp_rank": "God of Destruction", "result": "L", "rounds": "1-3", "stage_id": 101, "stage": "Arena Underground", "my_rating": 1699, "opp_rating": 1583}
 {"battle_at": "2026-11-01T12:50:05Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "L", "rounds": "0-3", "stage_id": 1700, "stage": "Seaside Resort"}
+{"battle_at": "2026-11-01T12:52:43Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-0", "stage_id": 1700, "stage": "Seaside Resort"}
+{"battle_at": "2026-11-01T12:55:50Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Reina", "opp_rank": "God of Destruction III", "result": "L", "rounds": "2-3", "stage_id": 1700, "stage": "Seaside Resort"}
+{"battle_at": "2026-11-01T13:00:27Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Armor King", "opp_rank": "God of Destruction V", "result": "W", "rounds": "3-1", "stage_id": 500, "stage": "Rebel Hangar"}
+{"battle_at": "2026-11-01T13:03:04Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Jack-8", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-0", "stage_id": 300, "stage": "Yakushima"}
+{"battle_at": "2026-11-01T13:06:01Z", "mode": "ranked", "my_char": "Victor", "opp_char": "Jack-8", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-1", "stage_id": 300, "stage": "Yakushima"}
