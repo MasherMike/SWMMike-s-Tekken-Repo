@@ -1,5 +1,5 @@
-# Session review: Sat Oct 24, 2026
-Today (ranked) · 6:44 PM – 8:15 PM · 28 games
+# Session review: Sat Oct 31, 2026
+Last session (ranked) · 7:27 PM – 8:50 PM · 24 games
 
 Reviewing **ranked games only**.
 
@@ -7,19 +7,19 @@ Reviewing **ranked games only**.
 
 | Mode | Games | Record |
 |---|---|---|
-| Ranked | 28 | 16–12 (57%) |
-| **All** | 28 | **16–12 (57%)** |
+| Ranked | 24 | 11–13 (46%) |
+| **All** | 24 | **11–13 (46%)** |
 
-Ranked this session: **57%** vs **55%** across your 1524 earlier stored ranked games.
+Ranked this session: **46%** vs **55%** across your 1552 earlier stored ranked games.
 
 ## How the losses went
 
 |  | Games |
 |---|---|
 | Close (lost by 1 round) | 3 |
-| Lost by 2 rounds | 5 |
+| Lost by 2 rounds | 6 |
 | Blowouts (lost by 3+ rounds) | 4 |
-| Close wins (won by 1 round) | 4 |
+| Close wins (won by 1 round) | 3 |
 
 Close losses are matchups you're nearly solving. Blowouts are the ones to lab.
 
@@ -29,82 +29,73 @@ Back-to-back games against the same character at the same rank. In ranked these 
 
 | Set | Mode | When | Record | Round margin, early → late |
 |---|---|---|---|---|
-| Victor vs Devil Jin (God of Destruction II) | ranked | 7:18 PM – 7:22 PM | 1–2 (33%) | widening (-2.0 → +3.0) |
-| Victor vs Paul (God of Destruction IV) | ranked | 7:43 PM – 7:50 PM | 2–1 (67%) | widening (-3.0 → +1.0) |
-| Victor vs Armor King (God of Destruction III) | ranked | 7:56 PM – 8:03 PM | 2–1 (67%) | tightening (+1.0 → -1.5) |
-| Victor vs Dragunov (God of Destruction IV) | ranked | 8:08 PM – 8:15 PM | 1–2 (33%) | widening (-1.0 → +1.5) |
+| Paul vs Kunimitsu (God of Destruction) | ranked | 8:44 PM – 8:50 PM | 1–2 (33%) | tightening (+2.0 → -0.5) |
 
 Round margin is the opponent's rounds minus yours, averaged: a number moving toward zero or below means the set was getting closer.
 
 ## Streaks
 
-- Longest losing streak: **4** (7:06 PM – 7:14 PM), against Jack-8 and King.
-- Longest winning streak: **6** (7:26 PM – 7:43 PM)
+- Longest losing streak: **4** (7:27 PM – 7:37 PM), against 3 different opponents outside any rematch set. That spread is what tilt usually looks like: worth a break next time.
+- Longest winning streak: **6** (7:53 PM – 8:15 PM)
 
 ## Opponents
 
 | Character | Games | Record | Guide |
 |---|---|---|---|
-| Armor King | 3 | 2–1 (67%) | [guide](https://claude.ai/artifact/MN71CqcFqU262aVBG9XS3v) |
-| Devil Jin | 3 | 1–2 (33%) | queue #33 |
-| Dragunov | 3 | 1–2 (33%) | [guide](https://claude.ai/artifact/1gmUFPVEz5QFA1usycxZyQ) |
-| Fahkumram | 3 | 3–0 (100%) | queue #34 |
-| Paul | 3 | 2–1 (67%) | queue #24 |
-| Jack-8 | 2 | 0–2 (0%) | queue #28 |
-| King | 2 | 0–2 (0%) | queue #16 |
-| Law | 2 | 2–0 (100%) | queue #31 |
-| Victor | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/Ca1pDa973nyEWx5aSGu5yb) |
-| Xiaoyu | 2 | 2–0 (100%) | queue #19 |
-| Asuka | 1 | 1–0 (100%) | queue #12 |
-| Heihachi | 1 | 1–0 (100%) | [guide](https://claude.ai/artifact/GC1pfnnGpScaqrFqKQN5KP) |
-| Lili | 1 | 1–0 (100%) | [guide](https://claude.ai/artifact/K1qur7ndKEd2GS4UdBPzAE) |
+| Kunimitsu | 5 | 3–2 (60%) | queue #16 |
+| Bryan | 3 | 2–1 (67%) | queue #23 |
+| Fahkumram | 3 | 1–2 (33%) | queue #34 |
+| Hwoarang | 3 | 3–0 (100%) | [guide](https://claude.ai/artifact/ER1nkNzao69aH8qdtMV4zE) |
+| Asuka | 2 | 0–2 (0%) | queue #13 |
+| Jack-8 | 2 | 0–2 (0%) | queue #29 |
+| Jin | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/BNi1BSSZkcwtqFYDBPaE7d) |
+| Yoshimitsu | 2 | 2–0 (100%) | queue #33 |
+| Alisa | 1 | 0–1 (0%) | queue #6 |
+| Heihachi | 1 | 0–1 (0%) | [guide](https://claude.ai/artifact/GC1pfnnGpScaqrFqKQN5KP) |
 
 ## Matchup standings
 
-Ranked as **Victor**, every character with 10+ games, through this session. The website's Matchups tab has the full list and the other characters you play.
+Ranked as **Paul**, every character with 10+ games, through this session. The website's Matchups tab has the full list and the other characters you play.
 
 | # | Top peaks | Deepest lows |
 |---|---|---|
-| 1 | Fahkumram 79% (19–5) | Leo 27% (4–11) |
-| 2 | Heihachi 79% (15–4) | Kuma 30% (3–7) |
-| 3 | Clive 75% (9–3) | Anna 33% (4–8) |
-| 4 | Law 74% (31–11) | Jin 36% (10–18) |
-| 5 | Lee 71% (12–5) | Dragunov 37% (14–24) |
+| 1 | Azucena 70% (7–3) | Heihachi 29% (5–12) |
+| 2 | Feng 70% (7–3) | Leroy 36% (4–7) |
+| 3 | Miary Zo 70% (7–3) | Steve 40% (4–6) |
+| 4 | Paul 70% (7–3) | Armor King 40% (6–9) |
+| 5 | Bryan 68% (13–6) | Reina 50% (5–5) |
 
 | Faced this session | Standing | Record this session | Move |
 |---|---|---|---|
-| Fahkumram | #1 of 38 | 3–0 (100%) | up 2 (#3 → #1) |
-| Heihachi | #2 of 38 | 1–0 (100%) | down 1 (#1 → #2) |
-| Law | #4 of 38 | 2–0 (100%) | up 1 (#5 → #4) |
-| Devil Jin | #6 of 38 | 1–2 (33%) | down 4 (#2 → #6) |
-| Asuka | #8 of 38 | 1–0 (100%) | up 3 (#11 → #8) |
-| Victor | #11 of 38 | 0–2 (0%) | down 3 (#8 → #11) |
-| Lili | #12 of 38 | 1–0 (100%) | up 1 (#13 → #12) |
-| Jack-8 | #13 of 38 | 0–2 (0%) | down 7 (#6 → #13) |
-| Paul | #15 of 38 | 2–1 (67%) | held #15 |
-| Xiaoyu | #22 of 38 | 2–0 (100%) | up 2 (#24 → #22) |
-| King | #25 of 38 | 0–2 (0%) | down 2 (#23 → #25) |
-| Armor King | #28 of 38 | 2–1 (67%) | held #28 |
-| Dragunov | #34 of 38 | 1–2 (33%) | held #34 |
+| Bryan | #5 of 18 | 2–1 (67%) | held #5 |
+| Yoshimitsu | #7 of 18 | 2–0 (100%) | up 1 (#8 → #7) |
+| Kunimitsu | #8 of 18 | 3–2 (60%) | new (reached 10 games) |
+| Hwoarang | #12 of 18 | 3–0 (100%) | up 1 (#13 → #12) |
+| Jin | #13 of 18 | 0–2 (0%) | down 6 (#7 → #13) |
+| Heihachi | #18 of 18 | 0–1 (0%) | down 1 (#17 → #18) |
 
 ## Stages
 
 | Stage | Games | Record |
 |---|---|---|
-| Midnight Siege | 5 | 2–3 (40%) |
-| Arena | 4 | 2–2 (50%) |
-| Yakushima | 4 | 3–1 (75%) |
-| Celebration on the Seine | 3 | 1–2 (33%) |
-| Baobab Horizon | 2 | 2–0 (100%) |
-| Coliseum of Fate | 2 | 0–2 (0%) |
-| Rebel Hangar | 2 | 1–1 (50%) |
-| Seaside Resort | 2 | 2–0 (100%) |
-| Arena Underground | 1 | 1–0 (100%) |
+| Arena Underground | 4 | 1–3 (25%) |
+| Coliseum of Fate | 4 | 2–2 (50%) |
+| Genmaji Temple | 3 | 1–2 (33%) |
+| Arena | 2 | 0–2 (0%) |
+| Into the Stratosphere | 2 | 2–0 (100%) |
+| Midnight Siege | 2 | 2–0 (100%) |
+| Rebel Hangar | 2 | 0–2 (0%) |
+| Descent into Subconscious | 1 | 0–1 (0%) |
 | Elegant Palace | 1 | 1–0 (100%) |
-| Into the Stratosphere | 1 | 0–1 (0%) |
-| Ortiz Farm | 1 | 1–0 (100%) |
+| Pac-Pixels | 1 | 1–0 (100%) |
+| Sanctum | 1 | 0–1 (0%) |
+| Urban Square Evening | 1 | 1–0 (100%) |
 
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
+## Worth a look
+
+Outside rematch sets, your roughest matchup was **Fahkumram**: 1–2 (33%). Only 3 games, so treat it as a hint, not a verdict. No guide yet; it's #34 in the queue. Move it up in queue.md if it keeps happening.
+
 ---
-Generated Oct 24, 2026 8:18 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Oct 31, 2026 10:08 PM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
