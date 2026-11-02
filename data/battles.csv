@@ -1675,3 +1675,6 @@ battle_at,mode,my_char,opp_char,opp_rank,result,rounds,stage_id,stage
 2026-11-01T13:14:01Z,ranked,Victor,Kazuya,God of Destruction V,L,0 to 3,1801,Genmaji Temple Daytime
 2026-11-01T13:19:08Z,ranked,Victor,Reina,God of Destruction III,W,3 to 2,300,Yakushima
 2026-11-01T13:21:45Z,ranked,Victor,Reina,God of Destruction III,L,1 to 3,1801,Genmaji Temple Daytime
+2026-11-02T00:02:51Z,quick,Victor,Lee,God of Destruction IV,L,2 to 3,1800,Genmaji Temple
+2026-11-02T00:08:23Z,ranked,Victor,Clive,God of Destruction III,W,3 to 2,2200,Baobab Horizon
+2026-11-02T00:10:34Z,ranked,Victor,Clive,God of Destruction III,L,0 to 3,2200,Baobab Horizon
