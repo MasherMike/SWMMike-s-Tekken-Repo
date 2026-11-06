@@ -1,5 +1,5 @@
-# Session review: Fri Nov 6, 2026
-Last session (quick) · 9:19 AM – 9:48 AM · 11 games
+# Session review: Thu Nov 5, 2026
+Yesterday (quick) · 11:19 PM – 11:56 PM · 12 games
 
 Reviewing **quick games only**.
 
@@ -7,16 +7,16 @@ Reviewing **quick games only**.
 
 | Mode | Games | Record |
 |---|---|---|
-| Quick | 11 | 3–8 (27%) |
-| **All** | 11 | **3–8 (27%)** |
+| Quick | 12 | 6–6 (50%) |
+| **All** | 12 | **6–6 (50%)** |
 
 ## How the losses went
 
 |  | Games |
 |---|---|
-| Close (lost by 1 round) | 2 |
-| Lost by 2 rounds | 5 |
-| Blowouts (lost by 3+ rounds) | 1 |
+| Close (lost by 1 round) | 3 |
+| Lost by 2 rounds | 1 |
+| Blowouts (lost by 3+ rounds) | 2 |
 | Close wins (won by 1 round) | 1 |
 
 Close losses are matchups you're nearly solving. Blowouts are the ones to lab.
@@ -27,32 +27,34 @@ Back-to-back games against the same character at the same rank. These are fights
 
 | Set | Mode | When | Record | Round margin, early → late |
 |---|---|---|---|---|
-| Victor vs Yoshimitsu (God of Destruction V) | quick | 9:19 AM – 9:31 AM | 2–4 (33%) | tightening (+1.0 → +0.3) |
-| Victor vs Zafina (God of Destruction I) | quick | 9:41 AM – 9:48 AM | 1–2 (33%) | widening (-1.0 → +1.0) |
+| Victor vs Bob (God of Destruction I) | quick | 11:29 PM – 11:39 PM | 1–3 (25%) | widening (-1.0 → +1.5) |
+| Victor vs Steve (God of Destruction III) | quick | 11:44 PM – 11:50 PM | 3–0 (100%) | tightening (-1.0 → -2.0) |
 
 Round margin is the opponent's rounds minus yours, averaged: a number moving toward zero or below means the set was getting closer.
-
-## Streaks
-
-- Longest losing streak: **3** (9:21 AM – 9:26 AM), 3 of the 3 were rematch-set games (mostly vs Yoshimitsu), so this is mainly the set, not tilt.
 
 ## Opponents
 
 | Character | Games | Record | Guide |
 |---|---|---|---|
-| Yoshimitsu | 6 | 2–4 (33%) | queue #33 |
-| Zafina | 3 | 1–2 (33%) | [guide](https://claude.ai/artifact/GmJL19EM42iz5mrvguwuqK) |
-| Miary Zo | 2 | 0–2 (0%) | [guide](https://claude.ai/artifact/2T3hxEtHjXjBAX354XBeY3) |
+| Bob | 4 | 1–3 (25%) | [guide](https://claude.ai/artifact/YJUB7HN8ZEGS1KDZ18rvTj) |
+| Steve | 3 | 3–0 (100%) | queue #21 |
+| Victor | 2 | 1–1 (50%) | [guide](https://claude.ai/artifact/Ca1pDa973nyEWx5aSGu5yb) |
+| Kazuya | 1 | 0–1 (0%) | queue #14 |
+| Lars | 1 | 0–1 (0%) | queue #11 |
+| Leroy | 1 | 1–0 (100%) | queue #30 |
 
 ## Stages
 
 | Stage | Games | Record |
 |---|---|---|
-| Secluded Training Ground | 6 | 2–4 (33%) |
-| Midnight Siege | 3 | 1–2 (33%) |
-| Sanctum | 2 | 0–2 (0%) |
+| Phoenix Gate | 4 | 1–3 (25%) |
+| Sanctum | 3 | 3–0 (100%) |
+| Seaside Resort | 2 | 1–1 (50%) |
+| Arena Underground | 1 | 0–1 (0%) |
+| Elegant Palace | 1 | 1–0 (100%) |
+| Genmaji Temple | 1 | 0–1 (0%) |
 
 One session is too few games per stage to judge a stage; use the Battle Log sheet for that.
 
 ---
-Generated Nov 6, 2026 10:40 AM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
+Generated Nov 6, 2026 10:44 AM from data/battles.jsonl. A session is a run of games with no break of 45+ minutes.
