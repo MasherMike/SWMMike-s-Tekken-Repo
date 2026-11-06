@@ -1733,3 +1733,7 @@
 {"battle_at": "2026-11-06T04:32:37Z", "mode": "quick", "my_char": "Victor", "opp_char": "Bob", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-0", "stage_id": 1900, "stage": "Phoenix Gate"}
 {"battle_at": "2026-11-06T04:36:13Z", "mode": "quick", "my_char": "Victor", "opp_char": "Bob", "opp_rank": "God of Destruction I", "result": "L", "rounds": "2-3", "stage_id": 1900, "stage": "Phoenix Gate"}
 {"battle_at": "2026-11-06T04:39:31Z", "mode": "quick", "my_char": "Victor", "opp_char": "Bob", "opp_rank": "God of Destruction I", "result": "L", "rounds": "1-3", "stage_id": 1900, "stage": "Phoenix Gate"}
+{"battle_at": "2026-11-06T04:44:02Z", "mode": "quick", "my_char": "Victor", "opp_char": "Steve", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-2", "stage_id": 1000, "stage": "Sanctum"}
+{"battle_at": "2026-11-06T04:47:13Z", "mode": "quick", "my_char": "Victor", "opp_char": "Steve", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-1", "stage_id": 1000, "stage": "Sanctum"}
+{"battle_at": "2026-11-06T04:50:30Z", "mode": "quick", "my_char": "Victor", "opp_char": "Steve", "opp_rank": "God of Destruction III", "result": "W", "rounds": "3-1", "stage_id": 1000, "stage": "Sanctum"}
+{"battle_at": "2026-11-06T04:53:54Z", "mode": "quick", "my_char": "Victor", "opp_char": "Victor", "opp_rank": "God of Destruction II", "result": "W", "rounds": "3-1", "stage_id": 1700, "stage": "Seaside Resort"}
