@@ -127,5 +127,14 @@ window.GUIDES = [
     step: 'SSR',
     record: { w: 14, l: 6 },
     added: '2026-10-30'
+    },
+  {
+    character: 'Alisa',
+    file: 'guides/Anti-Alisa.html',
+    artifact: 'https://claude.ai/artifact/TpmoedVzTc1z6YH3zNGfPn',
+    tags: ['SSR Default', 'SWL vs Chainsaws', 'Duck DBT.1'],
+    step: 'SSR',
+    record: { w: 1, l: 5 },
+    added: '2026-11-06'
   }
 ];

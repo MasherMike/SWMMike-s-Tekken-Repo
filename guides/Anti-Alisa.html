@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anti-Devil Jin | SSR Default | Duck uf+1 | MCR Has No Lows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --green: #00ff41;
+    --yellow: #ffd700;
+    --red: #ff3a3a;
+    --accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 2rem 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--accent); margin-bottom: 2rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  h3 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin: 1rem 0 0.5rem;
+  }
+
+  .entry {
+    display: flex; align-items: center; gap: 10px; padding: 5px 8px;
+    border-radius: 4px; margin-bottom: 3px; flex-wrap: wrap;
+  }
+  .entry:hover { background: var(--bg3); }
+  .move-icons { display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0; flex-wrap: wrap; }
+  .frame-data { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-muted); flex: 1; min-width: 12rem; }
+  .note { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 20px; margin-bottom: 3px; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; }
+  .callout {
+    font-size: 13px; color: var(--text); background: var(--bg2);
+    border-left: 2px solid var(--accent); padding: 6px 10px; margin: 0.5rem 0 0.75rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-key { border-left-color: var(--green); }
+  .callout-warn { border-left-color: var(--yellow); }
+
+  .tier-green { color: #00cc44; font-size: 13px; }
+  .tier-yellow { color: var(--yellow); font-size: 13px; }
+  .tier-red { color: var(--red); font-size: 13px; }
+  .tier-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin: 0.75rem 0 0.25rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .stance { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: white; margin-right: 2px; }
+  svg.arrow, svg.btn { display: inline-block; vertical-align: middle; }
+
+  .toggle-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toggle-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; background: var(--bg3); color: var(--text-muted);
+    border: 0.5px solid var(--border); border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toggle-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .side-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; }
+
+  .table-wrap { overflow-x: auto; }
+  .step-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  .step-table th {
+    text-align: left; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600; padding: 4px 10px 4px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step-table td { padding: 4px 10px 4px 0; border-bottom: 0.5px solid var(--bg3); vertical-align: top; }
+  .step-table td.mono { font-family: 'Share Tech Mono', monospace; font-size: 12px; white-space: nowrap; }
+  .swr { color: #00cc44; font-weight: 600; }
+  .swl { color: var(--yellow); font-weight: 600; }
+  .both { color: var(--accent); font-weight: 600; }
+  .tracks { color: var(--red); font-weight: 600; }
+
+
+  .react { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 1px 7px; border-radius: 3px; border: 1px solid; white-space: nowrap; }
+  .r-yes { color: #00cc44; border-color: #00cc44; }
+  .r-mostly { color: var(--yellow); border-color: var(--yellow); }
+  .r-no { color: var(--red); border-color: var(--red); }
+
+  .sources {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    font-size: 11px; color: var(--text-muted); line-height: 1.7;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+
+  @media print {
+    body { background: white; color: black; padding: 1rem; }
+    .entry:hover { background: none; }
+    .toggle-bar { display: none; }
+  }
+</style>
+
+</head>
+<body>
+<h1>Anti-Devil Jin &nbsp;|&nbsp; SSR Default &nbsp;|&nbsp; Duck uf+1 &nbsp;|&nbsp; MCR Has No Lows</h1>
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="p1btn" onclick="setSide(1)">P1 Side</button>
+  <button class="toggle-btn" id="p2btn" onclick="setSide(2)">P2 Side</button>
+  <span class="side-label" id="side-label">Alisa on P1 side — inputs face right</span>
+</div>
+<script>
+  let flipped = true;
+
+  function setSide(side) {
+    flipped = (side === 1);
+    document.getElementById('p1btn').classList.toggle('active', side === 1);
+    document.getElementById('p2btn').classList.toggle('active', side === 2);
+    document.getElementById('side-label').textContent = side === 1
+      ? 'Alisa on P1 side — inputs face right'
+      : 'Alisa on P2 side — inputs face left';
+    rebuildIcons();
+  }
+
+  function rebuildIcons() {
+    document.querySelectorAll('.move-icons').forEach(el => {
+      const notation = el.dataset.notation;
+      if (notation) el.innerHTML = JSON.parse(notation).map(n => move(n)).join('');
+    });
+  }
+
+function arrow(dir, held=false) {
+  const baseAngles = {f:90,b:270,u:180,d:0,df:45,db:315,uf:135,ub:225};
+  let rot = baseAngles[dir] || 0;
+  const diagonalFlips = {df:'db', db:'df', uf:'ub', ub:'uf'};
+  if (flipped && ['f','b'].includes(dir)) rot = (rot + 180) % 360;
+  if (flipped && dir in diagonalFlips) rot = baseAngles[diagonalFlips[dir]];
+  const fill = held ? 'white' : 'none';
+  const stroke = held ? '#111' : 'white';
+  return `<svg class="arrow" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="rotate(${rot}, 30, 30)">
+      <path d="M17,8 L17,34 L8,34 L30,54 L52,34 L43,34 L43,8 Z" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
+function btn(buttons) {
+  const active = Array.isArray(buttons) ? buttons : [buttons];
+  const pos = {1:'left',2:'top',3:'bottom',4:'right'};
+  const coords = {left:[12,30], top:[30,12], right:[48,30], bottom:[30,48]};
+  let circles = '';
+  ['1','2','3','4'].forEach(b => {
+    const [cx,cy] = coords[pos[b]];
+    circles += `<circle cx="${cx}" cy="${cy}" r="11" fill="${active.includes(b)?'white':'#4a4a4a'}" stroke="#222" stroke-width="2"/>`;
+  });
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">${circles}</svg>`;
+}
+
+function neutral() {
+  return `<svg class="btn" width="28" height="28" viewBox="0 0 60 60" aria-hidden="true">
+    <polygon points="30,8 33.5,18 44,18 35.5,24.5 39,34.5 30,28 21,34.5 24.5,24.5 16,18 26.5,18" fill="white" stroke="#888" stroke-width="1"/>
+  </svg>`;
+}
+
+function stance(name) { return `<span class="stance">${name}</span>`; }
+function tilde(name) { return `<span class="stance">~${name}</span>`; }
+
+function buttons(str) {
+  let html = '';
+  if (str.includes('+')) {
+    html += btn(str.split('+').filter(c => '1234'.includes(c)));
+  } else {
+    for (const ch of str) { if ('1234'.includes(ch)) html += btn(ch); }
+  }
+  return html;
+}
+
+function move(notation) {
+  if (notation.toLowerCase().startsWith('ws')) {
+    return '<span class="stance">WS</span>' + buttons(notation.slice(2));
+  }
+  let html = '';
+  const parts = notation.split('.');
+  if (parts.length > 1) {
+    html += stance(parts.slice(0, -1).join('.'));
+    notation = parts[parts.length - 1];
+  }
+  if (notation.startsWith('~')) return html + tilde(notation.slice(1));
+  if (notation.toLowerCase().startsWith('cd')) {
+    return html + arrow('f',false) + neutral() + arrow('d',false) + arrow('df',true) + buttons(notation.slice(2));
+  }
+  if (notation.toLowerCase().startsWith('qcf')) {
+    return html + arrow('d',false) + arrow('df',false) + arrow('f',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('qcb')) {
+    return html + arrow('d',false) + arrow('db',false) + arrow('b',false) + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('ffn')) {   // f,f,n — dash then neutral
+    return html + arrow('f',false) + arrow('f',false) + neutral() + buttons(notation.slice(3));
+  }
+  if (notation.toLowerCase().startsWith('ufn')) {   // uf,n — tap up-forward, return to neutral
+    return html + arrow('uf',false) + neutral() + buttons(notation.slice(3));
+  }
+  for (const tt of ['fff','bbb']) {
+    if (notation.toLowerCase().startsWith(tt)) {
+      const d = tt[0];
+      return html + arrow(d,false) + arrow(d,false) + arrow(d,true) + buttons(notation.slice(tt.length));
+    }
+  }
+  for (const dt of ['ff','bb','uu','dd']) {
+    if (notation.toLowerCase().startsWith(dt)) {
+      const d = dt[0];
+      return html + arrow(d,false) + arrow(d,true) + buttons(notation.slice(dt.length));
+    }
+  }
+  let dir = null;
+  for (const d of ['df','db','uf','ub','f','b','u','d']) {
+    if (notation.toLowerCase().startsWith(d)) { dir = d; notation = notation.slice(d.length); break; }
+  }
+  if (dir) html += arrow(dir, true);
+  return html + buttons(notation);
+}
+
+function icons(...notations) {
+  const html = notations.map(n => move(n)).join('');
+  const data = JSON.stringify(notations).replace(/"/g, '&quot;');
+  return `<span class="move-icons" data-notation="${data}" role="img" aria-label="${notations.join(', ')}">${html}</span>`;
+}
+</script>
+
+
+<!-- ── MOVEMENT: WHICH WAY TO STEP ── -->
+
+<h2>Movement — Which Way to Step</h2>
+<div class="callout callout-key"><strong>Default: Sidestep RIGHT (SSR).</strong> The TekkenDocs anti-strat Quick overview (community-written) says: <em>"Small poking and movement, turns into a pressure monster in chainsaw stance (DES)… SSR. SWL against chainsaws (d1, f2,1, ... requires SWL). DES b2 tracks."</em> The @Mezerdie sidestep chart (via <span class="mono">sidestep.md</span>) also says <strong>SSR</strong>, so the two community sources agree.<br><br><strong>Exceptions — the chainsaws flip it:</strong><br>• Against her <strong>chainsaw (Weapon) moves</strong> the page says to <strong>sidewalk LEFT</strong> instead. It names <span class="mono">d1</span> and <span class="mono">f2,1</span>. Alisa has no plain d+1, so <span class="mono">d1</span> is read here as <span class="mono">DES.d+1</span> (Hertz Blade - Scud). <span class="mono">f2,1</span> could be the standing <span class="mono">f+2,1</span> or <span class="mono">DES.f+2,1</span>; Wavu tags both as Weapon moves.<br>• <span class="mono">DES.b+2</span> <em>"tracks"</em> — don't step it, block it (-12, punish).<br>• Nine moves are <strong>homing</strong> (list below), including her two Heat Engagers <span class="mono">3,2</span> and <span class="mono">uf+2</span> and her fast high <span class="mono">4</span>. Stepping does nothing against them — but <span class="mono">3,2</span>'s 2nd hit, <span class="mono">uf+2</span> and <span class="mono">4</span> are all <strong>highs</strong>, so duck them.<br><br><strong>So the habit is:</strong> SSR in neutral and against her standing pokes; once she's holding the chainsaws (DES), switch to SWL or just block. Wavu's per-move notes carry only one step note (<span class="mono">2,3,4</span>, either side), so there is no Tier 1 data to confirm or contradict the direction.</div>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>Move</th><th>Step that beats it</th><th>From where</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">2,3,4</td><td class="both">Either side (SS, SW)</td><td>from 2nd block — Wavu &amp; TekkenDocs note "Whiffs vs SS, SW from 2nd block"</td></tr>
+    <tr><td class="mono">DES.d+1 ("d1")</td><td class="swl">SWL</td><td>anti-strat: chainsaws "require SWL"</td></tr>
+    <tr><td class="mono">f+2,1 / DES.f+2,1 ("f2,1")</td><td class="swl">SWL</td><td>anti-strat: chainsaws "require SWL"</td></tr>
+    <tr><td class="mono">db+2,2</td><td class="swl">SSL</td><td>delayed 2nd hit only — anti-strat: "You can SSL delayed last hit, but it's safe mid,mid so why would they"</td></tr>
+    <tr><td class="mono">uf+3,2</td><td class="both">Sidewalk (side not stated)</td><td>2nd hit — anti-strat. Wavu says ,2 only comes out as a combo from the 1st hit</td></tr>
+    <tr><td class="mono">DES.b+2</td><td class="tracks">Tracks</td><td>anti-strat "DES b2 tracks" — block it</td></tr>
+  </tbody>
+</table></div>
+<h3>Homing — don't step these at all</h3>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">High | i13~14 | -5 | Homing | Balcony Break | +14g on hit, +38a on CH</span>
+</div>
+<div class="note">Duck it on read — it's high</div>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">Mid, High | ,i26~27 | -2 into DES | Homing | Heat Engager</span>
+</div>
+<div class="note">Duck the 2nd hit (combo from 1st hit, so only after you block the 3)</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">High | i16~17 | -2 into DES | Homing | Heat Engager | 6 chip</span>
+</div>
+<div class="note">Duck it</div>
+<div class="entry">
+  <script>document.write(icons('f4'))</script>
+  <span class="frame-data">Mid | i16 | -9 | Homing | Enter DES with 1+2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3'))</script>
+  <span class="frame-data">Mid | i20~22 | -8 | Homing | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3+4'))</script>
+  <span class="frame-data">Low | i27~28 | -37 | Homing | Instant Tornado | Stagger on block</span>
+</div>
+<div class="note">Block it low and launch</div>
+<div class="entry">
+  <script>document.write(icons('ws1+2'))</script>
+  <span class="frame-data">Mid | i20~21 (held i28 / i39) | -8 / -4 / +0 | Homing | Recovers FC</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.1+2'))</script>
+  <span class="frame-data">High ×3 | i16~18 | +4 | Homing | Jails | 6 chip</span>
+</div>
+<div class="note">Duck it — see Duck and Launch</div>
+<div class="entry">
+  <script>document.write(icons('DES.d2'))</script>
+  <span class="frame-data">Low ×3 | i22~23 | -14 | Homing | Crouching 22~91</span>
+</div>
+<div class="note">Block it low</div>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Generic throws (1+3, 2+4) are homing | Break 1 or 2</span>
+</div>
+<div class="callout "><strong>Evidence tier:</strong> the SSR default is set by <strong>Tier 2</strong> — the TekkenDocs anti-strat Quick overview (community-written). The TekkenDocs community sidestep chart by @Mezerdie agrees (SSR). <strong>Tier 1</strong> has no directional data for Alisa: the only per-move step note in Wavu or TekkenDocs is <span class="mono">2,3,4</span> (either side). No tier disagreement. The SWL-vs-chainsaws exception is the anti-strat page's claim and is unverified. Nothing in this section is lab-tested.</div>
+
+<!-- ── STANDING BLOCK PUNISHMENT ── -->
+
+<h2>Standing Block Punishment</h2>
+<div class="callout callout-warn"><strong>She ends a lot of strings in DES (chainsaw stance).</strong> The anti-strat page says she has to put the chainsaws away to block, and that costs 1 frame: <em>"if she is -12, she can't block i13 lows, but she can block i14 lows."</em> Wavu gives the DES cancel as db (r30). Punish the frames as listed — DES doesn't make her safer. Watch the <strong>stance escapes</strong> too: several strings can go to Boot (SBT) or Dual Boot (DBT) instead of finishing, which changes the frames (noted per move).</div>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('3'))</script>
+  <span class="frame-data">i13~14 | -12~-11 | Mid</span>
+</div>
+<div class="note">Trap: <span class="mono">3,2</span> is <strong>-2</strong> into DES (homing high — duck it) and <span class="mono">3,f2</span> is -12. Confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('3','f2'))</script>
+  <span class="frame-data">i13~14 | -12 | Mid, Mid | Ends in DES | Weapon | Interrupt with i4 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','1'))</script>
+  <span class="frame-data">i17~18 | -12 | Mid, Mid | Heat Engager | Ends in DES | Weapon | Interrupt with i5</span>
+</div>
+<div class="note"><span class="mono">f+2</span> alone is -4 — wait for the 2nd hit. The anti-strat page lists this at -10; Wavu says -12. Heat Dash version is +5 — no punish</div>
+<div class="entry">
+  <script>document.write(icons('f1+2'))</script>
+  <span class="frame-data">i14~15 | -12 | Mid | Balcony Break</span>
+</div>
+<div class="note">Can enter SBT/DBT at <strong>-16</strong> — still punishable, even more so</div>
+<div class="entry">
+  <script>document.write(icons('ws1'))</script>
+  <span class="frame-data">i13~14 | -12 | Mid | Elbow</span>
+</div>
+<div class="note">Trap: <span class="mono">ws1,2</span> is only -5 (high 2nd hit — duckable); <span class="mono">ws1,2,3</span> is -10. Confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('ws3','B'))</script>
+  <span class="frame-data">i19~20 | -12 | Mid | Clockwork cancelled</span>
+</div>
+<div class="note">Plain <span class="mono">ws3</span> (Clockwork) is <strong>+4</strong> — only punish if she cancelled with B. See Stance Check</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2','1'))</script>
+  <span class="frame-data">,i23 | -12 | Mid ×4 | Weapon | Stays in DES</span>
+</div>
+<div class="note">In Heat she can go to DBT at -6 (150F of Heat)</div>
+<div class="entry">
+  <script>document.write(icons('DES.b2'))</script>
+  <span class="frame-data">i18~20 | -12 | Mid | Weapon | Tracks (anti-strat)</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.d3','1'))</script>
+  <span class="frame-data">,i20~21 | -13~-12 | Mid | Weapon | Balcony Break | Evasive Action follow-up</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1','2','1'))</script>
+  <span class="frame-data">,i20~21 | -12 | Mid ×3</span>
+</div>
+<div class="note"><span class="mono">SBT.1,2</span> is -9 — confirm the 3rd hit</div>
+<div class="entry">
+  <script>document.write(icons('DBT.2','1'))</script>
+  <span class="frame-data">i26~28 | -12c~-10c | Mid, Mid, High ×3 | Balcony Break | 13 chip</span>
+</div>
+<div class="note">Crouching recovery (c) — punish with your WS launcher. Anti-strat: -28 if the 2nd part whiffs</div>
+<div class="entry">
+  <script>document.write(icons('2','3'))</script>
+  <span class="frame-data">,i22~23 | -10 | High, Mid | Knee | Interrupt with i2 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2','3','3'))</script>
+  <span class="frame-data">,i20~22 | -11 | High, Mid, Mid | Strong Aerial Tailspin | Delay 11f</span>
+</div>
+<div class="note">Anti-strat: "22f fuzzy between hits. i10 punish after 2 hits beats everything except undelayed 2,3,3." <span class="mono">2,3,4</span> ends in a low (-13)</div>
+<div class="entry">
+  <script>document.write(icons('df1','4'))</script>
+  <span class="frame-data">,i26~27 | -11 | Mid, Mid | Floor Break | Transition to DES with 1+2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b4','3'))</script>
+  <span class="frame-data">,i29~30 | -11 | Mid, Mid | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('f2','3','3'))</script>
+  <span class="frame-data">,i35~36 | -10 | Mid, High, Mid | Interrupt with i6</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3','4'))</script>
+  <span class="frame-data">,i19~20 | -10 | Mid, High | Jail from 1st block | Enter DES with 1+2</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff3','4','4'))</script>
+  <span class="frame-data">,i27~29 | -10 | Mid, High, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws1','2','3'))</script>
+  <span class="frame-data">,i25~26 | -10 | Mid, High, Mid | Delay 10f</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub4','1','1','2'))</script>
+  <span class="frame-data">,i24~25 | -10 | 10-hit combo, 4th hit</span>
+</div>
+<div class="note">Other blocked 10-hit stops: <span class="mono">ub+4,1</span> -21, <span class="mono">ub+4,1,1</span> -20, 6th hit -14, 8th hit -65, 9th -30, 10th -23. The 7th hit is a low (see Low Block Punishment)</div>
+<div class="entry">
+  <script>document.write(icons('FUFT.1+2','3'))</script>
+  <span class="frame-data">i22~23 | -10 | Mid | Getup kick from face-up</span>
+</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('f3'))</script>
+  <span class="frame-data">i14~15 | -14 | High</span>
+</div>
+<div class="note">It's high — duck it. Trap: <span class="mono">f3,2</span> is only -4 into DES; <span class="mono">f3,1+2</span> is -13</div>
+<div class="entry">
+  <script>document.write(icons('f3','1+2'))</script>
+  <span class="frame-data">,i24~25 | -13 | High, Mid | Ends in DES | Weapon | Interrupt with i5 from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b2','1'))</script>
+  <span class="frame-data">,i25~26 | -13 | Mid, Mid | Spike | Delay 12f</span>
+</div>
+<div class="note"><span class="mono">b+2</span> alone is -9; <span class="mono">b+2,4</span> is -7 (high ender, duckable); <span class="mono">b+2,3</span> is -15</div>
+<div class="entry">
+  <script>document.write(icons('b4'))</script>
+  <span class="frame-data">i15~16 | -13 | Mid | Knee | +54a on CH</span>
+</div>
+<div class="note">Trap: <span class="mono">b+4,3</span> is -11 and <span class="mono">b+4,4</span> is -37 — punish all three, but wait for the 2nd hit if you can</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">i19~20 | -13 | Mid | <strong>Power crush</strong> 7~18 | Ends in DES | 7 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf1'))</script>
+  <span class="frame-data">i19~20 | -13 | Mid | Tornado | Airborne 20~40</span>
+</div>
+<div class="note">2nd and 3rd hits only come out as a combo from the 1st hit</div>
+<div class="entry">
+  <script>document.write(icons('uf4','4'))</script>
+  <span class="frame-data">,i24~26 | -13 | Mid, Mid | Jail from 1st block</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ff2','3'))</script>
+  <span class="frame-data">,i22~24 | -13 | Mid, Mid | Delay 8f</span>
+</div>
+<div class="note"><span class="mono">f,F+2</span> alone is -18</div>
+<div class="entry">
+  <script>document.write(icons('ws2'))</script>
+  <span class="frame-data">i17~18 | -13 | Mid | Tornado</span>
+</div>
+<div class="note">Can transition to SBT/DBT with 3_4. Anti-strat: "-5 BOT/DBT" — if she boots, the punish is gone</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2','1','2'))</script>
+  <span class="frame-data">,i23~24 | -13 | Mid ×6 | Heat Engager | Weapon</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d2'))</script>
+  <span class="frame-data">i24~26 | -14 | Mid | Floor Break</span>
+</div>
+<div class="note"><span class="mono">d+2,4</span> is -9 — confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('ff3'))</script>
+  <span class="frame-data">i18~19 | -14 | Mid | Airborne 15~41</span>
+</div>
+<div class="note"><span class="mono">f,F+3,4</span> is -10 and jails</div>
+<div class="entry">
+  <script>document.write(icons('ub3+4','1+2'))</script>
+  <span class="frame-data">,i26~27 | -14 | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('uf3','2'))</script>
+  <span class="frame-data">,i17~22 | -14 | Mid, Mid | Balcony Break</span>
+</div>
+<div class="note">Wavu: 2nd hit only as a combo from the 1st. Anti-strat: "i14 interrupt, or sidewalk second hit"</div>
+<div class="entry">
+  <script>document.write(icons('DBT.2'))</script>
+  <span class="frame-data">i16~18 | -14 | Mid ×2, High ×3 | Jail from 1st attack | Ends in DES</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub4','1','1','2','1','1'))</script>
+  <span class="frame-data">,i32~33 | -14 | 10-hit, 6th hit | Ends in DES</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15 or worse</div>
+<div class="entry">
+  <script>document.write(icons('uf4'))</script>
+  <span class="frame-data">i15~16 | -15 | Mid | Airborne 9~37</span>
+</div>
+<div class="note"><span class="mono">uf+4,4</span> is -13 and jails — punish either</div>
+<div class="entry">
+  <script>document.write(icons('b2','3'))</script>
+  <span class="frame-data">,i23~24 | -15 | Mid, Mid | Tornado | Delay 12f</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1'))</script>
+  <span class="frame-data">i13~14 | -15 | Mid</span>
+</div>
+<div class="note"><span class="mono">SBT.1,2</span> is only -9 — confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('b1','1+2'))</script>
+  <span class="frame-data">,i25~40 | -16 | Mid, Special Low, Mid | Tornado | Delay 13f</span>
+</div>
+<div class="note">2nd hit combos into 3rd on CH only</div>
+<div class="entry">
+  <script>document.write(icons('b3+4'))</script>
+  <span class="frame-data">i18~19 | -17 | Mid | Tornado | Airborne 5~34</span>
+</div>
+<div class="note">Anti-strat: "A move that punishes -17 and floats the followup is OS." <span class="mono">b+3+4,3+4</span> is +5c~+10c</div>
+<div class="entry">
+  <script>document.write(icons('db2'))</script>
+  <span class="frame-data">i18~19 | -18 | Mid</span>
+</div>
+<div class="note">Trap: <span class="mono">db+2,2</span> is only -9 (delay 14f). Confirm she stopped</div>
+<div class="entry">
+  <script>document.write(icons('ff2'))</script>
+  <span class="frame-data">i16~17 | -18 | Mid | Balcony Break</span>
+</div>
+<div class="note"><span class="mono">f,F+2,3</span> is -13</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">i20 | -18 | Rage Art</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1','2','1','3+4'))</script>
+  <span class="frame-data">,i18 | -18 | Mid ×4 | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.4'))</script>
+  <span class="frame-data">i17~19 | -27 | Mid | Same as DBT.4</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b4','4'))</script>
+  <span class="frame-data">,i25~27 | -37 | Mid, Mid | Tornado</span>
+</div>
+<div class="note">Can transition to SBT/DBT at <strong>-19</strong> — still punishable</div>
+<div class="entry">
+  <script>document.write(icons('uf3'))</script>
+  <span class="frame-data">i17~18 | -52 | Mid</span>
+</div>
+<div class="note">Can transition to SBT/DBT with 3_4 — Wavu doesn't give those frames. Anti-strat: "-52 range 2.5" — you may need a long-range punish</div>
+<div class="entry">
+  <script>document.write(icons('DES.f1+2','1+2'))</script>
+  <span class="frame-data">,i20~26 | -53 | Mid ×9 | Weapon</span>
+</div>
+<div class="note"><span class="mono">DES.f+1+2</span> alone is <strong>+1</strong></div>
+
+<!-- ── LOW BLOCK PUNISHMENT ── -->
+
+<h2>Low Block Punishment</h2>
+<div class="callout "><strong>Reactability tag</strong> (Mike's reaction rule, using the low's fastest startup frame): <span class="react r-yes">Reactable</span> 25f or slower · <span class="react r-mostly">Mostly reactable</span> 21–24f · <span class="react r-no">Not reactable — guess or condition</span> 20f or faster. Startups are from the Wavu movelist; a low with no stated startup gets no tag.</div>
+<div class="callout callout-key">Her fast lows (<span class="mono">d+4</span> i17, <span class="mono">db+3</span> i16, <span class="mono">db+4</span> i20, the Boot slider i16) are all unreactable, but every one of them is <strong>-12 or worse</strong>. Her slow lows are string enders and stance lows — <span class="mono">1,2,d+2</span>, <span class="mono">2,3,4</span>, Clockwork <span class="mono">CLK.d+3</span> (anti-strat: "i30, reactable") — so block the opener standing and watch for the drop.</div>
+<div class="tier-label"><span class="tier-green">🟢</span> -10 to -12</div>
+<div class="entry">
+  <script>document.write(icons('1','2','d2'))</script>
+  <span class="frame-data">,i27~28 | -11 | High, High, Low | Interrupt with i8 from 1st block | Delay 7f</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="note">The jab strings are all high — ducking the jab beats the 1,2,2 and 1,2,d+2 branches together</div>
+<div class="entry">
+  <script>document.write(icons('1','2','d2'))</script>
+  <span class="frame-data">Held version (1,2,d+2*) | ,i36~37 | -10 | Interrupt with i17 from 1st block</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4'))</script>
+  <span class="frame-data">i17~18 | -12 | Low | +8g on CH</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note"><span class="mono">d+4,1+2</span> is +0 and jails from the 1st attack — see small-minus lows</div>
+<div class="entry">
+  <script>document.write(icons('df3','3'))</script>
+  <span class="frame-data">,i23~24 | -12 | Mid, Low | Floor Break | Delay 12f</span>
+  <span class="react r-mostly">Mostly reactable</span>
+</div>
+<div class="note"><span class="mono">df+3</span> alone is -9</div>
+<div class="entry">
+  <script>document.write(icons('CLK.d3'))</script>
+  <span class="frame-data">i30~31 | -12 | Low | Recovers FC | +73a on hit | 8 chip</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="note">From Clockwork (ws3). Recovers crouching — use a WS punish</div>
+<div class="entry">
+  <script>document.write(icons('DBT.f2'))</script>
+  <span class="frame-data">i19~20 | -12 | Low | Weapon | Ends in DES</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note"><span class="mono">DBT.f+2,2</span> (mid) is -33 — anti-strat: "16f gap before followup". The anti-strat page lists DBT f2 at -16; Wavu says -12</div>
+<div class="entry">
+  <script>document.write(icons('SS.4'))</script>
+  <span class="frame-data">i24~25 | -12 | Low | Crouching 6~35</span>
+  <span class="react r-mostly">Mostly reactable</span>
+</div>
+<div class="note"><span class="mono">SS.4,1+2</span> (low, high ×3, mid) is -10</div>
+<div class="entry">
+  <script>document.write(icons('FC.1+2'))</script>
+  <span class="frame-data">Sad Hound (hFC.1+2) | i21~23 | -11c | Low, Low | Enter DES with n,1+2</span>
+  <span class="react r-mostly">Mostly reactable</span>
+</div>
+<div class="note">Recovers crouching — WS punish</div>
+<div class="entry">
+  <script>document.write(icons('d3'))</script>
+  <span class="frame-data">i23~32 | -10~-1 | Low | Slide | Recovers into Backup (BKP) | Airborne 9~23</span>
+  <span class="react r-mostly">Mostly reactable</span>
+</div>
+<div class="note">Only punishable when it lands early/close. The anti-strat page lists d3 at "-20~11" — Wavu gives -19~-10 only for the FC recovery transition. Anti-strat: "Slower moves trade with backup1_2"</div>
+<div class="tier-label"><span class="tier-yellow">🟡</span> -13 to -14</div>
+<div class="entry">
+  <script>document.write(icons('2','3','4'))</script>
+  <span class="frame-data">,i42~45 | -13 | High, Mid, Low | Interrupt with i23 from 2nd block | Airborne 24~39</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="note">Whiffs vs sidestep or sidewalk from the 2nd block</div>
+<div class="entry">
+  <script>document.write(icons('db3'))</script>
+  <span class="frame-data">i16 | -13 | Low | Recovers FC</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note">Anti-strat: "-2" on hit — she keeps nothing</div>
+<div class="entry">
+  <script>document.write(icons('DES.d1'))</script>
+  <span class="frame-data">i20~24 | -13 | Low ×5 | Weapon | Crouching 4~48</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note">Anti-strat lists it at -12; Wavu says -13. This is a chainsaw move — the anti-strat page says SWL beats it</div>
+<div class="entry">
+  <script>document.write(icons('db4'))</script>
+  <span class="frame-data">i20~21 | -14 | Low | Recovers FC | +12g on CH</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note">Anti-strat lists db4 at -17; Wavu says -14</div>
+<div class="entry">
+  <script>document.write(icons('DES.d2'))</script>
+  <span class="frame-data">i22~23 | -14 | Low ×3 | Homing | Weapon | Crouching 22~91</span>
+  <span class="react r-mostly">Mostly reactable</span>
+</div>
+<div class="note">Can transition to DBT at -22 — even more punishable</div>
+<div class="entry">
+  <script>document.write(icons('SBT.3'))</script>
+  <span class="frame-data">i16~20 | -14 | Low | Eject Slider | Recovers FC | Same as DBT.3</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note">Airborne 1~8, crouching 9~30</div>
+<div class="entry">
+  <script>document.write(icons('OTG.db1+2'))</script>
+  <span class="frame-data">i25~27 | -14 | Low | vs grounded opponent only | Weapon</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="tier-label"><span class="tier-red">🔴</span> -15 or worse</div>
+<div class="entry">
+  <script>document.write(icons('FC.d4'))</script>
+  <span class="frame-data">i12 | -15 | Low | Recovers FC</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.d3'))</script>
+  <span class="frame-data">i16 | -17 | Low | Recovers FC</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d3+4'))</script>
+  <span class="frame-data">i27~28 | -37 | Low | Homing | Instant Tornado | Stagger on block</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="note">Biggest punish in her low game</div>
+<div class="entry">
+  <script>document.write(icons('ub4','1','1','2','1','1','3+4'))</script>
+  <span class="frame-data">,i27~28 | -29 | 10-hit combo, 7th hit is the low</span>
+  <span class="react r-yes">Reactable</span>
+</div>
+<div class="note">Anti-strat: "10-hit: Low at #7"</div>
+<h3>Small-minus lows — not punishable, just block</h3>
+<div class="entry">
+  <script>document.write(icons('FC.d1'))</script>
+  <span class="frame-data">i10 | -5 | Special Low | Recovers FC</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.d2'))</script>
+  <span class="frame-data">i11 | -4 | Special Low | Recovers FC</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('d4','1+2'))</script>
+  <span class="frame-data">,i20~21 | +0 | Low, High | Jail from 1st attack</span>
+  <span class="react r-no">Not reactable</span>
+</div>
+<div class="note">The 1+2 is high but jails from the d+4 — you can't duck it after blocking the low. Anti-strat: "Jails on hit (lol)". The low is d+4 (i17)</div>
+<div class="entry">
+  <script>document.write(icons('DES.b2','1'))</script>
+  <span class="frame-data">,i20~21 | -3c | Mid, Mid, Special Low ×4 | Weapon | Delay 10f</span>
+</div>
+<div class="note">The special-low chainsaw hits have no separate startup in Wavu, so no tag</div>
+
+<!-- ── DUCK AND LAUNCH ── -->
+
+<h2>Duck and Launch</h2>
+<h3>String enders — duck the high after blocking the first hit(s)</h3>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">Mid, High | -2 into DES | Homing | Heat Engager | Combo from 1st hit | Interrupt with i6 from 1st block</span>
+</div>
+<div class="note">Combo on hit, so ducking only works after you <strong>block</strong> the 3. Mixes with <span class="mono">3,f2</span> (mid, -12). Homing — ducking is the only evasion</div>
+<div class="entry">
+  <script>document.write(icons('b2','4'))</script>
+  <span class="frame-data">Mid, High | -7 | Combo from 1st hit (12f delay) | "Duckable" | Jails attack inputs (movement buffering prioritized)</span>
+</div>
+<div class="note">Anti-strat: "mix, 7f fuzzy undelayed, high first". Mixes with b+2,1 (-13) and b+2,3 (-15)</div>
+<div class="entry">
+  <script>document.write(icons('df1','1'))</script>
+  <span class="frame-data">Mid, High | +1 | Combo from 1st CH | Interrupt with i12 from 1st block</span>
+</div>
+<div class="note">Anti-strat: "mix, but 4f fuzzy or reaction?" <span class="mono">df+1,1,2</span> (mid, high, high) is <strong>+6</strong> into DES — ducking the 2nd hit should also duck the 3rd</div>
+<div class="entry">
+  <script>document.write(icons('ws1','2'))</script>
+  <span class="frame-data">Mid, High | -5 | Combo from 1st hit | Enter DES with 1+2</span>
+</div>
+<div class="note">Duck only after blocking ws1. <span class="mono">ws1,2,3</span> continues with a mid (-10)</div>
+<div class="entry">
+  <script>document.write(icons('f2','3'))</script>
+  <span class="frame-data">Mid, High | -8 | Combo from 1st CH | Interrupt with i4 from 1st block</span>
+</div>
+<div class="note"><span class="mono">f+2,3,3</span> adds a mid (-10)</div>
+<div class="entry">
+  <script>document.write(icons('f4','1'))</script>
+  <span class="frame-data">Mid, High | -9 | Combo from 1st hit | Interrupt with i2 from 1st block</span>
+</div>
+<div class="note"><span class="mono">f+4,1,4</span> adds a kick and a projectile — typically -12</div>
+<div class="callout callout-warn"><strong>Not duckable:</strong> <span class="mono">f,F+3,4</span> (mid, high) and <span class="mono">d+4,1+2</span> (low, high) <strong>jail</strong> — once you block the first hit you can't duck the high. <span class="mono">DBT.1</span> and <span class="mono">DES.1+2</span> also jail, but they're high from the first hit — see below.</div>
+<h3>Full-high strings — duck the opener</h3>
+<div class="entry">
+  <script>document.write(icons('1','2','2'))</script>
+  <span class="frame-data">High ×3 | -9~+6 | Tornado | Interrupt with i1 from 1st block</span>
+</div>
+<div class="note"><span class="mono">1,1</span> and <span class="mono">1,2</span> are -3. <span class="mono">1,2,d+2</span> ends low — ducking the jab beats every branch</div>
+<div class="entry">
+  <script>document.write(icons('2','2'))</script>
+  <span class="frame-data">High, High | -13~+2 | "Duckable" | Jails attack inputs from 1st block (1f delay) | 2nd hit only on hit or block</span>
+</div>
+<div class="note"><span class="mono">2</span> alone is -6 | <span class="mono">2,3</span> branches into a mid</div>
+<div class="entry">
+  <script>document.write(icons('f3','2'))</script>
+  <span class="frame-data">High, High | -4 into DES | Weapon | Combo from 1st hit</span>
+</div>
+<div class="note"><span class="mono">f+3</span> alone is -14 and high. <span class="mono">f+3,1+2</span> ends mid</div>
+<div class="entry">
+  <script>document.write(icons('DES.1+2'))</script>
+  <span class="frame-data">High ×3 | i16~18 | <strong>+4</strong> | Homing | Jails | 6 chip (12 in Heat)</span>
+</div>
+<div class="note">Plus on block and homing — duck it instead of blocking</div>
+<div class="entry">
+  <script>document.write(icons('DBT.1'))</script>
+  <span class="frame-data">High ×6 | i24~28 | <strong>+9</strong> into DES | Jail from 1st attack | 3 chip (12 in Heat)</span>
+</div>
+<div class="note">Her best plus-on-block tool, and it's all high. <strong>Theory (Ledger):</strong> ducking it on read should whiff the whole thing and leave her recovering</div>
+<h3>Naked highs — duck on read</h3>
+<div class="entry">
+  <script>document.write(icons('4'))</script>
+  <span class="frame-data">i13~14 | -5 | Homing | +14g on hit, +38a on CH</span>
+</div>
+<div class="note">Too fast to duck on reaction</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">i16~17 | -2 into DES | Homing | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ub2'))</script>
+  <span class="frame-data">i16~20 | -9 | <strong>Power crush</strong> 7~15 | Forces tech backroll on hit</span>
+</div>
+<div class="note">Her standing power crush is <strong>high</strong> — duck it and punish</div>
+<div class="entry">
+  <script>document.write(icons('fff2'))</script>
+  <span class="frame-data">i13~15 | <strong>+5~+7</strong> | Linear Punch | Airborne 3~27 | 9 chip</span>
+</div>
+<div class="note">Plus on block; airborne early, so it beats lows. Duck it on read</div>
+<div class="entry">
+  <script>document.write(icons('DES.f1'))</script>
+  <span class="frame-data">i11~13 | <strong>+3</strong> | Weapon | Stays in DES</span>
+</div>
+<div class="note">Her fastest DES attack. High — crouching beats it</div>
+<div class="entry">
+  <script>document.write(icons('BKP.1'))</script>
+  <span class="frame-data">i11~13 | <strong>+4~+6</strong> | Strong Aerial Tailspin | Can go to SBT/DBT at +6</span>
+</div>
+<div class="note">Anti-strat: "7f fuzzy on backup moves (highs are i11, mids are i18 at the fastest)"</div>
+<div class="entry">
+  <script>document.write(icons('BKP.2'))</script>
+  <span class="frame-data">i11~33 | -9~+13 | Tornado | 6 chip</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1+2'))</script>
+  <span class="frame-data">i27~28 | Unblockable high | Ends in DES</span>
+</div>
+<div class="note">Anti-strat: "i27 high UNB, duck on reaction"</div>
+<div class="entry">
+  <script>document.write(icons('BKP.1+2'))</script>
+  <span class="frame-data">i34~71 | Unblockable high | Rocket Punch</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('bb1+4'))</script>
+  <span class="frame-data">i63~84 | Unblockable high | Double Rocket Punch</span>
+</div>
+<div class="callout ">Her standing power crush <span class="mono">ub+2</span> is <strong>high</strong> — ducking beats it. <span class="mono">b+1+2</span>, the 2+3 Heat Burst and the Rage Art are <strong>mids</strong>.</div>
+
+<!-- ── STANCE COUNTERPLAY ── -->
+
+<h2>Stance Counterplay</h2>
+<h3>DES — Destructive Form (chainsaws)</h3>
+<div class="callout callout-key"><strong>Entries on block, plus (she keeps the turn):</strong> <span class="mono">df+1,1,2</span> +6, <span class="mono">DES.1+2</span> +4, <span class="mono">DES.f+1</span> +3, <span class="mono">DES.f+1+2</span> +1, <span class="mono">DBT.1</span> +9, <span class="mono">DBT.f+1+2</span> (Hello World) +4, Heat Smash +8 (with 1+2).<br><strong>Entries on block, minus:</strong> <span class="mono">3,2</span> -2, <span class="mono">uf+2</span> -2, <span class="mono">f+3,2</span> -4, <span class="mono">ub+1</span> -7, <span class="mono">f+2,1</span> -12, <span class="mono">3,f+2</span> -12, <span class="mono">b+1+2</span> -13, <span class="mono">f+3,1+2</span> -13. Raw entry <span class="mono">d+1+2</span> (r47). Many other moves enter DES with 1+2 (anti-strat lists 25+).<br><strong>Can she block in DES?</strong> Yes, with a cost. Anti-strat: <em>"She has to put away the chainsaws if she blocks something. It takes 1f to cancel to db block."</em> Wavu: cancel with db (r30). Emergency DES in Heat (<span class="mono">H.d+1+2</span>) can stand or crouch guard from frame 31.<br><strong>Lows from DES:</strong> <span class="mono">DES.d+1</span> (i20, -13), <span class="mono">DES.d+2</span> (i22, -14, homing) and the special-low hits inside <span class="mono">DES.b+2,1</span> (-3c).<br><strong>Fastest options:</strong> <span class="mono">DES.uf+2</span> i10 (only hits airborne opponents), <span class="mono">DES.f+1</span> i11 high +3, <span class="mono">DES.1</span> i13 mid -9.<br><strong>Evasion:</strong> <span class="mono">DES.2</span> has <strong>jab evasion</strong> (Wavu). <span class="mono">DES.d+3</span> is a sidestep-like Evasive Action (airborne 5~22).<br><strong>Power crush from DES:</strong> none listed. Chainsaw moves deal chip damage on block, more in Heat.<br><strong>Step:</strong> anti-strat says SWL against chainsaws; <span class="mono">DES.b+2</span> tracks.</div>
+<div class="entry">
+  <script>document.write(icons('DES.1'))</script>
+  <span class="frame-data">i13~18 | -9 | Mid, Mid, High ×3, Mid | Weapon | Final hit only on hit</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.2'))</script>
+  <span class="frame-data">i20~21 | -8 | Mid ×3 | <strong>Jab evasion</strong> | Weapon</span>
+</div>
+<div class="note">+37a on hit; <span class="mono">DES.2,1</span> only as a combo</div>
+<div class="entry">
+  <script>document.write(icons('DES.1+2'))</script>
+  <span class="frame-data">i16~18 | +4 | High ×3 | Homing | Jails</span>
+</div>
+<div class="note">Duck</div>
+<div class="entry">
+  <script>document.write(icons('DES.f1'))</script>
+  <span class="frame-data">i11~13 | +3 | High | Weapon</span>
+</div>
+<div class="note">Duck</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2'))</script>
+  <span class="frame-data">i15 | -9 | Mid | Weapon</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2','1'))</script>
+  <span class="frame-data">,i23 | -12 | Mid ×4 | Weapon</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2','1','2'))</script>
+  <span class="frame-data">,i23~24 | -13 | Mid ×6 | Heat Engager</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.f1+2'))</script>
+  <span class="frame-data">i23~27 | +1 | Mid ×8 | Weapon | Can go to DBT (+4) with 3_4</span>
+</div>
+<div class="note"><span class="mono">DES.f+1+2,1+2</span> is -53</div>
+<div class="entry">
+  <script>document.write(icons('DES.d1'))</script>
+  <span class="frame-data">i20~24 | -13 | Low ×5 | Crouching 4~48</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.d2'))</script>
+  <span class="frame-data">i22~23 | -14 | Low ×3 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.b2'))</script>
+  <span class="frame-data">i18~20 | -12 | Mid | Tracks (anti-strat)</span>
+</div>
+<div class="note"><span class="mono">DES.b+2,1</span> is -3c</div>
+<div class="entry">
+  <script>document.write(icons('DES.uf1+2'))</script>
+  <span class="frame-data">i29~31 | -9c | Mid ×3 | Airborne 5~25 | Spike</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.d3'))</script>
+  <span class="frame-data">Evasive Action | Airborne 5~22 | ,1 follow-up is mid -13~-12</span>
+</div>
+<div class="note">d = foreground, u = background</div>
+<h3>SBT — Boot · DBT — Dual Boot</h3>
+<div class="callout callout-key"><strong>Entries:</strong> <span class="mono">f+3+4</span> (SBT, airborne 26~54), <span class="mono">DES.f+3</span> (DBT), Heat-only <span class="mono">H.f+1+4</span> (DBT, 150F of Heat). Many moves transition with 3_4 (SBT) or f+3_f+4 (DBT): <span class="mono">f+1+2</span> at -16, <span class="mono">b+4,4</span> at -19, <span class="mono">DES.f+1+2</span> at +4 (DBT), <span class="mono">BKP.1</span> at +6, Heat Smash at +10, plus <span class="mono">ws2</span>, <span class="mono">uf+3</span> and <span class="mono">uf+1</span> (on hit) with no frames given.<br><strong>Can she block?</strong> Wavu: DBT can cancel to standing block with B (r33?). Nothing says SBT can block — assume no.<br><strong>Lows:</strong> <span class="mono">SBT.3</span> / <span class="mono">DBT.3</span> (i16, -14) and <span class="mono">DBT.f+2</span> (i19, -12). All unreactable.<br><strong>Fastest:</strong> <span class="mono">DBT.1+2</span> i12 (mid, +0, jails) and <span class="mono">SBT.1</span> i13 (mid, -15).<br><strong>Biggest punishes:</strong> <span class="mono">SBT.4</span> / <span class="mono">DBT.4</span> at -27, <span class="mono">DBT.f+2,2</span> at -33.</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1'))</script>
+  <span class="frame-data">i13~14 | -15 | Mid</span>
+</div>
+<div class="note"><span class="mono">SBT.1,2</span> -9 · <span class="mono">SBT.1,2,1</span> -12 · <span class="mono">SBT.1,2,1,3+4</span> -18</div>
+<div class="entry">
+  <script>document.write(icons('SBT.2'))</script>
+  <span class="frame-data">i16~27 | -8 | Mid | Elbow | Balcony Break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.3'))</script>
+  <span class="frame-data">i16~20 | -14 | Low | Recovers FC</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.4'))</script>
+  <span class="frame-data">i17~19 | -27 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('SBT.1+2'))</script>
+  <span class="frame-data">i27~28 | Unblockable high | Ends in DES</span>
+</div>
+<div class="note">Duck on reaction (anti-strat)</div>
+<div class="entry">
+  <script>document.write(icons('DBT.1'))</script>
+  <span class="frame-data">i24~28 | +9 into DES | High ×6 | Jail from 1st attack</span>
+</div>
+<div class="note">Duck</div>
+<div class="entry">
+  <script>document.write(icons('DBT.2'))</script>
+  <span class="frame-data">i16~18 | -14 | Mid ×2, High ×3 | Jail from 1st attack</span>
+</div>
+<div class="note"><span class="mono">DBT.2,1</span> -12c~-10c</div>
+<div class="entry">
+  <script>document.write(icons('DBT.3'))</script>
+  <span class="frame-data">i16~20 | -14 | Low | Recovers FC</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DBT.4'))</script>
+  <span class="frame-data">i17~19 | -27 | Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DBT.1+2'))</script>
+  <span class="frame-data">i12~15 | +0 | Mid ×4 | Jail from 1st attack | Ends in DES</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DBT.f1'))</script>
+  <span class="frame-data">i19~21 | -9 | Mid → throw on standing hit</span>
+</div>
+<div class="note">Anti-strat lists -11; Wavu says -9</div>
+<div class="entry">
+  <script>document.write(icons('DBT.f2'))</script>
+  <span class="frame-data">i19~20 | -12 | Low | Ends in DES</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DBT.f1+2'))</script>
+  <span class="frame-data">i17~18 | +4 | Mid ×5 | Hello World | Ends in DES</span>
+</div>
+<h3>BKP — Backup (backsway)</h3>
+<div class="callout "><strong>Entries:</strong> <span class="mono">db+1</span> (crouching 4~15, r15) and the end of the <span class="mono">d+3</span> slide. Can do WS moves after 24 frames.<br><strong>No lows.</strong> Anti-strat: <em>"7f fuzzy on backup moves (highs are i11, mids are i18 at the fastest)."</em> Her fast options are highs; the mids are slower.</div>
+<div class="entry">
+  <script>document.write(icons('BKP.1'))</script>
+  <span class="frame-data">i11~13 | +4~+6 | High | Strong Aerial Tailspin | → SBT/DBT at +6</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BKP.2'))</script>
+  <span class="frame-data">i11~33 | -9~+13 | High | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BKP.3'))</script>
+  <span class="frame-data">i24~27 | -9 | Mid | Airborne 15~40</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BKP.4'))</script>
+  <span class="frame-data">i18~23 | -9~-4 | Mid | Knee | Tornado</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BKP.1+2'))</script>
+  <span class="frame-data">i34~71 | Unblockable high</span>
+</div>
+<h3>CLK — Clockwork (ws3)</h3>
+<div class="callout "><span class="mono">ws3</span> is <strong>+4</strong> on block (mid, i19~20, recovers FC, actionable after 15 frames). Cancelling with B makes it -12. Follow-ups: <span class="mono">CLK.3</span> (mid, i13~14, -9, interrupt with i8 from 1st block), <span class="mono">CLK.d+3</span> (low, i30~31, -12, reactable) and a powered-up two-spin <span class="mono">CLK.3</span> (+0, effective i32~33?).</div>
+<div class="entry">
+  <script>document.write(icons('CLK.3'))</script>
+  <span class="frame-data">i13~14 | -9 | Mid | Strong Aerial Tailspin</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('CLK.d3'))</script>
+  <span class="frame-data">i30~31 | -12 | Low | Recovers FC</span>
+</div>
+<div class="note">Reactable — block low, WS punish</div>
+
+<!-- ── HEAT ── -->
+
+<h2>Heat</h2>
+<div class="entry">
+  <script>document.write(icons('H.2+3'))</script>
+  <span class="frame-data">Heat Smash | <strong>Mid</strong> ×4 | i20~21 | <strong>+8</strong> on block | +8 into DES, <strong>+10</strong> into SBT/DBT | 8 chip</span>
+</div>
+<div class="note">No punish, don't press after blocking it. Anti-strat: "i20 mid (+8 / +10 BOT / +10 DBT)"</div>
+<h3>Heat Engagers</h3>
+<div class="entry">
+  <script>document.write(icons('3','2'))</script>
+  <span class="frame-data">Mid, High | -2 into DES | Homing</span>
+</div>
+<div class="note">Duck the 2nd hit</div>
+<div class="entry">
+  <script>document.write(icons('1+2'))</script>
+  <span class="frame-data">Mid | i19~20 | -4 | Spike</span>
+</div>
+<div class="note">Safe; no punish</div>
+<div class="entry">
+  <script>document.write(icons('f2','1'))</script>
+  <span class="frame-data">Mid, Mid | -12 | Ends in DES</span>
+</div>
+<div class="note">Punishable</div>
+<div class="entry">
+  <script>document.write(icons('uf2'))</script>
+  <span class="frame-data">High | i16~17 | -2 into DES | Homing</span>
+</div>
+<div class="note">Duck it</div>
+<div class="entry">
+  <script>document.write(icons('DES.f2','1','2'))</script>
+  <span class="frame-data">Mid ×6 | -13</span>
+</div>
+<div class="note">Punishable</div>
+<div class="callout ">Two of her five engagers (<span class="mono">3,2</span> and <span class="mono">uf+2</span>) are <strong>highs</strong> — ducking denies Heat, not just damage. Two (<span class="mono">f+2,1</span>, <span class="mono">DES.f+2,1,2</span>) are punishable on block. Heat Dash from any engager is +5 — no punish. Anti-strat: Alisa ends in DES after 3,2 / f2,1 / uf2.</div>
+<h3>Heat-only moves</h3>
+<div class="callout ">Anti-strat: <em>"Heat powers: More chip dmg on chainsaw attacks."</em> 2+3 Heat Burst: mid, i16, +1, power crush 7~16.</div>
+<div class="entry">
+  <script>document.write(icons('H.f1+4'))</script>
+  <span class="frame-data">Emergency Dual Boot | Straight into DBT | Consumes 150F of Heat</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('H.d1+2'))</script>
+  <span class="frame-data">Emergency Destructive Form | Absorbs attacks 6~29 (75% damage reduction) | Consumes 60F</span>
+</div>
+<div class="note">Guard from frame 31; cancel with db</div>
+<div class="entry">
+  <script>document.write(icons('ff2','H.1+2'))</script>
+  <span class="frame-data">Emergency Hello World | Mid ×6 | i22~23 | +3 into DES | Jail from 1st block | Consumes 210F</span>
+</div>
+
+<!-- ── THROWS ── -->
+
+<h2>Throws</h2>
+<div class="entry">
+  <script>document.write(icons('1+3'))</script>
+  <span class="frame-data">Trigger Shuffle | 35 | i12~14 | <strong>Break 1 or 2</strong> | Homing | Side switch on break</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('2+4'))</script>
+  <span class="frame-data">Back Door | 35 | i12~14 | <strong>Break 1 or 2</strong> | Homing | Side switch | → DES with 1+2</span>
+</div>
+<div class="entry"><span class="stance" style="margin-right:6px;">Left throw</span><span class="frame-data">Compression | 40 | <strong>Break 1</strong></span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">Right throw</span><span class="frame-data">Hat Trick | 40 | <strong>Break 2</strong></span></div>
+<div class="entry"><span class="stance" style="margin-right:6px;">Back throw</span><span class="frame-data">Random Typing | 55 | <strong>Unbreakable</strong></span></div>
+<div class="entry">
+  <script>document.write(icons('uf1+2'))</script>
+  <span class="frame-data">Spam Bomb | 40 | i12~13 | <strong>Break 1+2</strong></span>
+</div>
+<div class="entry">
+  <script>document.write(icons('FC.db1+2'))</script>
+  <span class="frame-data">Double Bull Shoot | 45 | i11 | <strong>Break 1+2</strong> | Crouch throw | Side switch</span>
+</div>
+<div class="callout ">Attack throws: <span class="mono">DBT.f+1</span> (mid that becomes a throw on standing or airborne hit), <span class="mono">f,F+4</span> (front hit only) and the Rage Art.</div>
+
+<!-- ── POWER CRUSH & RAGE ── -->
+
+<h2>Power Crush &amp; Rage Art</h2>
+<div class="entry">
+  <script>document.write(icons('ub2'))</script>
+  <span class="frame-data">Overload | <strong>High</strong> | i16~20 | -9 | Power crush 7~15 | 9 chip</span>
+</div>
+<div class="note"><strong>Duck it</strong> — then punish</div>
+<div class="entry">
+  <script>document.write(icons('b1+2'))</script>
+  <span class="frame-data">Transmission | <strong>Mid</strong> | i19~20 | -13 | Power crush 7~18 | Ends in DES</span>
+</div>
+<div class="note">Not duckable. Block it and punish (-13)</div>
+<div class="entry">
+  <script>document.write(icons('2+3'))</script>
+  <span class="frame-data">Heat Burst | Mid | i16 | +1 | Power crush 7~16</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('R.df1+2'))</script>
+  <span class="frame-data">Radiant Pegasus Bomb | Mid → throw | i20 | -18 | Rage Art</span>
+</div>
+<div class="note">Punish it</div>
+<div class="callout ">One high power crush (<span class="mono">ub+2</span>) — duck it. <span class="mono">b+1+2</span> is a mid; your duck habit from other matchups loses to it.</div>
+
+<!-- ── GENERAL COUNTER PLAY ── -->
+
+<h2>General Counter Play</h2>
+<div class="callout callout-key"><strong>Anti-strat, in short:</strong> "Small poking and movement, turns into a pressure monster in chainsaw stance (DES). She has to put away the chainsaws if she blocks something." The DES pressure is mostly mids that are minus, plus a few plus highs (<span class="mono">DES.1+2</span>, <span class="mono">DES.f+1</span>, <span class="mono">DBT.1</span>) — <strong>duck the plus highs, block and punish the mids</strong>. Every DES low is -13 or worse.</div>
+<h3>Plus-on-block tools — respect the next turn</h3>
+<div class="entry">
+  <script>document.write(icons('DBT.1'))</script>
+  <span class="frame-data">+9 | High — duck</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('df1','1','2'))</script>
+  <span class="frame-data">+6 into DES | Mid, High, High</span>
+</div>
+<div class="note">Duck the 2nd hit</div>
+<div class="entry">
+  <script>document.write(icons('fff2'))</script>
+  <span class="frame-data">+5~+7 | High</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('b3+4','3+4'))</script>
+  <span class="frame-data">+5c~+10c | Mid, Mid</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('BKP.1'))</script>
+  <span class="frame-data">+4~+6 | High</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.1+2'))</script>
+  <span class="frame-data">+4 | High ×3 | Homing</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('ws3'))</script>
+  <span class="frame-data">+4 | Mid | Clockwork</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DBT.f1+2'))</script>
+  <span class="frame-data">+4 | Mid | Hello World</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('DES.f1'))</script>
+  <span class="frame-data">+3 | High</span>
+</div>
+<div class="entry">
+  <script>document.write(icons('1'))</script>
+  <span class="frame-data">+1 | High | Jab</span>
+</div>
+<div class="callout ">Anti-strat also lists <em>"WR2 (+5)"</em> — the parsed Wavu list has <span class="mono">f,f,F+2</span> at +5~+7, which is likely the same move. Near zero: <span class="mono">df+1,1</span> +1, <span class="mono">d+4,1+2</span> +0, <span class="mono">uf+3+4</span> +0~+3, <span class="mono">DBT.1+2</span> +0, held <span class="mono">ws1+2**</span> +0, two-spin <span class="mono">CLK.3</span> +0.</div>
+<h3>Interruptible gaps</h3>
+<div class="callout ">From Wavu's "Interrupt with iN" notes (lower N = tighter gap):<br>• <span class="mono">2,3,4</span>: i23 from 2nd block — the low is slow, so interrupt or step it.<br>• <span class="mono">1,2,d+2*</span> (held): i17 from 1st block.<br>• <span class="mono">df+1,1</span>: i12 from 1st block.<br>• <span class="mono">1,2,d+2</span>, <span class="mono">CLK.3</span>: i8 from 1st block.<br>• <span class="mono">3,2</span>, <span class="mono">f+2,3,3</span>: i6. <span class="mono">f+2,1</span>, <span class="mono">f+3,2</span>, <span class="mono">f+3,1+2</span>: i5. <span class="mono">3,f+2</span>, <span class="mono">f+2,3</span>, <span class="mono">df+3,3</span>: i4.<br>Anti-strat: <span class="mono">uf+3,2</span> "i14 interrupt" (Wavu says the 2nd hit only comes out on hit); <span class="mono">2,3,3</span> "22f fuzzy between hits".</div>
+<h3>Unusual evasion</h3>
+<div class="callout ">• <span class="mono">DES.2</span>: jab evasion.<br>• <span class="mono">DES.d+1</span>: crouching from frame 4; <span class="mono">DES.d+2</span> from frame 22.<br>• <span class="mono">db+1</span> (Backup): crouching 4~15. <span class="mono">d+3</span> slide: airborne 9~23.<br>• <span class="mono">f,f,F+2</span> and <span class="mono">f,f,F+3</span>: airborne from frame 3.<br>• <span class="mono">2,3,4</span>: airborne 24~39.<br>• <span class="mono">1+2+3+4</span> (Ki Charge): she can't block for 5 seconds and is in counter-hit state — punish it. Anti-strat: she can go to DES from Ki Charge.</div>
+<h3>String notes — TekkenDocs anti-strat (community-written)</h3>
+<div class="callout ">• "2,3,3_4: 22f fuzzy between hits. i10 punish after 2 hits beats everything except undelayed 2,3,3."<br>• "db2,2: You can SSL delayed last hit, but it's safe mid,mid so why would they."<br>• "b3+4, 3+4: A move that punishes -17 and floats the followup is OS."<br>• "uf3,2: i14 interrupt, or sidewalk second hit."<br>• "10-hit: Low at #7."<br>• "d4,1+2: Jails on hit (lol)".</div>
+
+
+<!-- ── STANCE CHECK (pilot) ── -->
+
+<h2>Stance Check — can a jab interrupt her plus stance entries?</h2>
+<div class="callout ">Arithmetic only, all from Wavu. <strong>Effective startup = her raw startup − her frame advantage.</strong> Your jab is 10f, so effective i9 or faster → <em>jab can't interrupt</em>; exactly i10 → <em>trades</em>; i11 or slower → <em>a 10f jab interrupts</em>. Where Wavu gives a range (i13~18), the fastest frame is used. Only entries with a <strong>stated plus</strong> frame advantage on block are covered; minus entries (3,2 -2 into DES, f+2,1 -12, …) leave you the turn anyway.<br>Mike's rule: a character can't block in a unique stance unless a source says otherwise. Here sources do: the anti-strat page says she can block from DES by putting the chainsaws away (1f), and Wavu says DBT can cancel to standing block with B. Nothing says SBT can block.<br>Hit-level and state notes change the read: a standing jab is a high, so it <strong>whiffs</strong> against a crouching move (<span class="mono">DES.d+1</span> crouches from frame 4) and Wavu gives <span class="mono">DES.2</span> <strong>jab evasion</strong>. No DES, SBT or DBT attack is listed as a power crush.</div>
+<h3>DES on block — DES.f+1+2 (+1), DES.f+1 (+3), DES.1+2 (+4), DBT.f+1+2 Hello World (+4), df+1,1,2 (+6), Heat Smash →DES (+8), DBT.1 (+9)</h3>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>DES attack</th><th>Hit level</th><th>Raw (Wavu)</th><th>Eff. at +1</th><th>Eff. at +3</th><th>Eff. at +4</th><th>Eff. at +6</th><th>Eff. at +8</th><th>Eff. at +9</th><th>Read at +9</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">DES.1</td><td>Mid…</td><td class="mono">i13~18</td><td class="mono">i12 — interrupts</td><td class="mono">i10 — trades</td><td class="mono">i9 — can't</td><td class="mono">i7 — can't</td><td class="mono">i5 — can't</td><td class="mono">i4 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DES.2</td><td>Mid ×3</td><td class="mono">i20~21</td><td class="mono">i19 — interrupts</td><td class="mono">i17 — interrupts</td><td class="mono">i16 — interrupts</td><td class="mono">i14 — interrupts</td><td class="mono">i12 — interrupts</td><td class="mono">i11 — interrupts</td><td class="swr">A 10f jab interrupts</td><td><strong>Jab evasion</strong> (Wavu) — a jab may whiff regardless</td></tr>
+    <tr><td class="mono">DES.1+2</td><td>High ×3</td><td class="mono">i16~18</td><td class="mono">i15 — interrupts</td><td class="mono">i13 — interrupts</td><td class="mono">i12 — interrupts</td><td class="mono">i10 — trades</td><td class="mono">i8 — can't</td><td class="mono">i7 — can't</td><td class="tracks">Jab can't interrupt</td><td>Homing; high — crouching beats it</td></tr>
+    <tr><td class="mono">DES.f+1</td><td>High</td><td class="mono">i11~13</td><td class="mono">i10 — trades</td><td class="mono">i8 — can't</td><td class="mono">i7 — can't</td><td class="mono">i5 — can't</td><td class="mono">i3 — can't</td><td class="mono">i2 — can't</td><td class="tracks">Jab can't interrupt</td><td>High — crouching beats it</td></tr>
+    <tr><td class="mono">DES.f+2</td><td>Mid</td><td class="mono">i15</td><td class="mono">i14 — interrupts</td><td class="mono">i12 — interrupts</td><td class="mono">i11 — interrupts</td><td class="mono">i9 — can't</td><td class="mono">i7 — can't</td><td class="mono">i6 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DES.f+1+2</td><td>Mid ×8</td><td class="mono">i23~27</td><td class="mono">i22 — interrupts</td><td class="mono">i20 — interrupts</td><td class="mono">i19 — interrupts</td><td class="mono">i17 — interrupts</td><td class="mono">i15 — interrupts</td><td class="mono">i14 — interrupts</td><td class="swr">A 10f jab interrupts</td><td></td></tr>
+    <tr><td class="mono">DES.d+1</td><td>Low ×5</td><td class="mono">i20~24</td><td class="mono">i19 — interrupts</td><td class="mono">i17 — interrupts</td><td class="mono">i16 — interrupts</td><td class="mono">i14 — interrupts</td><td class="mono">i12 — interrupts</td><td class="mono">i11 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>Crouching from frame 4 — <strong>a standing jab whiffs</strong> once she's crouched</td></tr>
+    <tr><td class="mono">DES.d+2</td><td>Low ×3</td><td class="mono">i22~23</td><td class="mono">i21 — interrupts</td><td class="mono">i19 — interrupts</td><td class="mono">i18 — interrupts</td><td class="mono">i16 — interrupts</td><td class="mono">i14 — interrupts</td><td class="mono">i13 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>Homing; crouching 22~91</td></tr>
+    <tr><td class="mono">DES.b+2</td><td>Mid</td><td class="mono">i18~20</td><td class="mono">i17 — interrupts</td><td class="mono">i15 — interrupts</td><td class="mono">i14 — interrupts</td><td class="mono">i12 — interrupts</td><td class="mono">i10 — trades</td><td class="mono">i9 — can't</td><td class="tracks">Jab can't interrupt</td><td>Tracks (anti-strat)</td></tr>
+    <tr><td class="mono">DES.uf+1+2</td><td>Mid ×3</td><td class="mono">i29~31</td><td class="mono">i28 — interrupts</td><td class="mono">i26 — interrupts</td><td class="mono">i25 — interrupts</td><td class="mono">i23 — interrupts</td><td class="mono">i21 — interrupts</td><td class="mono">i20 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>Airborne 5~25</td></tr>
+  </tbody>
+</table></div>
+<div class="note">Also +3: the Heat-only Emergency Hello World (f,F+2,H.1+2), which ends in DES. <span class="mono">DES.uf+2</span> (i10) is left out — Wavu says it only hits airborne opponents. <span class="mono">DES.d+3</span> (Evasive Action) has no hitbox of its own</div>
+<h3>SBT on block — BKP.1 →SBT (+6), Heat Smash →SBT (+10)</h3>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>SBT attack</th><th>Hit level</th><th>Raw (Wavu)</th><th>Eff. at +6</th><th>Eff. at +10</th><th>Read at +10</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">SBT.1</td><td>Mid</td><td class="mono">i13~14</td><td class="mono">i7 — can't</td><td class="mono">i3 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">SBT.2</td><td>Mid</td><td class="mono">i16~27</td><td class="mono">i10 — trades</td><td class="mono">i6 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">SBT.3</td><td>Low</td><td class="mono">i16~20</td><td class="mono">i10 — trades</td><td class="mono">i6 — can't</td><td class="tracks">Jab can't interrupt</td><td>Airborne 1~8, then crouching 9~30</td></tr>
+    <tr><td class="mono">SBT.4</td><td>Mid</td><td class="mono">i17~19</td><td class="mono">i11 — interrupts</td><td class="mono">i7 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">SBT.1+2</td><td>Unblockable high</td><td class="mono">i27~28</td><td class="mono">i21 — interrupts</td><td class="mono">i17 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>High — crouching beats it</td></tr>
+  </tbody>
+</table></div>
+<h3>DBT on block — DES.f+1+2 →DBT (+4), BKP.1 →DBT (+6), Heat Smash →DBT (+10)</h3>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>DBT attack</th><th>Hit level</th><th>Raw (Wavu)</th><th>Eff. at +4</th><th>Eff. at +6</th><th>Eff. at +10</th><th>Read at +10</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">DBT.1</td><td>High ×6</td><td class="mono">i24~28</td><td class="mono">i20 — interrupts</td><td class="mono">i18 — interrupts</td><td class="mono">i14 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>High — crouching beats it</td></tr>
+    <tr><td class="mono">DBT.2</td><td>Mid ×2, High ×3</td><td class="mono">i16~18</td><td class="mono">i12 — interrupts</td><td class="mono">i10 — trades</td><td class="mono">i6 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DBT.3</td><td>Low</td><td class="mono">i16~20</td><td class="mono">i12 — interrupts</td><td class="mono">i10 — trades</td><td class="mono">i6 — can't</td><td class="tracks">Jab can't interrupt</td><td>Airborne 1~8, then crouching 9~30</td></tr>
+    <tr><td class="mono">DBT.4</td><td>Mid</td><td class="mono">i17~19</td><td class="mono">i13 — interrupts</td><td class="mono">i11 — interrupts</td><td class="mono">i7 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DBT.1+2</td><td>Mid ×4</td><td class="mono">i12~15</td><td class="mono">i8 — can't</td><td class="mono">i6 — can't</td><td class="mono">i2 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DBT.f+1</td><td>Mid → throw</td><td class="mono">i19~21</td><td class="mono">i15 — interrupts</td><td class="mono">i13 — interrupts</td><td class="mono">i9 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DBT.f+2</td><td>Low</td><td class="mono">i19~20</td><td class="mono">i15 — interrupts</td><td class="mono">i13 — interrupts</td><td class="mono">i9 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+    <tr><td class="mono">DBT.f+1+2</td><td>Mid ×5</td><td class="mono">i17~18</td><td class="mono">i13 — interrupts</td><td class="mono">i11 — interrupts</td><td class="mono">i7 — can't</td><td class="tracks">Jab can't interrupt</td><td></td></tr>
+  </tbody>
+</table></div>
+<h3>CLK on block — ws3 Clockwork (+4)</h3>
+<div class="table-wrap"><table class="step-table">
+  <thead>
+    <tr><th>CLK attack</th><th>Hit level</th><th>Raw (Wavu)</th><th>Eff. at +4</th><th>Read at +4</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="mono">CLK.3</td><td>Mid</td><td class="mono">i13~14</td><td class="mono">i9 — can't</td><td class="tracks">Jab can't interrupt</td><td>Wavu: "Interrupt with i8 from 1st block"</td></tr>
+    <tr><td class="mono">CLK.d+3</td><td>Low</td><td class="mono">i30~31</td><td class="mono">i26 — interrupts</td><td class="swr">A 10f jab interrupts</td><td>Reactable low</td></tr>
+  </tbody>
+</table></div>
+<div class="note">Wavu also says ws3 is "actionable after 15 frames" and gives the two-spin CLK.3 an effective start of i32~33? — spinning longer only makes the jab interrupt easier. Wavu's "interrupt with i8" for CLK.3 is one frame tighter than this arithmetic (i9); trust Wavu's note</div>
+<div class="note">Summary: in DES, <span class="mono">DES.f+1</span> (i11 high) trades with the jab at +1 and beats it from +3 up; <span class="mono">DES.1</span> beats it from +4, <span class="mono">DES.f+2</span> from +6. Her slow DES moves (DES.2, DES.d+1, DES.d+2, DES.f+1+2, DES.uf+1+2) stay jab-able even at +9 — but DES.2 has jab evasion and DES.d+1 crouches, so a standing jab may whiff against both. From the Boot stances at +10, only SBT.1+2 and DBT.1 (both highs) are slow enough to jab</div>
+
+<div class="sources">
+  <strong>Sources</strong><br>
+  Frame data from <a href="https://wavu.wiki/t/Alisa_movelist">Wavu Wiki — Alisa movelist</a> (198 entries) and <a href="https://wavu.wiki/t/Alisa_counterplay">Wavu Wiki — Alisa counterplay</a> (3 standing punishment buckets, no prose sections), downloaded and parsed with the repo's <span class="mono">scripts/fetch_sources.py</span> on 6 November 2026. The script downloaded the <a href="https://tekkendocs.com/t8/alisa">TekkenDocs — Alisa</a> frame-data page but couldn't parse it (the page no longer uses a table); its embedded move data (188 rows) was decoded from that same download and compared to Wavu: 181 moves matched by command and <strong>no block-frame disagreements</strong> were found. TekkenDocs carries the same single step note (2,3,4).<br>
+  <strong>TekkenDocs anti-strat page</strong> (<a href="https://tekkendocs.com/t8/alisa/antistrat">community-written</a>), parsed by the script: used for the Movement default (Tier 2), the SWL-vs-chainsaws exception, DES blocking, string notes and the plus/minus checklists. Its frame numbers are treated as claims; Wavu wins where they differ. Differences: f2,1 (page -10, Wavu -12), db4 (-17 vs -14), DBT f2 (-16 vs -12), DES d1 (-12 vs -13), DBT f1 (-11 vs -9), d3 (page "-20~11"; Wavu -10~-1, with -19~-10 only for the FC recovery transition). The page also names "DES ss1" and "WR" moves that aren't separate entries in the parsed Wavu list.<br>
+  <strong>Movement section:</strong> Tier 2 (TekkenDocs anti-strat Quick overview) sets the SSR default; the <a href="https://tekkendocs.com/t8/sidestep-chart.webp">TekkenDocs sidestep chart</a> (community chart by @Mezerdie, via sidestep.md) agrees. Tier 1 per-move notes have no directional data for Alisa.<br>
+  <strong>Low reactability tags:</strong> Mike's reaction rule (25f+ reactable, 21–24f mostly, ≤20f not), applied to Wavu's fastest startup frame of the low hit.<br>
+  <strong>Lab (Mike):</strong> nothing in this guide is lab-tested yet. Ranked record at queue time: 1-5.<br>
+  <strong>Lab drill — training wheels:</strong> Two drills, because her step answer changes with stance. (1) Stage 1 — dummy throws a standalone <span class="mono">1</span> (jab); SSR right after blocking it, 20-rep sets, until 18/20 on three straight sets (direction only, timing untested). (2) Stage 1 — dummy throws a standalone <span class="mono">f+2</span>; SWL right after blocking it, same graduation. Stage 2 — the real <span class="mono">f+2,1</span> and <span class="mono">DES.d+1</span> with randomized timing, one branch at a time. Stage 3 — mix <span class="mono">f+2,1</span> with <span class="mono">f+2,3</span> (high ender — duck instead) and plain <span class="mono">f+2</span> (-4, nothing to step), plus <span class="mono">DES.b+2</span>, which the anti-strat page says tracks, so the step has to become a read. Weaknesses: a standalone opener has no follow-up on a clock, recovers differently from the same hit inside a string, and knowing it's coming removes the read. Rep counts are a heuristic. Cap a session at around 100–150 reps, stop if accuracy falls 15 points, and go back a stage if a stage drops under 60% for two sets.<br>
+  <strong>To test — Theory (Ledger):</strong><br>
+  • SWL vs her chainsaw moves (anti-strat claim): which ones actually whiff — f+2,1, DES.f+2,1, DES.d+1? Does SSR lose to them?<br>
+  • DBT.1 (+9, all high): does ducking it on read whiff the whole thing and give a whiff punish?<br>
+  • DES.d+1 crouches from frame 4: does a standing jab whiff against it? Boundary: the crouch starts on her frame 4, so any jab that arrives after that should whiff — which is every jab after a DES entry.<br>
+  • DES.2 jab evasion: does a jab check lose to it after a minus DES entry?<br>
+  • uf+3 (-52): if she transitions to SBT/DBT with 3_4, is there still a punish? Wavu gives no frames.<br>
+  • The anti-strat 1f DES block cancel: after f+2,1 (-12), does an i13 low really land?
+</div>
+</body>
+</html>
