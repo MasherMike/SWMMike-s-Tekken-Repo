@@ -1726,3 +1726,5 @@
 {"battle_at": "2026-11-04T01:41:10Z", "mode": "quick", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-1", "stage_id": 201, "stage": "Urban Square"}
 {"battle_at": "2026-11-04T01:43:06Z", "mode": "quick", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction I", "result": "L", "rounds": "0-3", "stage_id": 201, "stage": "Urban Square"}
 {"battle_at": "2026-11-04T01:45:20Z", "mode": "quick", "my_char": "Victor", "opp_char": "Paul", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-0", "stage_id": 201, "stage": "Urban Square"}
+{"battle_at": "2026-11-06T04:19:11Z", "mode": "quick", "my_char": "Victor", "opp_char": "Kazuya", "opp_rank": "God of Destruction I", "result": "L", "rounds": "2-3", "stage_id": 1800, "stage": "Genmaji Temple"}
+{"battle_at": "2026-11-06T04:22:37Z", "mode": "quick", "my_char": "Victor", "opp_char": "Leroy", "opp_rank": "God of Destruction I", "result": "W", "rounds": "3-1", "stage_id": 1500, "stage": "Elegant Palace"}
